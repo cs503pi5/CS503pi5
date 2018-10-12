@@ -1,0 +1,10 @@
+For windows, Run command: 
+"pscp gandalf_student@cs503pi5.cs.umass.edu:/home/pi/Desktop/image.jpg 
+C:\Users\vince\Desktop" 
+but change the users name for your windows desktop.
+
+For mac and linux 
+
+scp gandalf_student@cs503pi5.cs.umass.edu:/home/pi/Desktop/image.jpg
+
+
