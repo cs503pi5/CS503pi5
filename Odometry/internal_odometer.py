@@ -1,10 +1,23 @@
-# get internal delta
 import numpy as np
 
-delta_right_w = 0
-delta_left_w = 0
-wheel_radius = 0
+#set some variables
+delta_right = getRightWheelDistance()
+delta_left = getLeftWheelDistance()
+wheel_base = 0
 
-delta_theta = numpy.arctan2( (delta_right_w-delta_left_w)/wheel_radius)
+delta_x = 0
+delta_y = 0
 
-delta_distance_robot = (delta_left_w + delta_right_w) / 2
+# distance traveled by robot internally
+delta_distance_robot = (delta_left + delta_right) / 2
+
+#get internal theta
+delta_theta = np.arctan2( delta_distance_robot/ (wheel_base/2) )
+
+# derive cumulative fixed world coord
+derived_x = delta_distance_robot * np.cos(delta_theta)
+derived_y = delta_distance_robot * np.sin(delta_theta)
+
+delta_x = delta_x + derived_x
+delta_y = delta_y + derived_y
+

@@ -1,0 +1,4 @@
+So we have a main py file and arduino file that communicate over serial port.
+
+The camera (code in PI/py) that gives angle recorrection
+ 
