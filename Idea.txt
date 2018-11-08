@@ -1,4 +1,25 @@
 So we have a main py file and arduino file that communicate over serial port.
 
-The camera (code in PI/py) that gives angle recorrection
- 
+The camera (code in PI/py) that gives angle recorrection(
+
+Odometer (py) info given by quadrature encoder (arduino) gives distance
+
+Motors (arduino) move the robot
+
+Ping (arduino) gives distance away
+
+Motor and odometer first
+
+Parts: PI, arduino, camera, odometer, ping, motor, IR
+-pi and ard talk
+-camera sees
+-odometer result of IR, 
+-ping distance
+-motor motes
+
+Code:
+-motor forward
+-IR sensor counts
+-odometer tells angle of error from the wheels (100pwn on each wheel may not actually go forward), gives adjustment internally
+-camera tells angle adjustment
+
