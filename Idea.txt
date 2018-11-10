@@ -17,9 +17,6 @@ Parts: PI, arduino, camera, odometer, ping, motor, IR
 -ping distance
 -motor motes
 
-Code:
--motor forward
--IR sensor counts
--odometer tells angle of error from the wheels (100pwn on each wheel may not actually go forward), gives adjustment internally
--camera tells angle adjustment
-
+1) Find velocity vs pmw
+2) using the equations: do pure transform and pure rotation
+3) implement error correction
