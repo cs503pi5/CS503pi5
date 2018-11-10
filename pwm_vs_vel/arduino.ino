@@ -33,7 +33,8 @@ void setup() {
   pinMode (outputR2,INPUT);
  
   Serial.begin (9600);
-  // Serial.println("starting..");
+  Serial.println("starting..");
+  Serial.println("PWN, left wheel, right wheel");
 
   lLastState = digitalRead(outputL1);   
   rLastState = digitalRead(outputR1);  
@@ -78,23 +79,19 @@ void loop() {
     
     long end_millis = millis();
     double duration = (double)(end_millis - start_millis)/1000;
-    Serial.println(end_millis);
-    Serial.println(start_millis);
     // Serial.println(duration);
     double circumference = 22.32914; //cm
     double spoke_length = circumference / 20.0;
 
     double r_cps = (spoke_length * right_counter) / duration;
     double l_cps = (spoke_length * left_counter) / duration;
-    // Serial.println()
-    // Serial.println(spoke_length);
-    // Serial.println(left_counter);
-    // Serial.println(right_counter);
-
-    // Serial.println(duration);
-    Serial.println("For pwm = " + String(pwm_count));
-    Serial.println("Right wheel centimeters per second: " + String(r_cps));
-    Serial.println("Light wheel centimeters per second: " + String(l_cps));
-
+ 
+    // Serial.println("For pwm = " + String(pwm_count));
+    // Serial.println("Right wheel centimeters per second: " + String(r_cps));
+    // Serial.println("Light wheel centimeters per second: " + String(l_cps));
+    Serial.print(String(pwm_count)+",");
+    Serial.print(String(l_cps)+",");
+    Serial.print(String(r_cps));
+     
   }
 }
