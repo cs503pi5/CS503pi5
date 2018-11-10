@@ -78,6 +78,8 @@ void loop() {
     
     long end_millis = millis();
     double duration = (double)(end_millis - start_millis)/1000;
+    Serial.println(end_millis);
+    Serial.println(start_millis);
     // Serial.println(duration);
     double circumference = 22.32914; //cm
     double spoke_length = circumference / 20.0;
