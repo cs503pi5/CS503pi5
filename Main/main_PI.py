@@ -46,6 +46,9 @@ desired_l, desired_r = desired_velocity(c, velocity_ref)
 l_pwm = get_l_pwm(desired_l)
 r_pwm = get_r_pwm(desired_r)
 
+print(l_pwm)
+print(r_pwm)
+
 s1.write('%d\n', l_pwm)
 s1.write('%d\n', r_pwm)
 
