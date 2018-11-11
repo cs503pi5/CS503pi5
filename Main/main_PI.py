@@ -1,5 +1,6 @@
 #!/user/bin/env python
 import serial
+import time
 port="/dev/ttyACM0"
 
 s1 = serial.Serial(port,9600)
@@ -38,17 +39,19 @@ def ard_2_pi(input_val, keyword):
 # while True:
 # 	inputValue=s1.read_until().decode('utf-8')
 # 	print(inputValue)
+while True:		
+	C = 1 
+	velocity_ref = 0 # cps
+
+	desired_l, desired_r = desired_velocity(C, velocity_ref)
+	l_pwm = get_l_pwm(desired_l)
+	r_pwm = get_r_pwm(desired_r)
+
+	print(l_pwm)
+	print(r_pwm)
+
+	s1.write( (str(l_pwm) + "\n" ).encode('utf-8'))
+	s1.write( (str(r_pwm) + "\n" ).encode('utf-8'))
+	time.sleep(1)
+
 	
-C = 1 
-velocity_ref = 20 # cps
-
-desired_l, desired_r = desired_velocity(C, velocity_ref)
-l_pwm = get_l_pwm(desired_l)
-r_pwm = get_r_pwm(desired_r)
-
-print(l_pwm)
-print(r_pwm)
-
-s1.write(str(l_pwm).encode('utf-8'))
-s1.write(str(r_pwm).encode('utf-8'))
-
