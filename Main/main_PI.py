@@ -34,7 +34,11 @@ def ard_2_pi(input_val, keyword):
 			raise ValueError('incorrect value')
 	except ValueError as error:
 		print(error.args)
-		
+
+def pi_2_ard(case_num, value):
+	write_val = str(case_num) + " " + str(value) + "\n"
+	s1.write(write_val.encode('utf-8'))
+	
 
 # while True:
 # 	inputValue=s1.read_until().decode('utf-8')
@@ -63,18 +67,23 @@ l_pwm = get_l_pwm(desired_l)
 r_pwm = get_r_pwm(desired_r)
 
 # left wheel pwm
-write_val = "1 " + (str(l_pwm)) + "\n" 
-s1.write( write_val.encode('utf-8'))
+pi_2_ard(1, l_pwm)
 # right wheel pwm
-write_val = "2 " + (str(l_pwm)) + "\n" 
-s1.write( write_val.encode('utf-8'))
+pi_2_ard(2, r_pwm)
 # velocity left wheel ref
-write_val = "3 " + (str(desired_l)) + "\n" 
-s1.write( write_val.encode('utf-8'))
+pi_2_ard(3, desired_l)
 # velocity right wheel ref
-write_val = "4 " + (str(desired_r)) + "\n" 
-s1.write( write_val.encode('utf-8'))
+pi_2_ard(4, desired_r)
+
+x_cord = 0
+y_cord = 0
+theta = 0
 
 while(x_cord < 24):
 	# ping arduino back for x_cord 
-	a = 2
+	cordinates = s1.read_until('\n')
+	x_cord, y_cord, theta = cordinates.split(',')
+
+
+pi_2_ard(1, 0)
+pi_2_ard(2, 0)

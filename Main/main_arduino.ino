@@ -28,11 +28,11 @@ void update_cord(){
   double SLeft = delta_left;
   double SRight = delta_right;
   double WBase = 3.55379 ; //cm 
-  double Dx=(SLeft+Sright)/2
+  double Dx=(SLeft+SRight)/2;
   double DTheta=atan2((SRight-SLeft)/2,WBase/2);
   theta+=DTheta;
-  x_cord += Dx*cos(Theta);
-  y_cord +=Dx*sin(Theta);
+  x_cord += Dx*cos(theta);
+  y_cord +=Dx*sin(theta);
 }
 
 
@@ -55,8 +55,7 @@ void stopIfFault(){
 
 // lwheel is m2
 void set_lwheel(int speed){
-  md.setM2Speed(spe
-  ed);
+  md.setM2Speed(speed);
   stopIfFault();
 }
 
@@ -142,30 +141,30 @@ void setup(){
 
 void loop(){
   //if stuff in the serial port
-  if (Serial.available){
+  if (Serial.available()){
     int variable = Serial.readStringUntil(' ').toInt();
     switch (variable){
       // serial would send "1 PWM_Value\n"
       // set left wheel speed
       case 1:
-        int PWM_value = Serial.readStringUntil('\n').toInt();
-        set_lwheel(PWM_value);
+        int PWM_value_L = Serial.readStringUntil('\n').toInt();
+        set_lwheel(PWM_value_L);
         break;
       //set right wheel speed
       case 2:
-        int PWM_value = Serial.readStringUntil('\n').toInt();
-        set_rwheel(PWM-value);
+        int PWM_value_R = Serial.readStringUntil('\n').toInt();
+        set_rwheel(PWM_value_R);
         break;
       //send over value for velocity of left wheel reference
       // example "3 VREF_VAL\n"
       case 3:
-       double val = Serial.readStringUntil('\n').toDouble();
-       v_left_ref = val;
+       double val_l = Serial.readStringUntil('\n').toDouble();
+       v_left_ref = val_l;
        break;
        //send over desired velocity of right wheel
       case 4:
-        double val = Serial.readStringUntil('\n').toDouble();
-        v_right_ref = val;
+        double val_r = Serial.readStringUntil('\n').toDouble();
+        v_right_ref = val_r;
         break;
 
       
@@ -174,6 +173,9 @@ void loop(){
 
   update_wheels();
   update_cord();
+
+  String cord_vals = String(x_cord) + "," + String(y_cord) + "," + String(theta) + "\n";
+  Serial.print(cord_vals);
 
   // Serial.println("start");
   
