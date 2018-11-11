@@ -66,24 +66,27 @@ desired_l, desired_r = desired_velocity(C, velocity_ref)
 l_pwm = get_l_pwm(desired_l)
 r_pwm = get_r_pwm(desired_r)
 
+print("about to send stuff to pwm")
 # left wheel pwm
 pi_2_ard(1, l_pwm)
-# right wheel pwm
-pi_2_ard(2, r_pwm)
-# velocity left wheel ref
-pi_2_ard(3, desired_l)
-# velocity right wheel ref
-pi_2_ard(4, desired_r)
+# # right wheel pwm
+# pi_2_ard(2, r_pwm)
+# # velocity left wheel ref
+# pi_2_ard(3, desired_l)
+# # velocity right wheel ref
+# pi_2_ard(4, desired_r)
 
-x_cord = 0
-y_cord = 0
-theta = 0
+# print('sent stuff')
+# x_cord = 0
+# y_cord = 0
+# theta = 0
 
-while(x_cord < 24):
-	# ping arduino back for x_cord 
-	cordinates = s1.read_until('\n')
-	x_cord, y_cord, theta = cordinates.split(',')
+# while(x_cord < 24):
+# 	# ping arduino back for x_cord 
+# 	cordinates = s1.read_until('\n')
+# 	x_cord, y_cord, theta = cordinates.split(',')
 
 
-pi_2_ard(1, 0)
-pi_2_ard(2, 0)
+# pi_2_ard(1, 0)
+# pi_2_ard(2, 0)
+
