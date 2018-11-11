@@ -18,7 +18,7 @@ double delta_left;
 double delta_right;
 
 // return delta velocities
-double Get_PD_velocity_approximation(actual_error, desired_error, k_constant = 0.5, b_constant = 0.001){
+double Get_PD_velocity_approximation(double actual_error, double desired_error, double k_constant = 0.5, double b_constant = 0.001){
   double delta_v = (-1*k_constant*actual_error) - (b_constant*(actual_error - last_error));
   last_error = actual_error;
   return delta_v;
@@ -45,22 +45,6 @@ void set_rwheel(int speed){
   md.setM1Speed(speed);
   stopIfFault();
 }
-void setup(){
-  Serial.begin(9600);
-
-  //motors
-  md.init();
-
-  //IR sensors
-  pinMode (LeftoutputA,INPUT);
-  pinMode (LeftoutputB,INPUT);
-  pinMode (RightoutputA, INPUT);
-  pinMode (RightoutputB, INPUT);
-  leftLastState = digitalRead(LeftoutputA);
-  rightLastState = digitalRead(RightoutputA);
-}
-
-//updates current velocities of each wheel and updates distance of each wheel
 void update_wheels(){
   long start_millis = millis();
 
@@ -103,9 +87,33 @@ void update_wheels(){
   leftLastState = leftCurrentState; 
   rightLastState = rightCurrentState;
 }
+void setup(){
+  Serial.begin(9600);
+
+  //motors
+  md.init();
+
+  //IR sensors
+  pinMode (LeftoutputA,INPUT);
+  pinMode (LeftoutputB,INPUT);
+  pinMode (RightoutputA, INPUT);
+  pinMode (RightoutputB, INPUT);
+  leftLastState = digitalRead(LeftoutputA);
+  rightLastState = digitalRead(RightoutputA);
+
+  Serial.println('start');
+  set_lwheel(10);
+  set_rwheel(30);
+  // set_lwheel(toint(Serial.readStringUntil('\n')));
+  // set_rwheel(toint(Serial.readStringunitl('\n')));
+
+}
+
+//updates current velocities of each wheel and updates distance of each wheel
+
 
 void loop(){
-  update_wheels()
+  // update_wheels()
 
   // loop to get a number of counts and then send counter over to pi counter
   
