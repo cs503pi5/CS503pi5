@@ -49,6 +49,6 @@ r_pwm = get_r_pwm(desired_r)
 print(l_pwm)
 print(r_pwm)
 
-s1.write(str(l_pwm))
-s1.write(str(r_pwm))
+s1.write(str(l_pwm).encode('utf-8'))
+s1.write(str(r_pwm).encode('utf-8'))
 
