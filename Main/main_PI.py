@@ -42,13 +42,13 @@ def ard_2_pi(input_val, keyword):
 C = 1 
 velocity_ref = 20 # cps
 
-desired_l, desired_r = desired_velocity(c, velocity_ref)
+desired_l, desired_r = desired_velocity(C, velocity_ref)
 l_pwm = get_l_pwm(desired_l)
 r_pwm = get_r_pwm(desired_r)
 
 print(l_pwm)
 print(r_pwm)
 
-s1.write('%d\n', l_pwm)
-s1.write('%d\n', r_pwm)
+s1.write(str(l_pwm))
+s1.write(str(r_pwm))
 
