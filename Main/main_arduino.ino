@@ -2,8 +2,22 @@
 
 DualMC33926MotorShield md;
 
+// IR sensor
+#define LeftoutputA 6
+#define LeftoutputB 5
+#define RightoutputA 3
+#define RightoutputB 2
+int leftCurrentState;
+int leftLastState;  
+int rightCurrentState;
+int rightLastState;
 double last_error;
+double curr_left_wheel_cps;
+double curr_right_wheel_cps;
+double delta_left;
+double delta_right;
 
+// return delta velocities
 double Get_PD_velocity_approximation(actual_error, desired_error, k_constant = 0.5, b_constant = 0.001){
   double delta_v = (-1*k_constant*actual_error) - (b_constant*(actual_error - last_error));
   last_error = actual_error;
@@ -20,22 +34,17 @@ void stopIfFault(){
   }
 }
 
-void set_both_wheel_speeds(int speed){
-  md.setM1Speed(speed);
+// lwheel is m2
+void set_lwheel(int speed){
   md.setM2Speed(speed);
   stopIfFault();
 }
 
-// IR sensor
-#define LeftoutputA 6
-#define LeftoutputB 5
-#define RightoutputA 3
-#define RightoutputB 2
-int leftCurrentState;
-int leftLastState;  
-int rightCurrentState;
-int rightLastState;
-
+// rwheel m1
+void set_rwheel(int speed){
+  md.setM1Speed(speed);
+  stopIfFault();
+}
 void setup(){
   Serial.begin(9600);
 
@@ -51,14 +60,13 @@ void setup(){
   rightLastState = digitalRead(RightoutputA);
 }
 
-void loop(){
+//updates current velocities of each wheel and updates distance of each wheel
+void update_wheels(){
+  long start_millis = millis();
 
-  // IR sensor
-
-  // loop to get a number of counts and then send counter over to pi counter
   int left_spoke_counter = 0; 
   int right_spoke_counter = 0;
-  for (int ir_counter = 0; ir_counter< 100; ir_counter++){
+  for (int ir_counter = 0; ir_counter< 1000; ir_counter++){
     leftCurrentState = digitalRead(LeftoutputA); // Reads the "current" state of the outputA
     rightCurrentState = digitalRead(RightoutputA);
     // If the previous and the current state of the outputA are different, that means a Pulse has occured
@@ -79,9 +87,26 @@ void loop(){
     }
 
   }
-  Serial.println("Left Position: " + String(left_spoke_counter)); 
-  Serial.println("Right Position: " + String(right_spoke_counter)); 
+  long end_millis = millis();
+  double duration = (double)(end_millis - start_millis)/1000;
 
-  leftLastState = leftCurrentState; // Updates the previous state of the outputA with the current state
+  double circumference = 22.32914; //cm
+  double spoke_length = circumference / 20.0;
+
+  curr_right_wheel_cps = (spoke_length * right_spoke_counter) / duration;
+  curr_left_wheel_cps = (spoke_length * left_spoke_counter) / duration;
+
+  delta_right = spoke_length * right_spoke_counter;
+  delta_left =  spoke_length * left_spoke_counter;
+
+
+  leftLastState = leftCurrentState; 
   rightLastState = rightCurrentState;
+}
+
+void loop(){
+  update_wheels()
+
+  // loop to get a number of counts and then send counter over to pi counter
+  
 }
