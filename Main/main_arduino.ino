@@ -2,6 +2,14 @@
 
 DualMC33926MotorShield md;
 
+double last_error;
+
+double Get_PD_velocity_approximation(actual_error, desired_error, k_constant = 0.5, b_constant = 0.001){
+  double delta_v = (-1*k_constant*actual_error) - (b_constant*(actual_error - last_error));
+  last_error = actual_error;
+  return delta_v;
+}
+
 // motors
 void stopIfFault(){
   if (md.getFault())
@@ -19,10 +27,10 @@ void set_both_wheel_speeds(int speed){
 }
 
 // IR sensor
-#define LeftoutputA 2
-#define LeftoutputB 3
-#define RightoutputA 4
-#define RightoutputB 5
+#define LeftoutputA 6
+#define LeftoutputB 5
+#define RightoutputA 3
+#define RightoutputB 2
 int leftCurrentState;
 int leftLastState;  
 int rightCurrentState;

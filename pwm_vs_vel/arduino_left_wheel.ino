@@ -48,10 +48,10 @@ void loop() {
     md.setM1Speed(pwm_count);
     md.setM2Speed(pwm_count);
     int left_counter = 0; 
-    int right_counter = 0; 
+    // int right_counter = 0; 
 
     stopIfFault();
-    while(left_counter + right_counter < 100){
+    while(left_counter + right_counter < 50){
       lState = digitalRead(outputL1);
        
       if (lState != lLastState){     
@@ -83,7 +83,7 @@ void loop() {
     double circumference = 22.32914; //cm
     double spoke_length = circumference / 20.0;
 
-    double r_cps = (spoke_length * right_counter) / duration;
+    // double r_cps = (spoke_length * right_counter) / duration;
     double l_cps = (spoke_length * left_counter) / duration;
  
     // Serial.println("For pwm = " + String(pwm_count));
@@ -91,6 +91,6 @@ void loop() {
     // Serial.println("Light wheel centimeters per second: " + String(l_cps));
     Serial.print(String(pwm_count)+",");
     Serial.print(String(l_cps)+",");
-    Serial.println(String(r_cps));
+    // Serial.println(String(r_cps));
   }
 }
