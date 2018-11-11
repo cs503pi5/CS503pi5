@@ -87,9 +87,13 @@ void update_wheels(){
   leftLastState = leftCurrentState; 
   rightLastState = rightCurrentState;
 }
-void setup(){
-  Serial.begin(9600);
+}
 
+void setup(){
+  
+  Serial.begin(9600);
+  while(!Serial);
+  Serial.setTimeout(10000000000000000000); 
   //motors
   md.init();
 
@@ -101,19 +105,25 @@ void setup(){
   leftLastState = digitalRead(LeftoutputA);
   rightLastState = digitalRead(RightoutputA);
 
-  Serial.println('start');
-  set_lwheel(10);
-  set_rwheel(30);
-  // set_lwheel(toint(Serial.readStringUntil('\n')));
-  // set_rwheel(toint(Serial.readStringunitl('\n')));
-
+  // Serial.println("start");
+  // set_lwheel(200);
+  // set_rwheel(300);
+  
 }
 
 //updates current velocities of each wheel and updates distance of each wheel
 
-
 void loop(){
   // update_wheels()
+  Serial.println("start");
+  
+  int left_val = Serial.readStringUntil('\n').toInt();
+  Serial.println(left_val);
+  set_lwheel( left_val );
+  
+  int right_val = (Serial.readStringUntil('\n')).toInt();
+  Serial.println(right_val);
+  set_rwheel( right_val );
 
   // loop to get a number of counts and then send counter over to pi counter
   

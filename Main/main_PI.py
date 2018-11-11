@@ -40,7 +40,7 @@ def ard_2_pi(input_val, keyword):
 # 	print(inputValue)
 	
 C = 1 
-velocity_ref = 10 # cps
+velocity_ref = 20 # cps
 
 desired_l, desired_r = desired_velocity(c, velocity_ref)
 l_pwm = get_l_pwm(desired_l)
