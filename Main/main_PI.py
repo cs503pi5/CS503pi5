@@ -11,7 +11,7 @@ s1.flushInput()
 
 # get pwm for velocity
 def get_l_pwm(v_cps):
-	return int( (v_cps + 18.7)/0.166)
+	return int( (v_cps + 18.7)/0.184)
 
 # get pwm for velocity
 def get_r_pwm(v_cps):
@@ -41,7 +41,7 @@ def ard_2_pi(input_val, keyword):
 # 	print(inputValue)
 while True:		
 	C = 1 
-	velocity_ref = 0 # cps
+	velocity_ref = 4 # cps
 
 	desired_l, desired_r = desired_velocity(C, velocity_ref)
 	l_pwm = get_l_pwm(desired_l)
