@@ -63,9 +63,3 @@ while (True):
 cap.release()
 cv2.destroyAllWindows()
 
-
-
-##img = cv2.imread("3.jpg")
-##crop_img = img[400:440, 50:500]
-##cv2.imwrite("crop.jpg", crop_img)
-
