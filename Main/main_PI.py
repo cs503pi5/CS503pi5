@@ -11,11 +11,11 @@ s1.flushInput()
 
 # get pwm for velocity
 def get_l_pwm(v_cps):
-	return int( (v_cps + 19.7)/0.166)
+	return int( (v_cps + 18.7)/0.184)
 
 # get pwm for velocity
 def get_r_pwm(v_cps):
-	return int( (v_cps + 12)/0.162)
+	return int( (v_cps + 19)/0.162)
 
 # return desired velocity for a given v_ref C_ration
 def desired_velocity(c_ratio, v_ref):
