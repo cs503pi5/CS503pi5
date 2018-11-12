@@ -68,9 +68,10 @@ def pi_2_ard(case_num, value):
 
 # pi_2_ard(1, 100)
 # write_val = str(1) + " " + str(200) + "\n"
-count = 0
 write_val = "hello"
-
+s1.write(write_val.encode('utf-8'))
+s1.flush()
+time.sleep(0.3)
 while True:
 	s1.write((write_val).encode('utf-8'))
 	count = count + 1
