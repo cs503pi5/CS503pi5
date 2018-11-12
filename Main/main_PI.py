@@ -68,7 +68,7 @@ r_pwm = get_r_pwm(desired_r)
 
 # pi_2_ard(1, 100)
 # write_val = str(1) + " " + str(200) + "\n"
-write_val = "1 200\n"
+write_val = "hello"
 s1.write(write_val.encode('utf-8'))
 s1.flush()
 time.sleep(0.3)
