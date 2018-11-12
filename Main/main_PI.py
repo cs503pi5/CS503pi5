@@ -60,22 +60,23 @@ def pi_2_ard(case_num, value):
 # Step 1 Turn in place 
 
 # Step 2 go in a straight line
-C = 1
-velocity_ref = 5
-desired_l, desired_r = desired_velocity(C, velocity_ref)
-l_pwm = get_l_pwm(desired_l)
-r_pwm = get_r_pwm(desired_r)
+#C = 1
+#velocity_ref = 5
+#desired_l, desired_r = desired_velocity(C, velocity_ref)
+#l_pwm = get_l_pwm(desired_l)
+#r_pwm = get_r_pwm(desired_r)
 
 # pi_2_ard(1, 100)
 # write_val = str(1) + " " + str(200) + "\n"
-write_val = "1 200\n"
-s1.write(write_val.encode('utf-8'))
-s1.flush()
-time.sleep(0.3)
+count = 0
+write_val = "hello"
+
 while True:
+	s1.write((write_val).encode('utf-8'))
+	count = count + 1
 	print('written')
-	inputValue=s1.read_until().decode('utf-8')
-	print(inputValue)
+	inputValue=s1.read()	
+	print(inputValue + '0b10101010')
 
 # print("about to send stuff to pwm")
 # # left wheel pwm
