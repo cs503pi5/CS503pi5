@@ -40,7 +40,9 @@ def pi_2_ard(case_num, value):
 	s1.write(write_val.encode('utf-8'))
 	
 
-
+# while True:
+# 	inputValue=s1.read_until().decode('utf-8')
+# 	print(inputValue)
 # while True:		
 # 	C = 1 
 # 	velocity_ref = 0 # cps
@@ -67,28 +69,23 @@ r_pwm = get_r_pwm(desired_r)
 print("about to send stuff to pwm")
 # left wheel pwm
 pi_2_ard(1, l_pwm)
+# right wheel pwm
+pi_2_ard(2, r_pwm)
+# velocity left wheel ref
+pi_2_ard(3, desired_l)
+# velocity right wheel ref
+pi_2_ard(4, desired_r)
 
-while True:
-	inputValue=s1.read_until().decode('utf-8')
-	print(inputValue)
-# # right wheel pwm
-# pi_2_ard(2, r_pwm)
-# # velocity left wheel ref
-# pi_2_ard(3, desired_l)
-# # velocity right wheel ref
-# pi_2_ard(4, desired_r)
+print('sent stuff')
+x_cord = 0
+y_cord = 0
+theta = 0
 
-# print('sent stuff')
-# x_cord = 0
-# y_cord = 0
-# theta = 0
-
-# while(x_cord < 24):
-# 	# ping arduino back for x_cord 
-# 	cordinates = s1.read_until('\n')
-# 	x_cord, y_cord, theta = cordinates.split(',')
+while(x_cord < 24):
+	# ping arduino back for x_cord 
+	cordinates = s1.read_until('\n')
+	x_cord, y_cord, theta = cordinates.split(',')
 
 
-# pi_2_ard(1, 0)
-# pi_2_ard(2, 0)
-
+pi_2_ard(1, 0)
+pi_2_ard(2, 0)

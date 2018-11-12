@@ -55,14 +55,19 @@ void stopIfFault(){
 
 // lwheel is m2
 void set_lwheel(int speed){
+
   md.setM2Speed(speed);
   stopIfFault();
 }
 
 // rwheel m1
 void set_rwheel(int speed){
+  Serial.println(speed);
+  Serial.print("start set speed");
   md.setM1Speed(speed);
   stopIfFault();
+  Serial.println("end set");
+
 }
 void update_wheels(){
   long start_millis = millis();
@@ -131,10 +136,6 @@ void setup(){
   leftLastState = digitalRead(LeftoutputA);
   rightLastState = digitalRead(RightoutputA);
 
-  // Serial.println("start");
-  // set_lwheel(200);
-  // set_rwheel(300);
-  
 }
 
 //updates current velocities of each wheel and updates distance of each wheel
@@ -143,49 +144,33 @@ void loop(){
   //if stuff in the serial port
   if (Serial.available()){
     int variable = Serial.readStringUntil(' ').toInt();
-    switch (variable){
-      // serial would send "1 PWM_Value\n"
-      // set left wheel speed
-      case 1:
-        int PWM_value_L = Serial.readStringUntil('\n').toInt();
-        set_lwheel(PWM_value_L);
-        break;
-      //set right wheel speed
-      case 2:
-        int PWM_value_R = Serial.readStringUntil('\n').toInt();
+    Serial.println(variable);
+    if (variable == 1){
+      int PWM_value_L = Serial.readStringUntil('\n').toInt();
+      set_lwheel(PWM_value_L);
+    }
+    else if(variable ==2){
+      int PWM_value_R = Serial.readStringUntil('\n').toInt();
+        Serial.println(PWM_value_R);
         set_rwheel(PWM_value_R);
-        break;
+        
+    }
       //send over value for velocity of left wheel reference
       // example "3 VREF_VAL\n"
-      case 3:
-       double val_l = Serial.readStringUntil('\n').toDouble();
-       v_left_ref = val_l;
-       break;
-       //send over desired velocity of right wheel
-      case 4:
-        double val_r = Serial.readStringUntil('\n').toDouble();
-        v_right_ref = val_r;
-        break;
-
-      
+    else if (variable == 3){
+      double val_l = Serial.readStringUntil('\n').toDouble();
+      v_left_ref = val_l;
+    }
+    else if (variable == 4){
+      double val_r = Serial.readStringUntil('\n').toDouble();
+      v_right_ref = val_r;
     }
   }
-
   update_wheels();
   update_cord();
 
   String cord_vals = String(x_cord) + "," + String(y_cord) + "," + String(theta) + "\n";
   Serial.print(cord_vals);
-
-  // Serial.println("start");
-  
-  // int left_val = Serial.readStringUntil('\n').toInt();
-  // Serial.println(left_val);
-  // set_lwheel( left_val );
-  
-  // int right_val = (Serial.readStringUntil('\n')).toInt();
-  // Serial.println(right_val);
-  // set_rwheel( right_val );
 
   // loop to get a number of counts and then send counter over to pi counter
   
