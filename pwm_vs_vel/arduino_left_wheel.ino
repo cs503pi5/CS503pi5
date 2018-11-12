@@ -26,6 +26,10 @@ void stopIfFault()
 
 
 void setup() { 
+  while (!Serial) {
+    ; // wait for serial port to connect. Needed for native USB
+  }
+  delay(20000);
   pinMode (outputL1,INPUT);
   pinMode (outputL2,INPUT);
 
@@ -34,7 +38,7 @@ void setup() {
  
   Serial.begin (9600);
   Serial.println("starting..");
-  Serial.println("PWN, left wheel, right wheel");
+  Serial.println("PWN, left wheel");
 
   lLastState = digitalRead(outputL1);   
   rLastState = digitalRead(outputR1);  
@@ -42,13 +46,13 @@ void setup() {
 
 } 
 void loop() { 
-  for (int pwm_count = 150; pwm_count < 300; pwm_count = pwm_count + 5){
+  for (int pwm_count = 150; pwm_count <= 400; pwm_count = pwm_count + 5){
     //inital sets
     long start_millis = millis();
-    md.setM1Speed(pwm_count);
+    // md.setM1Speed(pwm_count);
     md.setM2Speed(pwm_count);
     int left_counter = 0; 
-    // int right_counter = 0; 
+    int right_counter = 0; 
 
     stopIfFault();
     while(left_counter + right_counter < 50){
@@ -90,7 +94,7 @@ void loop() {
     // Serial.println("Right wheel centimeters per second: " + String(r_cps));
     // Serial.println("Light wheel centimeters per second: " + String(l_cps));
     Serial.print(String(pwm_count)+",");
-    Serial.print(String(l_cps)+",");
+    Serial.println(String(l_cps)+",");
     // Serial.println(String(r_cps));
   }
 }
