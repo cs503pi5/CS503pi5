@@ -40,9 +40,7 @@ def pi_2_ard(case_num, value):
 	s1.write(write_val.encode('utf-8'))
 	
 
-# while True:
-# 	inputValue=s1.read_until().decode('utf-8')
-# 	print(inputValue)
+
 # while True:		
 # 	C = 1 
 # 	velocity_ref = 0 # cps
@@ -69,6 +67,10 @@ r_pwm = get_r_pwm(desired_r)
 print("about to send stuff to pwm")
 # left wheel pwm
 pi_2_ard(1, l_pwm)
+
+while True:
+	inputValue=s1.read_until().decode('utf-8')
+	print(inputValue)
 # # right wheel pwm
 # pi_2_ard(2, r_pwm)
 # # velocity left wheel ref
