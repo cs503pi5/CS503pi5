@@ -66,9 +66,12 @@ desired_l, desired_r = desired_velocity(C, velocity_ref)
 l_pwm = get_l_pwm(desired_l)
 r_pwm = get_r_pwm(desired_r)
 
-pi_2_ard(1, 100)
+# pi_2_ard(1, 100)
+write_val = str(1) + " " + str(200) + "\n"
+s1.write(write_val.encode('utf-8'))
+print('written')
 while True:
-	inputValue=s1.read_until('\n').decode('utf-8')
+	inputValue=s1.read_until().decode('utf-8')
 	print(inputValue)
 
 # print("about to send stuff to pwm")
