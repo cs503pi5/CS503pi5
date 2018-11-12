@@ -169,8 +169,8 @@ void loop(){
   update_wheels();
   update_cord();
 
-  String cord_vals = String(x_cord) + "," + String(y_cord) + "," + String(theta) + "\n";
-  Serial.print(cord_vals);
+  String cord_vals = String(x_cord) + "," + String(y_cord) + "," + String(theta);
+  Serial.println((cord_vals);
 
   // loop to get a number of counts and then send counter over to pi counter
   
