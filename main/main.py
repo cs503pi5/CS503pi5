@@ -290,7 +290,7 @@ def long_straight():
         s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
         print(curr_odom)
         # print(l_pwm, r_pwm)
-        ser.write(s)
+        serial.write(s)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
