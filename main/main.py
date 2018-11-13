@@ -224,7 +224,8 @@ def first_fix():
 def run_straight():
     pd_error = 0
     curr_odom = [0,0,0]
-    while (1):
+    count = 0
+    while (count % 1000000 == 0):
 
         # camera.capture(rawCapture, format="bgr")
         # rawCapture.truncate(0)
@@ -251,7 +252,7 @@ def run_straight():
         print time.asctime( time.localtime(time.time()) )
         ser.write(s)
 
-        time.sleep(0.1)
+        # time.sleep(0.1)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
