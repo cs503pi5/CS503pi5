@@ -247,7 +247,7 @@ def run_straight():
 
         s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
         print(s)
-        print(curr)
+        print(curr_odom)
         ser.write(s)
 
         time.sleep(0.1)
