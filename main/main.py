@@ -252,7 +252,7 @@ def run_straight():
         print time.asctime( time.localtime(time.time()) )
         ser.write(s)
 
-        time.sleep(0.001)
+        time.sleep(0.05)
         ser.flushInput()
 
 
