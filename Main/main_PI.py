@@ -1,10 +1,7 @@
 #!/user/bin/env python
 import serial
 import time
-port="/dev/ttyACM0"
 
-s1 = serial.Serial(port,9600)
-s1.flushInput()
 
 # left wheel cps = 0.166 * pwm - 18.7
 # right wheel cps = 0.162 * pwm - 19
@@ -25,7 +22,8 @@ def desired_velocity(c_ratio, v_ref):
 
 # Passing values from ard to PI included in the string for easy understanding. So have to extract the concatenated value
 def ard_2_pi(input_val, keyword):
-
+	s1 = serial.Serial("/dev/ttyACM0",9600)
+        s1.flushInput()
 
 	try:
 		if keyword in input_val:
@@ -36,15 +34,18 @@ def ard_2_pi(input_val, keyword):
 		print(error.args)
 
 def pi_2_ard(case_num, value):
+	s1 = serial.Serial("/dev/ttyACM0",9600)
+	s1.flushInput()
+
 	write_val = str(case_num) + " " + str(value) + "\n"
 	s1.write(write_val.encode('utf-8'))
-	
+
 
 # while True:
 # 	inputValue=s1.read_until().decode('utf-8')
 # 	print(inputValue)
-# while True:		
-# 	C = 1 
+# while True:
+# 	C = 1
 # 	velocity_ref = 0 # cps
 
 # 	desired_l, desired_r = desired_velocity(C, velocity_ref)
@@ -68,13 +69,16 @@ def pi_2_ard(case_num, value):
 
 # pi_2_ard(1, 100)
 # write_val = str(1) + " " + str(200) + "\n"
+s1 = serial.Serial("/dev/ttyACM0",9600)
+s1.flushInput()
 write_val = "hello"
-s1.write(write_val.encode('utf-8'))
-s1.flush()
-time.sleep(0.3)
+#s1.write(write_val.encode('utf-8'))
+#s1.flush()
+#time.sleep(0.3)
 while True:
-	s1.write((write_val).encode('utf-8'))
-	count = count + 1
+	s1.write(write_val)
+#	s1.write((write_val).encode('utf-8'))
+#	count = count + 1
 	print('written')
 	inputValue=s1.read()	
 	print(inputValue + '0b10101010')

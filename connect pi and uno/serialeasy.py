@@ -9,3 +9,10 @@ while True:
 	ser.write("Hello")
 	print("written")
 	sleep(0.03)
+	print("slept")
+#	input = ser.readline()
+	#s = input
+	sleep(0.03)
+	#data_left = ser.inWaiting()
+	#input +=ser.read(data_left)
+	print(input)

@@ -5,7 +5,6 @@ import time
 import sys
 from picamera.array import PiRGBArray
 from picamera import PiCamera
-
 def euc_distance(array):
     sum = 0
     for i in array:
@@ -71,20 +70,19 @@ def print_euc(image):
 
 def main():
     camera = PiCamera()
-    rawCapture = PiRGBArray(camera)
+    camera.resolution = (640, 480)
+    camera.framerate = 64
+    rawCapture = PiRGBArray(camera, size=(640, 480))
 
-    time.sleep(0.1)
     wx0, wy0, wx1, wy1, wm, wb = 0,0,0,0,0,0
     yx0, yy0, yx1, yy1, ym, yb = 0,0,0,0,0,0
 
     i = 0
-    while (True):
+    for frame in camera.capture_continuous(rawCapture, format="bgr"):
         white_line = []
         yellow_line = []
-        camera.capture(rawCapture, format="bgr")
-        image = rawCapture.array
 
-        crop_img = image[380:440, 20:640]
+        crop_img = frame.array[380:440, 20:640]
 
         line_coords(crop_img, white_line)
         yellow_coords(crop_img, yellow_line)
@@ -112,13 +110,9 @@ def main():
 
         midpoint = (wx0 + yx0)/2
         print ("Midpoint: {} \nDistance from left: {}".format(midpoint, midpoint-yx0))
-
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
         i = i+1
-    cap.release()
-    cv2.destroyAllWindows()
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break   
 
 if __name__ == "__main__":
     main()
-
