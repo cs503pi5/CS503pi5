@@ -254,6 +254,8 @@ def run_straight():
 
         # time.sleep(0.1)
 
+        count = count + 1
+
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
