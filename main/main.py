@@ -225,40 +225,39 @@ def run_straight():
     pd_error = 0
     curr_odom = [0,0,0]
     count = 0
-    while (count % 1000000 == 0):
+    while (1):
+        while(count % 100000 ==0)
+            # camera.capture(rawCapture, format="bgr")
+            # rawCapture.truncate(0)
 
-        # camera.capture(rawCapture, format="bgr")
-        # rawCapture.truncate(0)
+            message = python_read_line()
+            if message!=None:
+                if (len(message) > 15):
+                    curr_odom = interpret_odom(message)
+                    pd_error = PD_error(curr_odom[2], 0)
 
-        message = python_read_line()
-        if message!=None:
-            if (len(message) > 15):
-                curr_odom = interpret_odom(message)
-                pd_error = PD_error(curr_odom[2], 0)
+            # print(pd_error)
+            C = 1
+            velocity_ref = 5
+            desired_l, desired_r = desired_velocity(C, velocity_ref)
+            l_pwm = get_l_pwm(desired_l)
+            r_pwm = get_r_pwm(desired_r)
 
-        # print(pd_error)
-        C = 1
-        velocity_ref = 5
-        desired_l, desired_r = desired_velocity(C, velocity_ref)
-        l_pwm = get_l_pwm(desired_l)
-        r_pwm = get_r_pwm(desired_r)
+            l_pwm = l_pwm - int(pd_error)
+            r_pwm = r_pwm + int(pd_error)
 
-        l_pwm = l_pwm - int(pd_error)
-        r_pwm = r_pwm + int(pd_error)
+            s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
+            print(s)
+            print(curr_odom)
+            print time.asctime( time.localtime(time.time()) )
+            ser.write(s)
 
-        s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
-        print(s)
-        print(curr_odom)
-        print time.asctime( time.localtime(time.time()) )
-        ser.write(s)
+            # time.sleep(0.1)
 
-        # time.sleep(0.1)
 
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
         count = count + 1
-
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-
 
 
 def long_straight():
