@@ -226,7 +226,7 @@ def run_straight():
     curr_odom = [0,0,0]
     count = 0
     while (1):
-        while(count % 100000 ==0)
+        while(count % 100000 ==0):
             # camera.capture(rawCapture, format="bgr")
             # rawCapture.truncate(0)
 
