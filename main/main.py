@@ -228,7 +228,7 @@ def run_straight():
     while (1):
         # camera.capture(rawCapture, format="bgr")
         # rawCapture.truncate(0)
-
+        ser.flushInput()
         message = python_read_line()
         if message!=None:
             if (len(message) > 15):
@@ -253,7 +253,6 @@ def run_straight():
         ser.write(s)
 
         time.sleep(0.05)
-        ser.flushInput()
 
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
