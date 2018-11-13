@@ -56,7 +56,7 @@ def desired_velocity(c_ratio, v_ref):
 	v_left = (2*v_ref)/(c_ratio + 1)
 	return v_right, v_left
 
-def PD_error(theta_act, theta_ref, K = 5, B = 1):
+def PD_error(theta_act, theta_ref, K = 0.5, B = 0.01):
     global theta_prev
     theta_ddot = -K*(theta_act - theta_ref) - B*(theta_act-theta_prev)
     theta_prev = theta_act
@@ -250,6 +250,8 @@ def run_straight():
         print(curr)
         ser.write(s)
 
+        time.sleep(0.1)
+
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
@@ -294,7 +296,6 @@ if __name__ == "__main__":
     print("Initializing...")
     init() # just flushes and for some reason creates a curr_odom object in its scope
     print("Running...")
-    # long_straight()
-
+    run_straight()
     print("Stopping...")
     stop()
