@@ -228,8 +228,12 @@ def run_straight():
     while (1):
         # camera.capture(rawCapture, format="bgr")
         # rawCapture.truncate(0)
-        ser.flushInput()
+
+        # get the the last line, since pi faster than ard, guarantee to reach end of buffer
         message = python_read_line()
+        #if there are still bytes, then consume
+        while(serial.in_waiting() > 0):
+            message = python_read_line()
         if message!=None:
             if (len(message) > 15):
                 curr_odom = interpret_odom(message)
