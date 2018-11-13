@@ -245,7 +245,6 @@ def run_straight():
         l_pwm = l_pwm - int(pd_error)
         r_pwm = r_pwm + int(pd_error)
 
-        time.sleep(1)
 
         s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
         print(s)
@@ -254,7 +253,7 @@ def run_straight():
         ser.write(s)
 
         time.sleep(0.1)
-        serial.flushInput()
+        ser.flushInput()
 
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
