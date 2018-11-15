@@ -298,9 +298,9 @@ def run_straight_x(distance,curr_odom_):
             r_pwm = 148
             s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
             print(s)
-        print(curr_odom)
-        print time.asctime( time.localtime(time.time()) )
-    count = count + 1
+            print(curr_odom)
+            print time.asctime( time.localtime(time.time()) )
+        count = count + 1
 
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
