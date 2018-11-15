@@ -145,17 +145,19 @@ def left_turn(curr_odom_):
     curr_odom = curr_odom_
 
     count = 0
-    while (curr_odom[2] < math.pi/2 - .13):
-        
+    # while (curr_odom[2] < math.pi/2 - .13):
+    while (curr_odom[2] < math.pi/2):
+
         if count % 20 == 0: 
             message = python_read_line()
             if message!=None:
                 if (len(message) > 15):
                     curr_odom = interpret_odom(message)
             
-        if (count % 1000 == 0):  
+        if (count % 1000 == 0):
+            #before c was 1/80, and pad pwm with 30 and vref 4  
             C = 1.0/3.0
-            velocity_ref = 6
+            velocity_ref = 8
             desired_l, desired_r = desired_velocity(C, velocity_ref)
             l_pwm = get_l_pwm(desired_l)
             r_pwm = get_r_pwm(desired_r)
