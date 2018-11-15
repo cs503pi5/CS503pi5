@@ -154,11 +154,11 @@ def left_turn(curr_odom_):
                     curr_odom = interpret_odom(message)
             
         if (count % 1000 == 0):  
-            C = 1./80.
+            C = 1.0/6.0
             velocity_ref = 4.
             desired_l, desired_r = desired_velocity(C, velocity_ref)
-            l_pwm = get_l_pwm(desired_l) + 29
-            r_pwm = get_r_pwm(desired_r) + 29
+            l_pwm = get_l_pwm(desired_l)
+            r_pwm = get_r_pwm(desired_r)
             s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
             ser.write(s)
             
@@ -233,7 +233,7 @@ def run_straight_x(distance,curr_odom_):
             l_pwm = get_l_pwm(desired_l)
             r_pwm = get_r_pwm(desired_r)
 
-            l_pwm = 148
+            l_pwm = 147
             r_pwm = 148
             s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
             ser.write(s)
