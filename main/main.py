@@ -149,10 +149,10 @@ def left_turn(curr_odom_):
         
         if count % 20 == 0: 
             message = python_read_line()
-                if message!=None:
-                    if (len(message) > 15):
-                        curr_odom = interpret_odom(message)
-                
+            if message!=None:
+                if (len(message) > 15):
+                    curr_odom = interpret_odom(message)
+            
         if (count % 1000 == 0):  
             C = 1./80.
             velocity_ref = 4.
