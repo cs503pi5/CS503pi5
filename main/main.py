@@ -147,6 +147,14 @@ def left_turn(curr_odom_):
     count = 0
     while (curr_odom[2] < math.pi/2 - .13):
         if (count % (COUNT_) == 0):  
+            C = 1./80.
+            velocity_ref = 4.
+            desired_l, desired_r = desired_velocity(C, velocity_ref)
+            l_pwm = get_l_pwm(desired_l) + 29
+            r_pwm = get_r_pwm(desired_r) + 29
+            s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
+            ser.write(s)
+            
             print(s)
             print(curr_odom)
             print time.asctime( time.localtime(time.time()) )
@@ -156,13 +164,7 @@ def left_turn(curr_odom_):
                 if (len(message) > 15):
                     curr_odom = interpret_odom(message)
                     
-            C = 1./80.
-            velocity_ref = 4.
-            desired_l, desired_r = desired_velocity(C, velocity_ref)
-            l_pwm = get_l_pwm(desired_l) + 29
-            r_pwm = get_r_pwm(desired_r) + 29
-            s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
-            ser.write(s)
+            
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
         count = count+1
