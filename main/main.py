@@ -251,7 +251,7 @@ if __name__ == "__main__":
     init() 
     curr_odom = [0,0,0]
     print("Running straight...")
-    curr_odom = run_straight_x(50,curr_odom)
+    curr_odom = run_straight_x(60,curr_odom)
     print("Left turn...")
     curr_odom = left_turn(curr_odom)
     print("Running straight...")
