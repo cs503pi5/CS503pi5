@@ -53,7 +53,7 @@ def interpret_odom(odometry):
 # 	return int( (v_cps + 19)/0.162)
 
 def get_l_pwm(v_cps):
-	return int( (v_cps + 18.7)/0.166)
+	return int( (v_cps + 18.7)/0.184)
 
 # get pwm for velocity
 def get_r_pwm(v_cps):
@@ -146,6 +146,13 @@ def left_turn(curr_odom_):
 
     count = 0
     while (curr_odom[2] < math.pi/2 - .13):
+        
+        if count % 20 == 0: 
+            message = python_read_line()
+                if message!=None:
+                    if (len(message) > 15):
+                        curr_odom = interpret_odom(message)
+                
         if (count % (COUNT_) == 0):  
             C = 1./80.
             velocity_ref = 4.
@@ -157,13 +164,7 @@ def left_turn(curr_odom_):
             
             print(s)
             print(curr_odom)
-            print time.asctime( time.localtime(time.time()) )
- 
-            message = python_read_line()
-            if message!=None:
-                if (len(message) > 15):
-                    curr_odom = interpret_odom(message)
-                    
+            print time.asctime( time.localtime(time.time()) )        
             
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
