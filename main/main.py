@@ -146,7 +146,7 @@ def left_turn(curr_odom_):
 
     count = 0
     # while (curr_odom[2] < math.pi/2 - .13):
-    while (curr_odom[2] < math.pi/2):
+    while (curr_odom[2] < math.pi/2 - .13):
 
         if count % 20 == 0: 
             message = python_read_line()
@@ -156,7 +156,7 @@ def left_turn(curr_odom_):
             
         if (count % 1000 == 0):
             #before c was 1/80, and pad pwm with 30 and vref 4  
-            C = 1.0/3.0
+            C = 1.0/2.0
             velocity_ref = 13
             desired_l, desired_r = desired_velocity(C, velocity_ref)
             l_pwm = get_l_pwm(desired_l)
@@ -257,7 +257,7 @@ if __name__ == "__main__":
     print("Left turn...")
     curr_odom = left_turn(curr_odom)
     print("Running straight...")
-    curr_odom = run_straight_y(150,curr_odom)
+    curr_odom = run_straight_y(130,curr_odom)
     print("Stopping...")
     stop()
     print(curr_odom)
