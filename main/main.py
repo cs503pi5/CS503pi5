@@ -156,6 +156,7 @@ def left_turn(curr_odom_):
             
         if (count % 1000 == 0):
             #before c was 1/80, and pad pwm with 30 and vref 4  
+            # 1/6 is almost like a straight 90 degree turn
             C = 1.0/2.0
             velocity_ref = 13
             desired_l, desired_r = desired_velocity(C, velocity_ref)
@@ -257,7 +258,7 @@ if __name__ == "__main__":
     print("Left turn...")
     curr_odom = left_turn(curr_odom)
     print("Running straight...")
-    curr_odom = run_straight_y(130,curr_odom)
+    curr_odom = run_straight_y(140,curr_odom)
     print("Stopping...")
     stop()
     print(curr_odom)
