@@ -289,6 +289,7 @@ def run_straight_x(distance,curr_odom_):
             l_pwm = 148
             r_pwm = 148
             s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
+            ser.write(s)
             print(s)
             print(curr_odom)
             print time.asctime( time.localtime(time.time()) )
