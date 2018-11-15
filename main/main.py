@@ -143,25 +143,26 @@ def right_turn():
 def left_turn(curr_odom_):
     
     curr_odom = curr_odom_
+
     count = 0
-    while (curr_odom[2] < math.pi/2-.13):
+    while (curr_odom[2] < math.pi/2 - .13):
         if (count % (COUNT_) == 0):  
+            print(s)
+            print(curr_odom)
+            print time.asctime( time.localtime(time.time()) )
+ 
+            message = python_read_line()
+            if message!=None:
+                if (len(message) > 15):
+                    curr_odom = interpret_odom(message)
+                    
             C = 1./80.
             velocity_ref = 4.
             desired_l, desired_r = desired_velocity(C, velocity_ref)
             l_pwm = get_l_pwm(desired_l) + 29
             r_pwm = get_r_pwm(desired_r) + 29
-
             s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
-            print(s)
-            print(curr_odom)
-            print time.asctime( time.localtime(time.time()) )
             ser.write(s)
-
-            message = python_read_line()
-            if message!=None:
-                if (len(message) > 15):
-                    curr_odom = interpret_odom(message)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
         count = count+1
@@ -246,14 +247,16 @@ def run_straight_y(distance,curr_odom_):
 
             l_pwm = l_pwm - int(pd_error)
             r_pwm = r_pwm + int(pd_error)
-
+            
             l_pwm = 148
             r_pwm = 148
             s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
+            
+            ser.write(s)
+
             print(s)
             print(curr_odom)
             print time.asctime( time.localtime(time.time()) )
-            ser.write(s)
         count = count + 1
 
 
@@ -269,6 +272,14 @@ def run_straight_x(distance,curr_odom_):
         if (len(message) > 15):
             curr_odom = interpret_odom(message)
 
+    # set pwm once
+    # for x in range(0,100):
+        # l_pwm = 148
+        # r_pwm = 148
+        # s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
+
+        # ser.write(s)
+        
     goal = curr_odom[0] + distance
     while (curr_odom[0] < goal):
         message = python_read_line()
@@ -287,10 +298,9 @@ def run_straight_x(distance,curr_odom_):
             r_pwm = 148
             s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
             print(s)
-            print(curr_odom)
-            print time.asctime( time.localtime(time.time()) )
-            ser.write(s)
-        count = count + 1
+        print(curr_odom)
+        print time.asctime( time.localtime(time.time()) )
+    count = count + 1
 
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -301,7 +311,11 @@ if __name__ == "__main__":
     init() 
     curr_odom = [0,0,0]
     print("Running straight...")
+<<<<<<< HEAD
     curr_odom = run_straight_x(40,curr_odom)
+=======
+    curr_odom = run_straight_x(42,curr_odom)
+>>>>>>> b5df56dc26284da85e381e49e8a7f88f2ec3c547
     print("Left turn...")
     curr_odom = left_turn(curr_odom)
     print("Running straight...")
