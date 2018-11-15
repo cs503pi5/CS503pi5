@@ -28,12 +28,15 @@ void update_cord(){
   double SLeft = delta_left;
   double SRight = delta_right;
   // double WBase = 3.55379 ; woops is distance from cente to wheel 
-  double WBase = 18; //
+  double WBase = 19 //we checked its 19
   double Dx=(SLeft+SRight)/2;
-  double DTheta=atan2((SRight-SLeft)/2,WBase/2);
-  theta+=DTheta;
+  double DTheta= atan2((SRight-SLeft)/2, WBase/2);
+  theta +=DTheta;
   x_cord += Dx*cos(theta);
-  y_cord +=Dx*sin(theta);
+  y_cord += Dx*sin(theta);
+
+  delta_left = 0.0;
+  delta_right = 0.0;
 }
 
 
@@ -94,15 +97,17 @@ void update_wheels(){
   }
 
   // if no spokes move add on to this pad. In case wheels are too slow for sampling rate
-  if (right_spoke_counter== 0 && left_spoke_counter ==0){
-    duration_pad += millis() - start_millis;
-  }
-  else{
+  // if (right_spoke_counter== 0 && left_spoke_counter ==0){
+  //   duration_pad += millis() - start_millis;
+  // }
+  // else{
     
-  }
+  // }
   long end_millis = millis();
-  double duration = (double)(end_millis - start_millis + duration_pad)/1000;
-  duration_pad = 0.0;
+  // double duration = (double)(end_millis - start_millis + duration_pad)/1000;
+  double duration = (double)(end_millis - start_millis)/1000;
+
+  // duration_pad = 0.0;
   double circumference = 22.32914; //cm
   double spoke_length = circumference / 20.0;
 
