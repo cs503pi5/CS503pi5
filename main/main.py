@@ -251,11 +251,11 @@ if __name__ == "__main__":
     init() 
     curr_odom = [0,0,0]
     print("Running straight...")
-    curr_odom = run_straight_x(40,curr_odom)
+    curr_odom = run_straight_x(50,curr_odom)
     print("Left turn...")
     curr_odom = left_turn(curr_odom)
     print("Running straight...")
-    curr_odom = run_straight_y(80,curr_odom)
+    curr_odom = run_straight_y(120,curr_odom)
     print("Stopping...")
     stop()
     print(curr_odom)
