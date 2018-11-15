@@ -154,8 +154,8 @@ def left_turn(curr_odom_):
                     curr_odom = interpret_odom(message)
             
         if (count % 1000 == 0):  
-            C = 1.0/6.0
-            velocity_ref = 4.
+            C = 1.0/3.0
+            velocity_ref = 6
             desired_l, desired_r = desired_velocity(C, velocity_ref)
             l_pwm = get_l_pwm(desired_l)
             r_pwm = get_r_pwm(desired_r)
