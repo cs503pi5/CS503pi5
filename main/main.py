@@ -157,7 +157,7 @@ def left_turn(curr_odom_):
         if (count % 1000 == 0):
             #before c was 1/80, and pad pwm with 30 and vref 4  
             C = 1.0/3.0
-            velocity_ref = 8
+            velocity_ref = 13
             desired_l, desired_r = desired_velocity(C, velocity_ref)
             l_pwm = get_l_pwm(desired_l)
             r_pwm = get_r_pwm(desired_r)
@@ -198,7 +198,7 @@ def run_straight_y(distance,curr_odom_):
             r_pwm = r_pwm + int(pd_error)
             
             l_pwm = 148
-            r_pwm = 148
+            r_pwm = 152
             s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
             
             ser.write(s)
