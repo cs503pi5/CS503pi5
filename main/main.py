@@ -272,14 +272,6 @@ def run_straight_x(distance,curr_odom_):
         if (len(message) > 15):
             curr_odom = interpret_odom(message)
 
-    # set pwm once
-    # for x in range(0,100):
-        # l_pwm = 148
-        # r_pwm = 148
-        # s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
-
-        # ser.write(s)
-        
     goal = curr_odom[0] + distance
     while (curr_odom[0] < goal):
         message = python_read_line()
@@ -287,7 +279,7 @@ def run_straight_x(distance,curr_odom_):
             if (len(message) > 15):
                 curr_odom = interpret_odom(message)
 
-        if (count % 50 == 0):        
+        if (count % (COUNT_) == 0):        
             C = 1
             velocity_ref = 5
             desired_l, desired_r = desired_velocity(C, velocity_ref)
