@@ -230,7 +230,7 @@ def run_straight_y(distance,curr_odom_):
     curr_odom = curr_odom_
     count = 0
 
-    while (curr_odom[0] < distance):
+    while (curr_odom[1] < distance):
         message = python_read_line()
         if message!=None:
             if (len(message) > 15):
@@ -301,7 +301,7 @@ if __name__ == "__main__":
     init() 
     curr_odom = [0,0,0]
     print("Running straight...")
-    curr_odom = run_straight_x(30,curr_odom)
+    curr_odom = run_straight_x(40,curr_odom)
     print("Left turn...")
     curr_odom = left_turn(curr_odom)
     print("Running straight...")
