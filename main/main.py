@@ -199,7 +199,7 @@ def run_straight_y(distance,curr_odom_):
             r_pwm = r_pwm + int(pd_error)
             
             l_pwm = 148
-            r_pwm = 152
+            r_pwm = 157
             s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
             
             ser.write(s)
@@ -236,7 +236,7 @@ def run_straight_x(distance,curr_odom_):
             l_pwm = get_l_pwm(desired_l)
             r_pwm = get_r_pwm(desired_r)
 
-            l_pwm = 147
+            l_pwm = 148
             r_pwm = 148
             s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
             ser.write(s)
@@ -258,7 +258,7 @@ if __name__ == "__main__":
     print("Left turn...")
     curr_odom = left_turn(curr_odom)
     print("Running straight...")
-    curr_odom = run_straight_y(140,curr_odom)
+    curr_odom = run_straight_y(145,curr_odom)
     print("Stopping...")
     stop()
     print(curr_odom)
