@@ -311,11 +311,7 @@ if __name__ == "__main__":
     init() 
     curr_odom = [0,0,0]
     print("Running straight...")
-<<<<<<< HEAD
     curr_odom = run_straight_x(40,curr_odom)
-=======
-    curr_odom = run_straight_x(42,curr_odom)
->>>>>>> b5df56dc26284da85e381e49e8a7f88f2ec3c547
     print("Left turn...")
     curr_odom = left_turn(curr_odom)
     print("Running straight...")
