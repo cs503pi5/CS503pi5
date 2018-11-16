@@ -160,13 +160,12 @@ def left_turn(curr_odom_):
     offset = curr_odom[2]
     while (curr_odom[2] < math.pi/2 - offset - 0.45):
 
-        if count % 10 == 0: 
-            message = python_read_line()
-            if message!=None:
-                if (len(message) > 15):
-                    curr_odom = interpret_odom(message)
+        message = python_read_line()
+        if message!=None:
+            if (len(message) > 15):
+                curr_odom = interpret_odom(message)
             
-        if (count % 1000 == 0):
+        if (count % 10 == 0):
             #before c was 1/80, and pad pwm with 30 and vref 4  
             # 1/6 is almost like a straight 90 degree turn
 
