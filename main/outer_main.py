@@ -198,8 +198,8 @@ def run_straight_y(distance,curr_odom_):
             l_pwm = l_pwm - int(pd_error)
             r_pwm = r_pwm + int(pd_error)
             
-            l_pwm = 148
-            r_pwm = 154
+            l_pwm = 143
+            r_pwm = 158
             s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
             
             ser.write(s)
