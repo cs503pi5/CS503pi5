@@ -157,7 +157,7 @@ def left_turn(curr_odom_):
                 if (len(message) > 15):
                     curr_odom = interpret_odom(message)
             
-        if (count % 500 == 0):
+        if (count % 1000 == 0):
             #before c was 1/80, and pad pwm with 30 and vref 4  
             # 1/6 is almost like a straight 90 degree turn
             C = 1.0/2.0
