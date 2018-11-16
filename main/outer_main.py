@@ -220,7 +220,7 @@ def run_straight_y(distance,curr_odom_):
 def run_straight_x(distance,curr_odom_):
     count = 0
 
-    delay(4000) # arduino needs to set up
+    time.sleep(4000) # arduino needs to set up
 
 
     l_pwm = 142
