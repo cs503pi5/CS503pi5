@@ -271,7 +271,7 @@ if __name__ == "__main__":
     after_turn_odom = left_turn(curr_odom)
 
     print("Running straight...")
-    curr_odom = run_straight_y(140,curr_odom)
+    curr_odom = run_straight_y(117,curr_odom)
     
     print("Stopping...")
     stop()
