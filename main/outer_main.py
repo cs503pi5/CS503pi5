@@ -232,7 +232,7 @@ def run_straight_x(distance,curr_odom_):
     time.sleep(4) # arduino needs to set up
 
 
-    l_pwm = 142
+    l_pwm = 148
     r_pwm = 155
     s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
     # print(l_pwm, r_pwm)
