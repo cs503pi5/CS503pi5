@@ -148,7 +148,7 @@ def left_turn(curr_odom_):
 
     count = 0
     # while (curr_odom[2] < math.pi/2 - .13):
-    while (curr_odom[2] < math.pi/2 - 0.3):
+    while (curr_odom[2] < math.pi/2 - 0.4):
 
         if count % 20 == 0: 
             message = python_read_line()
@@ -265,7 +265,7 @@ if __name__ == "__main__":
     main_right = 149
     set_both_local_pwm(main_left, main_right)
     print("Running straight...")
-    curr_odom = run_straight_x(53,curr_odom)
+    left_curr_odom = run_straight_x(53,curr_odom)
 
     print("Left turn...")
     curr_odom = left_turn(curr_odom)
@@ -275,5 +275,5 @@ if __name__ == "__main__":
     curr_odom = run_straight_y(140,curr_odom)
     print("Stopping...")
     stop()
-    print(curr_odom)
+    print(left_curr_odom)
     #cdgi
