@@ -18,6 +18,8 @@ rawCapture = PiRGBArray(camera)
 theta_prev = 0
 
 COUNT_ = 30
+l_pwm = 0
+r_pwm = 0
 
 ## COMMUNICATION METHODS
 def python_write_string(infoToWrite):
@@ -195,11 +197,11 @@ def run_straight_y(distance,curr_odom_):
             l_pwm = get_l_pwm(desired_l)
             r_pwm = get_r_pwm(desired_r)
 
-            l_pwm = l_pwm - int(pd_error)
-            r_pwm = r_pwm + int(pd_error)
+            # l_pwm = l_pwm - int(pd_error)
+            # r_pwm = r_pwm + int(pd_error)
             
-            l_pwm = 142
-            r_pwm = 149
+            # l_pwm = 142
+            # r_pwm = 149
             s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
             
             ser.write(s)
@@ -233,8 +235,8 @@ def run_straight_x(distance,curr_odom_):
             C = 1
             velocity_ref = 5
             desired_l, desired_r = desired_velocity(C, velocity_ref)
-            l_pwm = get_l_pwm(desired_l)
-            r_pwm = get_r_pwm(desired_r)
+            # l_pwm = get_l_pwm(desired_l)
+            # r_pwm = get_r_pwm(desired_r)
 
             l_pwm = 142
             r_pwm = 148
@@ -250,14 +252,25 @@ def run_straight_x(distance,curr_odom_):
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
     return curr_odom
+
+def set_both_local_pwm(lpwm, rpwm)
+    l_pwm = lpwm
+    r_pwm = rpwm
 if __name__ == "__main__":
     print("Initializing...")
     init() 
     curr_odom = [0,0,0]
+    
+    main_left = 142
+    main_right = 149
+    set_both_local_pwm(main_left, main_right)
     print("Running straight...")
     curr_odom = run_straight_x(53,curr_odom)
+
     print("Left turn...")
     curr_odom = left_turn(curr_odom)
+
+    set_both_local_pwm(main_left, main_right)
     print("Running straight...")
     curr_odom = run_straight_y(140,curr_odom)
     print("Stopping...")
