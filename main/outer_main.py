@@ -253,7 +253,7 @@ def run_straight_x(distance,curr_odom_):
             break
     return curr_odom
 
-def set_both_local_pwm(lpwm, rpwm)
+def set_both_local_pwm(lpwm, rpwm):
     l_pwm = lpwm
     r_pwm = rpwm
 if __name__ == "__main__":
