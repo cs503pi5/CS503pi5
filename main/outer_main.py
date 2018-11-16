@@ -220,6 +220,16 @@ def run_straight_y(distance,curr_odom_):
 def run_straight_x(distance,curr_odom_):
     count = 0
 
+    delay(4000) # arduino needs to set up
+
+
+    l_pwm = 142
+    r_pwm = 149
+    s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
+    # print(l_pwm, r_pwm)
+    ser.write(s)
+
+
     message = python_read_line()
     curr_odom = curr_odom_
     if message!=None:
@@ -240,11 +250,11 @@ def run_straight_x(distance,curr_odom_):
             # l_pwm = get_l_pwm(desired_l)
             # r_pwm = get_r_pwm(desired_r)
 
-            l_pwm = 142
-            r_pwm = 149
-            s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
-            # print(l_pwm, r_pwm)
-            ser.write(s)
+            # l_pwm = 142
+            # r_pwm = 149
+            # s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
+            # # print(l_pwm, r_pwm)
+            # ser.write(s)
 
             print(s)
             print(curr_odom)
