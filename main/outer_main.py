@@ -184,6 +184,14 @@ def run_straight_y(distance,curr_odom_):
     curr_odom = curr_odom_
     count = 0
 
+
+    
+    l_pwm = 142
+    r_pwm = 153
+    s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
+    
+    ser.write(s)
+
     while (curr_odom[1] < distance):
         message = python_read_line()
         if message!=None:
@@ -201,11 +209,11 @@ def run_straight_y(distance,curr_odom_):
             # l_pwm = l_pwm - int(pd_error)
             # r_pwm = r_pwm + int(pd_error)
             
-            l_pwm = 142
-            r_pwm = 153
-            s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
+            # l_pwm = 142
+            # r_pwm = 153
+            # s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
             
-            ser.write(s)
+            # ser.write(s)
 
             print(s)
             print(curr_odom)
