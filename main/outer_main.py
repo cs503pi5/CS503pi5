@@ -267,7 +267,7 @@ if __name__ == "__main__":
     left_curr_odom = run_straight_x(53,curr_odom)
 
     print("Left turn...")
-    curr_odom = left_turn(curr_odom)
+    after_turn_odom = left_turn(curr_odom)
 
     print("Running straight...")
     curr_odom = run_straight_y(140,curr_odom)
@@ -275,4 +275,5 @@ if __name__ == "__main__":
     print("Stopping...")
     stop()
     print(left_curr_odom)
+    print(after_turn_odom)
     #cdgi
