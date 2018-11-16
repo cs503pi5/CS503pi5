@@ -191,7 +191,7 @@ def run_straight_y(distance,curr_odom_):
                 curr_odom = interpret_odom(message)
                 pd_error = PD_error(curr_odom[2], 0)
 
-        if (count % 1000 == 0):        
+        if (count % 100 == 0):        
             C = 1
             velocity_ref = 5
             desired_l, desired_r = desired_velocity(C, velocity_ref)
@@ -202,7 +202,7 @@ def run_straight_y(distance,curr_odom_):
             # r_pwm = r_pwm + int(pd_error)
             
             l_pwm = 142
-            r_pwm = 149
+            r_pwm = 158
             s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
             
             ser.write(s)
