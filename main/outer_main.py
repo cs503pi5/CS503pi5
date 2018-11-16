@@ -17,7 +17,7 @@ rawCapture = PiRGBArray(camera)
 
 theta_prev = 0
 
-COUNT_ = 30
+COUNT_ = 100
 l_pwm = 0
 r_pwm = 0
 
