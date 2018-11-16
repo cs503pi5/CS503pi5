@@ -149,7 +149,7 @@ def left_turn(curr_odom_):
     count = 0
     # while (curr_odom[2] < math.pi/2 - .13):
     offset = curr_odom[2]
-    while (curr_odom[2] < math.pi/2 - offset):
+    while (curr_odom[2] < math.pi/2 - offset - 0.4):
 
         if count % 20 == 0: 
             message = python_read_line()
@@ -219,6 +219,7 @@ def run_straight_y(distance,curr_odom_):
 
 def run_straight_x(distance,curr_odom_):
     count = 0
+
     message = python_read_line()
     curr_odom = curr_odom_
     if message!=None:
