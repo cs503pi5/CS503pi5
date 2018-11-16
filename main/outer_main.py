@@ -233,7 +233,7 @@ def run_straight_x(distance,curr_odom_):
 
 
     l_pwm = 142
-    r_pwm = 149
+    r_pwm = 155
     s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
     # print(l_pwm, r_pwm)
     ser.write(s)
