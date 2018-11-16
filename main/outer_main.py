@@ -146,7 +146,7 @@ def left_turn(curr_odom_):
 
     count = 0
     # while (curr_odom[2] < math.pi/2 - .13):
-    while (curr_odom[2] < math.pi/2 - 0.10):
+    while (curr_odom[2] < math.pi/2 - 0.15):
 
         if count % 20 == 0: 
             message = python_read_line()
