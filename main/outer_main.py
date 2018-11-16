@@ -225,12 +225,12 @@ def run_straight_x(distance,curr_odom_):
         if (len(message) > 15):
             curr_odom = interpret_odom(message)
 
-
-    l_pwm = 142
-    r_pwm = 149
-    s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
-    # print(l_pwm, r_pwm)
-    ser.write(s)
+    for x in range (0,10000):
+        l_pwm = 142
+        r_pwm = 149
+        s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
+        # print(l_pwm, r_pwm)
+        ser.write(s)
     
     goal = curr_odom[0] + distance
     while (curr_odom[0] < goal):
