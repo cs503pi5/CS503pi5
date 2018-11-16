@@ -191,7 +191,7 @@ def run_straight_y(distance,curr_odom_):
                 curr_odom = interpret_odom(message)
                 pd_error = PD_error(curr_odom[2], 0)
 
-        if (count % (COUNT_) == 0):        
+        if (count %  == 0):        
             C = 1
             velocity_ref = 5
             desired_l, desired_r = desired_velocity(C, velocity_ref)
@@ -201,8 +201,8 @@ def run_straight_y(distance,curr_odom_):
             # l_pwm = l_pwm - int(pd_error)
             # r_pwm = r_pwm + int(pd_error)
             
-            # l_pwm = 142
-            # r_pwm = 149
+            l_pwm = 142
+            r_pwm = 149
             s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
             
             ser.write(s)
@@ -225,6 +225,13 @@ def run_straight_x(distance,curr_odom_):
         if (len(message) > 15):
             curr_odom = interpret_odom(message)
 
+
+    l_pwm = 142
+    r_pwm = 149
+    s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
+    # print(l_pwm, r_pwm)
+    ser.write(s)
+    
     goal = curr_odom[0] + distance
     while (curr_odom[0] < goal):
         message = python_read_line()
@@ -239,11 +246,11 @@ def run_straight_x(distance,curr_odom_):
             # l_pwm = get_l_pwm(desired_l)
             # r_pwm = get_r_pwm(desired_r)
 
-            l_pwm = 142
-            r_pwm = 148
-            s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
-            # print(l_pwm, r_pwm)
-            ser.write(s)
+            # l_pwm = 142
+            # r_pwm = 149
+            # s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
+            # # print(l_pwm, r_pwm)
+            # ser.write(s)
             print(s)
             print(curr_odom)
             print time.asctime( time.localtime(time.time()) )
@@ -261,19 +268,16 @@ if __name__ == "__main__":
     print("Initializing...")
     init() 
     curr_odom = [0,0,0]
-    
-    main_left = 142
-    main_right = 149
-    set_both_local_pwm(main_left, main_right)
+   
     print("Running straight...")
     left_curr_odom = run_straight_x(53,curr_odom)
 
     print("Left turn...")
     curr_odom = left_turn(curr_odom)
 
-    set_both_local_pwm(main_left, main_right)
     print("Running straight...")
     curr_odom = run_straight_y(140,curr_odom)
+    
     print("Stopping...")
     stop()
     print(left_curr_odom)
