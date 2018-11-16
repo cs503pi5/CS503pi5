@@ -232,7 +232,7 @@ def run_straight_x(distance,curr_odom_):
             if (len(message) > 15):
                 curr_odom = interpret_odom(message)
 
-        if (count % (COUNT_) == 0):        
+        if (count % 30 == 0):        
             C = 1
             velocity_ref = 5
             desired_l, desired_r = desired_velocity(C, velocity_ref)
@@ -244,7 +244,7 @@ def run_straight_x(distance,curr_odom_):
             s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
             # print(l_pwm, r_pwm)
             ser.write(s)
-            
+
             print(s)
             print(curr_odom)
             print time.asctime( time.localtime(time.time()) )
