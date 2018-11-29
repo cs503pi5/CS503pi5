@@ -32,6 +32,8 @@ void setup() {
 
   Serial.begin(115200);
   //Serial.println("0,0");
+  set_lwheel(20);
+  set_rwheel(20);
 }
 
 void loop() {
