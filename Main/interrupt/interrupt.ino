@@ -31,6 +31,9 @@ void setup() {
   pinMode(leftOutputB, INPUT);
 
   Serial.begin(115200);
+  # wait until serial is ready
+  while(!Serial);
+
   //Serial.println("0,0");
   md.init();
   set_lwheel(20);
