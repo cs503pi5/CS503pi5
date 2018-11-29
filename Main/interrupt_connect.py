@@ -125,7 +125,7 @@ def run_straight_x(goal):
         # update change left and right wheel
         l_w_turns,r_w_turns = get_wheel_turns()
 
-        l_distance = get_distance(lw_turns)
+        l_distance = get_distance(l_w_turns)
         # l_wheel_cps = ldistance / poll_time
 
         r_distance = get_distance(r_w_turns)
