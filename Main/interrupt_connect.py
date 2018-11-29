@@ -10,7 +10,7 @@ from picamera import PiCamera
 
 port = '/dev/ttyACM0'
 ser = serial.Serial(port, 115200)
-time.sleep(4) # arduino needs time to set up serial
+time.sleep(5) # arduino needs time to set up serial
 
 # x,y,theta readings of the car
 curr_odom = [0,0,0]
@@ -65,9 +65,11 @@ def get_wheel_turns():
     r_w_count = 0
     while(ser.in_waiting > 0):
         line = ser.readline()
-        spoke_count = interpret_odom(line)
-        l_w_count = spoke_count[0]
-        r_w_count = spoke_count[1]
+        print(line)
+        if line!=None and if (len(line) > 2):
+            spoke_count = interpret_odom(line)c
+            l_w_count = spoke_count[0]
+            r_w_count = spoke_count[1]
 
     # get the amount of spokes turned
 
