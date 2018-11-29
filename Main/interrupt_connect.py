@@ -80,7 +80,7 @@ def get_wheel_turns():
     
     # set prev for future use
     l_w_count_prev = l_w_count
-    r_w_count_prev = r_w_count
+    r_w_count_prev = r_w_count 
 
     return l_spoke_turned,r_spoke_turned
 
@@ -96,8 +96,9 @@ def update_cord(delta_left, delta_right):
     s_right = delta_right
     w_base = 19 # distance from end to end of the board
     d_x = (s_left+s_right)/2
-    d_theta = numpy.atan2((s_right-s_left)/2, w_base/2) # is radians
+    d_theta = np.arctan2((s_right-s_left)/2, w_base/2) # is radians
 
+    global curr_odom
     x_cord,y_cord,theta = curr_odom
     theta = theta + d_theta  
     x_cord = x_cord + d_x*np.cos(theta)
