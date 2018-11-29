@@ -66,8 +66,8 @@ def get_wheel_turns():
     while(ser.in_waiting > 0):
         line = ser.readline()
         print(line)
-        if line!=None and if (len(line) > 2):
-            spoke_count = interpret_odom(line)c
+        if line!=None and (len(line) > 2):
+            spoke_count = interpret_odom(line)
             l_w_count = spoke_count[0]
             r_w_count = spoke_count[1]
 
