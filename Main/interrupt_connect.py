@@ -78,7 +78,7 @@ def get_wheel_turns():
     return l_spoke_turned,r_spoke_turned
 
 # return a distance for a given number of wheel turns     
-def get_distancec(w_turns):
+def get_distance(w_turns):
     circumference = 22.32914 #cm
     spoke_length = circumference / 20.0
     return w_turns * spoke_length
