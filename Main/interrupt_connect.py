@@ -22,6 +22,24 @@ r_w_count_prev = 0
 # keep track of previous theta for pd error and 
 theta_prev = 0.0
 
+# left wheel cps = 0.166 * pwm - 18.7
+# right wheel cps = 0.162 * pwm - 19
+
+# get pwm for velocity
+# def get_l_pwm(v_cps):
+# 	return int( (v_cps + 18.7)/0.184)
+
+# # get pwm for velocity
+# def get_r_pwm(v_cps):
+# 	return int( (v_cps + 19)/0.162)
+
+def get_l_pwm(v_cps):
+	return int( (v_cps + 18.7)/0.184)
+
+# get pwm for velocity
+def get_r_pwm(v_cps):
+	return int( (v_cps + 19)/0.162)
+
 def python_read_line():
     if(ser.in_waiting >0):
         line = ser.readline()
@@ -79,7 +97,7 @@ def update_cord(delta_left, delta_right):
     y_cord = y_cord + d_x*np.sin(theta)
 
     curr_odom = [x_cord, y_cord, theta]
-    
+
 # returns a double derived theta which is similar to the velocity added to right wheel and removed from left wheel
 def PD_error(theta_act, theta_ref, K = 1, B = 0.01):
     global theta_prev
