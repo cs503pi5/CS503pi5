@@ -10,7 +10,7 @@ from picamera import PiCamera
 
 port = '/dev/ttyACM0'
 ser = serial.Serial(port, 115200)
-time.sleep(5) # arduino needs time to set up serial
+time.sleep(4) # arduino needs time to set up serial
 
 # x,y,theta readings of the car
 curr_odom = [0,0,0]
