@@ -66,7 +66,7 @@ def get_distancec(w_turns):
     return w_turns * spoke_length
 
 # update our odometry reading in the curr_odometer array
-def update_cord(delta_left, delta_right){
+def update_cord(delta_left, delta_right):
     s_left = delta_left
     s_right = delta_right
     w_base = 19 # distance from end to end of the board
@@ -79,8 +79,7 @@ def update_cord(delta_left, delta_right){
     y_cord = y_cord + d_x*np.sin(theta)
 
     curr_odom = [x_cord, y_cord, theta]
-}
-
+    
 # returns a double derived theta which is similar to the velocity added to right wheel and removed from left wheel
 def PD_error(theta_act, theta_ref, K = 1, B = 0.01):
     global theta_prev
