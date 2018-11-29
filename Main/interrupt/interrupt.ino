@@ -32,6 +32,7 @@ void setup() {
 
   Serial.begin(115200);
   //Serial.println("0,0");
+  md.init();
   set_lwheel(20);
   set_rwheel(20);
 }
