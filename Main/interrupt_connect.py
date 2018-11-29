@@ -47,7 +47,7 @@ def python_read_line():
 
 def interpret_odom(odometry):
     # expecting x,y
-    if (len(odometry) > 2):
+    if (len(odometry) > 5):
         print("intepreted", odometry)
         o = [int(x) for x in odometry.rstrip("\r\n").split(",")]
         return o
@@ -66,7 +66,7 @@ def get_wheel_turns():
     while(ser.in_waiting > 0):
         line = ser.readline()
         print('read in',line)
-        if line!=None and (len(line) > 2):
+        if line!=None and (len(line) > 5):
             spoke_count = interpret_odom(line)
             l_w_count = spoke_count[0]
             r_w_count = spoke_count[1]
