@@ -72,6 +72,8 @@ def get_wheel_turns():
             r_w_count = spoke_count[1]
 
     # get the amount of spokes turned
+    global l_w_count_prev
+    global r_w_count_prev
 
     l_spoke_turned = l_w_count - l_w_count_prev
     r_spoke_turned = r_w_count - r_w_count_prev
