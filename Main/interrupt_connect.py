@@ -48,6 +48,7 @@ def python_read_line():
 def interpret_odom(odometry):
     # expecting x,y
     # if (len(odometry)  15):
+    print(odometry)
     o = [int(x) for x in odometry.rstrip("\r\n").split(",")]
     return o
 
