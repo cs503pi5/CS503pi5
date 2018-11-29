@@ -36,9 +36,8 @@ def interpret_odom(odometry):
 # waits x seconds
 def time_wait(seconds):
     time_start = time.time()
-    while( (time.time() - time_start) < seconds){
+    while( (time.time() - time_start) < seconds):
         pass
-    }
 
 # returns (left wheel turns, right wheel turns)
 def get_wheel_turns():
