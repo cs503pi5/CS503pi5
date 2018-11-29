@@ -60,15 +60,17 @@ def time_wait(seconds):
 
 # returns (left wheel turns, right wheel turns)
 def get_wheel_turns():
+
     l_w_count = 0
     r_w_count = 0
     while(ser.in_waiting > 0):
         line = ser.readline()
         spoke_count = interpret_odom(line)
-        left_wheel_count = spoke_count[0]
-        right_wheel_count = spoke_count[1]
+        l_w_count = spoke_count[0]
+        r_w_count = spoke_count[1]
 
     # get the amount of spokes turned
+
     l_spoke_turned = l_w_count - l_w_count_prev
     r_spoke_turned = r_w_count - r_w_count_prev
     
