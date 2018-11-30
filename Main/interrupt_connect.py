@@ -34,11 +34,11 @@ theta_prev = 0.0
 # 	return int( (v_cps + 19)/0.162)
 
 def get_l_pwm(v_cps):
-	return int( (v_cps + 18.7)/0.184)
+	return int( (v_cps + 18.7)/0.166)
 
 # get pwm for velocity
 def get_r_pwm(v_cps):
-	return int( (v_cps + 19)/0.162)
+	return int( (v_cps + 18.7)/0.162)
 
 def get_l_cps(pwm):
     return int( 0.184*pwm - 18.7)
