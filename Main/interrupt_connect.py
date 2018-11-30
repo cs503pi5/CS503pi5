@@ -166,8 +166,8 @@ def run_straight_x(goal):
         approx_velocity = PD_error(curr_theta, 0)
 
         # change velocity according to pd error
-        r_velocity = r_velocity + approx_velocity
-        l_velocity = l_velocity - approx_velocity
+        r_velocity = r_velocity - approx_velocity
+        l_velocity = l_velocity + approx_velocity
 
         # send the new pwms
         l_pwm = get_l_pwm(l_velocity)
