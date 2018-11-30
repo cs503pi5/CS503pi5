@@ -56,8 +56,8 @@ void loop() {
             int start = inData.indexOf(',');
             int end_pt = inData.indexOf('\n');
             int rpwm = inData.substring(start+1, end_pt).toInt();
-            Serial.println("setting wheels to" + String(lpwm));
-            Serial.println("setting wheels to" + String(rpwm));
+            // Serial.println("setting wheels to" + String(lpwm));
+            // Serial.println("setting wheels to" + String(rpwm));
 
             set_lwheel(lpwm);
             set_rwheel(rpwm);
