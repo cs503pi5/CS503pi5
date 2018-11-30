@@ -173,15 +173,17 @@ def run_straight_x(goal):
         curr_theta = curr_odom[2]
         approx_velocity = PD_error(curr_theta, 0)
 
-        # change velocity according to pd error
-        if (r_velocity + approx_velocity) > get_r_cps(160) or (r_velocity + approx_velocity) < get_r_cps(120):
-            pass
-        else:
-            r_velocity = r_velocity + approx_velocity
-        if (l_velocity - approx_velocity) > get_l_cps(160) or (l_velocity + approx_velocity) < get_r_cps(120):
-            pass
-        else:
-            l_velocity = l_velocity - approx_velocity
+        # # change velocity according to pd error
+        # if (r_velocity + approx_velocity) > get_r_cps(160) or (r_velocity + approx_velocity) < get_r_cps(120):
+        #     pass
+        # else:
+        #     r_velocity = r_velocity + approx_velocity
+        # if (l_velocity - approx_velocity) > get_l_cps(160) or (l_velocity + approx_velocity) < get_r_cps(120):
+        #     pass
+        # else:
+        #     l_velocity = l_velocity - approx_velocity
+        r_velocity = r_velocity + approx_velocity
+        l_velocity = l_velocity - approx_velocity
 
         # send the new pwms
         l_pwm = get_l_pwm(l_velocity)
