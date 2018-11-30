@@ -31,13 +31,11 @@ void setup() {
   pinMode(leftOutputB, INPUT);
 
   Serial.begin(115200);
-  # wait until serial is ready
+  // wait until serial is ready
   while(!Serial);
 
   //Serial.println("0,0");
   md.init();
-  set_lwheel(20);
-  set_rwheel(20);
 }
 
 void loop() {
@@ -58,6 +56,9 @@ void loop() {
             int start = inData.indexOf(',');
             int end_pt = inData.indexOf('\n');
             int rpwm = inData.substring(start+1, end_pt).toInt();
+            Serial.println("setting wheels to" + String(lpwm));
+            Serial.println("setting wheels to" + String(rpwm));
+
             set_lwheel(lpwm);
             set_rwheel(rpwm);
 
@@ -69,8 +70,6 @@ void loop() {
         }
       
     }
-  set_lwheel(20);
-  set_rwheel(20);
     // update_wheels();
     // update_cord();
 
