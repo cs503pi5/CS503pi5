@@ -173,14 +173,37 @@ def run_straight_x(goal):
         l_pwm = get_l_pwm(l_velocity)
         r_pwm = get_r_pwm(r_velocity)
 
-        print(l_pwm)
-        print(r_pwm)
         s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
         ser.write(s)
+
+def stop():
+    i = 0
+    while (i < 10):
+
+        message = python_read_line()
+        if message!=None:
+            if (len(message) > 15):
+                curr_odom = interpret_odom(message)
+
+        # print(pd_error)
+        C = 1
+        velocity_ref = 0
+        desired_l, desired_r = desired_velocity(C, velocity_ref)
+        l_pwm = get_l_pwm(desired_l)
+        r_pwm = get_r_pwm(desired_r)
+
+        s = str(0)+','+str(0)+'\n'.encode()
+        print(s)
+        ser.write(s)
+        i = i + 1
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
 
 
 if __name__ == "__main__":
     ser.flushInput()
     run_straight_x(90)
     print(curr_odom)
+    stop()
+
 
