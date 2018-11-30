@@ -208,6 +208,8 @@ def stop():
 
         s = str(0)+','+str(0)+'\n'.encode()
         print(s)
+        print(curr_odom)
+
         ser.write(s)
         i = i + 1
         if cv2.waitKey(1) & 0xFF == ord('q'):
