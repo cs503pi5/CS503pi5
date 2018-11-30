@@ -23,6 +23,10 @@ volatile long left_enc_count = 0;
 void setup() {
   //pin 2 is interrupt int 0
   //pin 3 is interrupt int 1
+  
+  //md init overwrite pin 4, have to set it first
+  md.init();
+
   attachInterrupt(0,left_encoder_isr, CHANGE);
   attachInterrupt(1,right_encoder_isr, CHANGE);
   pinMode(rightOutputA, INPUT);
@@ -35,7 +39,7 @@ void setup() {
   while(!Serial);
 
   //Serial.println("0,0");
-  md.init();
+  //md.setSpeeds(200,200);
 }
 
 void loop() {
