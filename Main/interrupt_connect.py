@@ -130,7 +130,7 @@ def run_straight_x(goal):
     r_pwm = get_r_pwm(r_velocity)
 
     s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
-    print(l_pwm, r_pwm)
+    print(s)
     ser.write(s)
 
     # while we havent reached out goal
