@@ -129,7 +129,7 @@ def run_straight_x(goal):
     l_pwm = get_l_pwm(l_velocity)
     r_pwm = get_r_pwm(r_velocity)
 
-    s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
+    s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
     # print(l_pwm, r_pwm)
     ser.write(s)
 
@@ -172,7 +172,7 @@ def run_straight_x(goal):
         # send the new pwms
         l_pwm = get_l_pwm(l_velocity)
         r_pwm = get_r_pwm(r_velocity)
-        s = str(l_pwm)+','+str(r_pwm)+'\n'.encode()
+        s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
         ser.write(s)
 
 
