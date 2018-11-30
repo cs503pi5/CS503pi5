@@ -125,7 +125,9 @@ def run_straight_x(goal):
     # send inital velocities to arduino of wait to set the wheel pwms
     C = 1
     velocity_ref = 5
-    l_velocity, r_velocity = desired_velocity(C, velocity_ref)
+    l_ref_velocity, r_ref_velocity = desired_velocity(C, velocity_ref)
+    l_velocity = l_ref_velocity
+    r_velocity = r_ref_velocity
     l_pwm = get_l_pwm(l_velocity)
     r_pwm = get_r_pwm(r_velocity)
 
@@ -166,14 +168,12 @@ def run_straight_x(goal):
         approx_velocity = PD_error(curr_theta, 0)
 
         # change velocity according to pd error
-        # r_velocity = r_velocity + approx_velocity
-        # l_velocity = l_velocity - approx_velocity
+        r_velocity = r_ref_velocity + approx_velocity
+        l_velocity = l_ref_velocity - approx_velocity
 
-        l_pwm = 148 + approx_velocity
-        r_pwm = 128 - approx_velocity
         # send the new pwms
-        # l_pwm = get_l_pwm(l_velocity)
-        # r_pwm = get_r_pwm(r_velocity)
+        l_pwm = get_l_pwm(l_velocity)
+        r_pwm = get_r_pwm(r_velocity)
 
         s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
         ser.write(s)
