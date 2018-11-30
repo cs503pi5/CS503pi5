@@ -67,8 +67,10 @@ void loop() {
             //break incase new stuff comes and we're just stuck here
             break;
         }
+      
     }
-
+  set_lwheel(20);
+  set_rwheel(20);
     // update_wheels();
     // update_cord();
 
