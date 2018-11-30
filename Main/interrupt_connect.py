@@ -151,7 +151,7 @@ def run_straight_x(goal):
     # send new pwms to achieve those velocities to arduino
     while (curr_odom[0] < goal):
         # wait 
-        poll_time = 0.1 #in seconds
+        poll_time = 0.05 #in seconds
         time_wait(poll_time)
 
         # update change left and right wheel
