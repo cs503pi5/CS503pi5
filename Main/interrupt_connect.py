@@ -180,6 +180,7 @@ def run_straight_x(goal):
 
 
 if __name__ == "__main__":
+    ser.flushInput()
     run_straight_x(90)
     print(curr_odom)
 

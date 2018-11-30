@@ -35,6 +35,8 @@ void setup() {
   pinMode(leftOutputB, INPUT);
 
   Serial.begin(115200);
+  Serial.flush();
+
   // wait until serial is ready
   while(!Serial);
 
