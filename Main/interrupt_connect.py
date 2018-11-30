@@ -40,6 +40,12 @@ def get_l_pwm(v_cps):
 def get_r_pwm(v_cps):
 	return int( (v_cps + 19)/0.162)
 
+def get_l_cps(pwm):
+    return int( 0.184*pwm - 18.7)
+
+def get_r_cps(pwm):
+    return int( (0.162*pwm) - 19)
+
 def python_read_line():
     if(ser.in_waiting >0):
         line = ser.readline()
@@ -168,8 +174,14 @@ def run_straight_x(goal):
         approx_velocity = PD_error(curr_theta, 0)
 
         # change velocity according to pd error
-        r_velocity = r_ref_velocity + approx_velocity
-        l_velocity = l_ref_velocity - approx_velocity
+        if (r_velocity + approx_velocity) > get_r_cps(160) or (r_velocity + approx_velocity) < get_r_cps(120):
+            pass
+        else:
+            r_velocity = r_velocity + approx_velocity
+        if (l_velocity - approx_velocity) > get_l_cps(160) or (l_velocity + approx_velocity) < get_r_cps(120):
+            pass
+        else:
+            l_velocity = l_velocity - approx_velocity
 
         # send the new pwms
         l_pwm = get_l_pwm(l_velocity)
