@@ -19,6 +19,8 @@ volatile long left_enc_count = 0;
 #define leftOutputA 2
 #define leftOutputB 5
 
+String inData = "";
+
 
 void setup() {
   //pin 2 is interrupt int 0
@@ -35,7 +37,6 @@ void setup() {
   pinMode(leftOutputB, INPUT);
 
   Serial.begin(115200);
-  Serial.flush();
 
   // wait until serial is ready
   while(!Serial);
@@ -45,19 +46,18 @@ void setup() {
 }
 
 void loop() {
-    String inData;
-
     // get data from serial in
     while (Serial.available() > 0){
         char rec = Serial.read();
         inData += rec; 
+            Serial.println(inData);
 
         // Process message when new line character is recieved
         if (rec == '\n')
         {     
-            // Serial.print(inData);
+            Serial.print(inData);
             // extract lpwm and rpwm from the string
-
+            Serial.println("goes in if loop");
             int lpwm = inData.substring(0,inData.indexOf(',')).toInt();
             int start = inData.indexOf(',');
             int end_pt = inData.indexOf('\n');
@@ -65,8 +65,8 @@ void loop() {
 
             // Serial.println("setting wheels to" + String(lpwm));
             // Serial.println("setting wheels to" + String(rpwm));
-            set_lwheel(lpwm);
-            set_rwheel(rpwm);
+            //set_lwheel(lpwm);
+            //set_rwheel(rpwm);
 
             
             inData = ""; // Clear recieved buffer

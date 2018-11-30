@@ -27,7 +27,7 @@ def get_wheel_turns():
     	#	r_w_count = 0
 	#	l_w_count_prev = 0
 	#	r_w_count_prev = 0
-
+		time.sleep(0.01)
 		while(ser.in_waiting > 0):
         		line = ser.readline()
 #			print("Serial data found")
