@@ -135,7 +135,7 @@ void right_encoder_isr() {
     //PIND reads all pin inputs from pins 0 to 7, our pins of interest are pins 3 and 4 for the right wheel
     uint8_t temp = 0;
     temp = (PIND >> 3) & 0b1;
-    temp = temp | (PIND >> 5 & 0b10);
+    temp = temp | (PIND >> 4 & 0b10);
     right_enc_val = right_enc_val | temp;
     right_enc_count = right_enc_count + lookup_table[right_enc_val & 0b1111];
     // Serial.println("Right Counter: " + String(right_enc_count));
