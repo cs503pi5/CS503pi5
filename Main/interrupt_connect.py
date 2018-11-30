@@ -220,7 +220,7 @@ def stop():
 
 if __name__ == "__main__":
     ser.flushInput()
-    run_straight_x(200)
+    run_straight_x(100)
     print(curr_odom)
     stop()
 
