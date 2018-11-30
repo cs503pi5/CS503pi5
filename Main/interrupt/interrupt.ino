@@ -13,7 +13,7 @@ volatile long left_enc_count = 0;
 // the right side IR closest to the front goes to 3, the IR closest to the back goes to 4
 
 #define rightOutputA 3
-#define rightOutputB 4
+#define rightOutputB 5
 
 //the left side closest to the front is in pin 2, the ir further in the back is in pin 1
 #define leftOutputA 2
@@ -43,11 +43,13 @@ void setup() {
 
   //Serial.println("0,0");
   //md.setSpeeds(200,200);
+   //md.setM2Speed(200);
+  //stopIfFault();    
 }
 
 void loop() {
     // get data from serial in
-    while (Serial.available() > 0){
+  while (Serial.available() > 0){
         char rec = Serial.read();
         inData += rec; 
         // Process message when new line character is recieved
@@ -61,11 +63,14 @@ void loop() {
             int end_pt = inData.indexOf('\n');
             int rpwm = inData.substring(start+1, end_pt).toInt();
 
-            // Serial.println("setting wheels to" + String(lpwm));
-            // Serial.println("setting wheels to" + String(rpwm));
-            set_lwheel(lpwm);
-            set_rwheel(rpwm);
+            Serial.println("setting wheels to" + String(lpwm));
+            Serial.println("setting wheels to" + String(rpwm));
+            md.setM2Speed(lpwm);
+            stopIfFault();
+            md.setM1Speed(rpwm);
+            stopIfFault();
 
+            
             
             inData = ""; // Clear recieved buffer
 
@@ -102,6 +107,7 @@ void set_rwheel(int speed){
 
 }
 
+// 2 and 6
 void left_encoder_isr() {
     static int8_t left_lookup_table[] = {0,0,0,-1,0,0,1,0,0,1,0,0,-1,0,0,0};
     static uint8_t left_enc_val = 0;
@@ -118,6 +124,8 @@ void left_encoder_isr() {
       Serial.println(String(left_enc_count) + ","+String(right_enc_count));
     //}
 }
+
+// 3 and 5
 void right_encoder_isr() {
     static int8_t lookup_table[] = {0,0,0,-1,0,0,1,0,0,1,0,0,-1,0,0,0};
     static uint8_t right_enc_val = 0;
@@ -125,7 +133,10 @@ void right_encoder_isr() {
     //countR++;
     right_enc_val = right_enc_val << 2;
     //PIND reads all pin inputs from pins 0 to 7, our pins of interest are pins 3 and 4 for the right wheel
-    right_enc_val = right_enc_val | ((PIND & 0b11000) >> 3);
+    uint8_t temp = 0;
+    temp = (PIND >> 3) & 0b1;
+    temp = temp | (PIND >> 4 & 0b10);
+    right_enc_val = right_enc_val | temp;
     right_enc_count = right_enc_count + lookup_table[right_enc_val & 0b1111];
     // Serial.println("Right Counter: " + String(right_enc_count));
     //if(countR % 3 == 0){
