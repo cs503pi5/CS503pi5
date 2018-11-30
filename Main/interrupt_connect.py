@@ -156,6 +156,8 @@ def run_straight_x(goal):
 
         # update change left and right wheel
         l_w_turns,r_w_turns = get_wheel_turns()
+        print(curr_odom)
+
 
         l_distance = get_distance(l_w_turns)
         # l_wheel_cps = ldistance / poll_time
@@ -210,8 +212,6 @@ def stop():
 
         s = str(0)+','+str(0)+'\n'.encode()
         print(s)
-        print(curr_odom)
-
         ser.write(s)
         i = i + 1
         if cv2.waitKey(1) & 0xFF == ord('q'):
