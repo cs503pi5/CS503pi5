@@ -17,7 +17,7 @@ volatile long left_enc_count = 0;
 
 //the left side closest to the front is in pin 2, the ir further in the back is in pin 1
 #define leftOutputA 2
-#define leftOutputB 5
+#define leftOutputB 6
 
 String inData = "";
 
@@ -50,14 +50,12 @@ void loop() {
     while (Serial.available() > 0){
         char rec = Serial.read();
         inData += rec; 
-            Serial.println(inData);
-
         // Process message when new line character is recieved
         if (rec == '\n')
         {     
-            Serial.print(inData);
+            //Serial.print(inData);
             // extract lpwm and rpwm from the string
-            Serial.println("goes in if loop");
+            //Serial.println("goes in if loop");
             int lpwm = inData.substring(0,inData.indexOf(',')).toInt();
             int start = inData.indexOf(',');
             int end_pt = inData.indexOf('\n');
@@ -65,8 +63,8 @@ void loop() {
 
             // Serial.println("setting wheels to" + String(lpwm));
             // Serial.println("setting wheels to" + String(rpwm));
-            //set_lwheel(lpwm);
-            //set_rwheel(rpwm);
+            set_lwheel(lpwm);
+            set_rwheel(rpwm);
 
             
             inData = ""; // Clear recieved buffer
@@ -113,7 +111,7 @@ void left_encoder_isr() {
     //PIND reads all pin inputs from pins 0 to 7, our pins of interest are pins 3 and 4 for the left wheel
     uint8_t temp = 0;
     temp = (PIND >> 2) & 0b1;
-    temp = temp | (PIND >> 4 & 0b10);
+    temp = temp | (PIND >> 5 & 0b10);
     left_enc_val = left_enc_val | temp;
     left_enc_count = left_enc_count + left_lookup_table[left_enc_val & 0b1111];
     //if(countL % 3 == 0){
