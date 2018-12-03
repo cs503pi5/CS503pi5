@@ -63,8 +63,8 @@ void loop() {
             int end_pt = inData.indexOf('\n');
             int rpwm = inData.substring(start+1, end_pt).toInt();
 
-            Serial.println("setting wheels to" + String(lpwm));
-            Serial.println("setting wheels to" + String(rpwm));
+            //Serial.println("setting wheels to" + String(lpwm));
+            //Serial.println("setting wheels to" + String(rpwm));
             md.setM2Speed(lpwm);
             stopIfFault();
             md.setM1Speed(rpwm);
