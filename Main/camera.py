@@ -1,3 +1,4 @@
+import serial
 import numpy as np
 import cv2
 import math
@@ -6,6 +7,8 @@ import sys
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 
+port = '/dev/ttyACM0'
+ser = serial.Serial(port, 115200)
 
 camera = PiCamera()
 rawCapture = PiRGBArray(camera)
@@ -62,10 +65,22 @@ def get_error():
 # print(error)
     if (error < tolerance and error > (-1*tolerance)):
         print("go straight")
+        s = (str(148)+','+str(128)+'\n').encode()
+        print(s)
+        #ser.write(s)
     elif (error >= tolerance):
         print("turn right")
+        s = (str(148)+','+str(128)+'\n').encode()
+        print(s)
+        #ser.write(s)
     else:
         print("turn left")
+        s = (str(148)+','+str(128)+'\n').encode()
+        print(s)
+        #ser.write(s)
     rawCapture.truncate(0)
 
     return error
+
+while(1):
+    get_error()

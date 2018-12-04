@@ -413,7 +413,7 @@ def run_straight_x_visual(goal, ref):
         # get pd error from updated thetas
         # curr_theta = curr_odom[2]
         curr_visual_error = get_error()
-        approx_velocity = PD_error(curr_theta, ref, K=.5, B=0.1)
+        approx_velocity = PD_error(curr_visual_error, ref, K=.5, B=0.1)
 
         # # change velocity according to pd error
         # if (r_velocity + approx_velocity) > get_r_cps(160) or (r_velocity + approx_velocity) < get_r_cps(120):
