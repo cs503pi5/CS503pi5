@@ -23,7 +23,7 @@ def isWhite(array):
         return True
 
 
-while(1):
+def get_error():
     camera.capture(rawCapture, format="bgr")
     image = rawCapture.array
 #    cv2.imwrite('orig.jpg',image)
@@ -67,3 +67,5 @@ while(1):
     else:
         print("turn left")
     rawCapture.truncate(0)
+
+    return error

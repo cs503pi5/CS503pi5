@@ -7,6 +7,7 @@ import time
 import sys
 from picamera.array import PiRGBArray
 from picamera import PiCamera
+from camera import get_error
 
 port = '/dev/ttyACM0'
 ser = serial.Serial(port, 115200)
@@ -361,13 +362,86 @@ def stop():
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
+def run_straight_x_visual(goal, ref):
+
+    # send inital velocities to arduino of wait to set the wheel pwms
+    C = 1
+    velocity_ref = 4
+    l_ref_velocity, r_ref_velocity = desired_velocity(C, velocity_ref)
+    l_velocity = l_ref_velocity
+    r_velocity = r_ref_velocity
+    l_pwm = get_l_pwm(l_velocity)
+    r_pwm = get_r_pwm(r_velocity)
+
+    s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
+    print(s)
+    ser.write(s)
+
+    # while we havent reached out goal
+    # every 100 milliseconds, poll the arduino for latest wheel turn counts
+    # get how much the wheels actually turned
+    # get distances for each wheel traversed
+    # update our odometer readings
+    # get a pd error from new thetas
+    # update new velocities
+    # send new pwms to achieve those velocities to arduino
+
+    
+
+    while (curr_odom[0] < goal):
+        # wait 
+        poll_time = 0.1 #in seconds
+        time_wait(poll_time)
+
+        # update change left and right wheel
+        l_w_turns,r_w_turns = get_wheel_turns()
+        print(curr_odom)
+
+
+        l_distance = get_distance(l_w_turns)
+        # l_wheel_cps = ldistance / poll_time
+
+        r_distance = get_distance(r_w_turns)
+        # l_wheel_cps = r_distance / poll_time
+
+        delta_left = l_distance
+        delta_right = r_distance
+
+        # update odometer x,y,theta
+        update_cord(delta_left, delta_right)
+
+        # get pd error from updated thetas
+        # curr_theta = curr_odom[2]
+        curr_visual_error = get_error()
+        approx_velocity = PD_error(curr_theta, ref, K=.5, B=0.1)
+
+        # # change velocity according to pd error
+        # if (r_velocity + approx_velocity) > get_r_cps(160) or (r_velocity + approx_velocity) < get_r_cps(120):
+        #     pass
+        # else:
+        #     r_velocity = r_velocity + approx_velocity
+        # if (l_velocity - approx_velocity) > get_l_cps(160) or (l_velocity + approx_velocity) < get_r_cps(120):
+        #     pass
+        # else:
+        #     l_velocity = l_velocity - approx_velocity
+        r_velocity = r_velocity - approx_velocity
+        l_velocity = l_velocity + approx_velocity
+
+        # send the new pwms
+        l_pwm = get_l_pwm(l_velocity)
+        r_pwm = get_r_pwm(r_velocity)
+
+        s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
+        ser.write(s)
 
 if __name__ == "__main__":
     ser.flushInput()
-    run_straight_x(50,0)
-    turn_left(np.pi/2)
-    curr_odom = [0,0,0]
-    run_straight_y(2800,0)
+#     run_straight_x(50,0)
+#     turn_left(np.pi/2)
+#     curr_odom = [0,0,0]
+#     run_straight_y(2800,0)
+    run_straight_x_visual(50,0)
     print(curr_odom)
     stop()
+
 
