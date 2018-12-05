@@ -116,7 +116,7 @@ void loop() {
     // String cord_vals = String(x_cord) + "," + String(y_cord) + "," + String(theta);
  //   Serial.println(String(left_enc_count) + ","+String(right_enc_count));
   for (int i = 100; i<300; i++){
-    set_lwheel(i);
+    //set_lwheel(i);
     long start = millis();
     // wait 5 seconds
     while(left_enc_count < 20 && (millis() - start) < 5000 ){
