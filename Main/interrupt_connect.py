@@ -101,15 +101,18 @@ def get_distance(w_turns):
 def update_cord(delta_left, delta_right):
     s_left = delta_left
     s_right = delta_right
+    print('delta_left: ', s_left, ' delta_right: ', s_right)
     w_base = 19 # distance from end to end of the board
     d_x = (s_left+s_right)/2
+    print('d_x', d_x)
     d_theta = np.arctan2((s_right-s_left)/2, w_base/2) # is radians
-
+    print('change in theta', d_theta)
     global curr_odom
     x_cord,y_cord,theta = curr_odom
     theta = theta + d_theta  
     x_cord = x_cord + d_x*np.cos(theta)
     y_cord = y_cord + d_x*np.sin(theta)
+    print('npsin theta', np.sin(theta))
 
     curr_odom = [x_cord, y_cord, theta]
 
