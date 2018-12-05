@@ -49,36 +49,14 @@ void setup() {
 
 void loop() {
     // get data from serial in
-  while (Serial.available() > 0){
-        char rec = Serial.read();
-        inData += rec; 
-        // Process message when new line character is recieved
-        if (rec == '\n')
-        {     
-            //Serial.print(inData);
-            // extract lpwm and rpwm from the string
-            //Serial.println("goes in if loop");
-            int lpwm = inData.substring(0,inData.indexOf(',')).toInt();
-            int start = inData.indexOf(',');
-            int end_pt = inData.indexOf('\n');
-            int rpwm = inData.substring(start+1, end_pt).toInt();
-
-            //Serial.println("setting wheels to" + String(lpwm));
-            //Serial.println("setting wheels to" + String(rpwm));
-            md.setM2Speed(lpwm);
-            stopIfFault();
-            md.setM1Speed(rpwm);
-            stopIfFault();
-
-            
-            
-            inData = ""; // Clear recieved buffer
-
-            //break incase new stuff comes and we're just stuck here
-            break;
-        }
-      
+    for (int i = 100; i<150; i++){
+      long start = millis()
+      set_lwheel(i);
+      while(millis() - start < 5000){
+        continue;
+      }
     }
+
     // update_wheels();
     // update_cord();
 
