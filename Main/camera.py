@@ -70,7 +70,10 @@ def get_error():
     if (yellow[0] != -1):
         width = white[1] - yellow[1]
 
-    print(error)
+    if (abs(error) > 100):
+        print("IGNORE")
+    else:
+        print(error)
 
     rawCapture.truncate(0)
 
