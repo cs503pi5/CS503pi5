@@ -178,6 +178,7 @@ def run_straight_x(goal, ref):
         # get pd error from updated thetas
         curr_theta = curr_odom[2]
         approx_velocity = PD_error(curr_theta, ref, K=.5, B=0.1)
+        print('error:', approx_velocity)
 
         # # change velocity according to pd error
         # if (r_velocity + approx_velocity) > get_r_cps(160) or (r_velocity + approx_velocity) < get_r_cps(120):
@@ -196,6 +197,7 @@ def run_straight_x(goal, ref):
         r_pwm = get_r_pwm(r_velocity)
 
         s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
+        print(s)
         ser.write(s)
 
 def run_straight_y(goal, ref):
