@@ -164,6 +164,8 @@ def run_straight_x(goal, ref):
         # update change left and right wheel
         l_w_turns,r_w_turns = get_wheel_turns()
         print(curr_odom)
+        print('left wheels turned', l_w_turns)
+        print('right wheel turned', r_w_turns)
 
 
         l_distance = get_distance(l_w_turns)
@@ -176,6 +178,7 @@ def run_straight_x(goal, ref):
         delta_right = r_distance
 
         # update odometer x,y,theta
+        
         update_cord(delta_left, delta_right)
 
         # get pd error from updated thetas
