@@ -35,11 +35,11 @@ theta_prev = 0.0
 # 	return int( (v_cps + 19)/0.162)
 
 def get_l_pwm(v_cps):
-	return int( (v_cps + 18.7)/0.166)
+	return int( (v_cps + 12)/0.148)
 
 # get pwm for velocity
 def get_r_pwm(v_cps):
-	return int( (v_cps + 18.7)/0.162)
+	return int( (v_cps + 15.2)/0.169)
 
 def get_l_cps(pwm):
     return int( 0.184*pwm - 18.7)
@@ -436,11 +436,11 @@ def run_straight_x_visual(goal, ref):
 
 if __name__ == "__main__":
     ser.flushInput()
-#     run_straight_x(50,0)
+    run_straight_x(90,0)
 #     turn_left(np.pi/2)
 #     curr_odom = [0,0,0]
 #     run_straight_y(2800,0)
-    run_straight_x_visual(50,0)
+#     run_straight_x_visual(50,0)
     print(curr_odom)
     stop()
 

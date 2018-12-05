@@ -115,6 +115,7 @@ void loop() {
 
     // String cord_vals = String(x_cord) + "," + String(y_cord) + "," + String(theta);
  //   Serial.println(String(left_enc_count) + ","+String(right_enc_count));
+
   for (int i = 140; i<300; i++){
     set_rwheel(i);
     long start = millis();
