@@ -43,9 +43,10 @@ map = [zero,one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirt
 stateMachine = []
 sequence = []
 states = 0
+repeating = False
 
 def printInstructions():
-    global sequence
+    global sequence, repeating
     for i in sequence:
         if (i == 0):
             print("no connection - FAILURE")
@@ -62,7 +63,10 @@ def printInstructions():
             print("intersection, turn right")
         else:
             print("intersection, turtn left")
-    print("end of instructions")
+    if (repeating):
+        print("repeat")
+    else:
+        print("end of instructions")
 
 
 def getStateMachine():
@@ -86,7 +90,23 @@ def stateMachineToInstructions():
             sequence.append(s)
     return True
 
+def isRepeating():
+    global repeating
+    print("Is the machine repeating? y/n")
+    ans = raw_input()
+    if (ans == "y"):
+        repeating = True
+        return True
+    elif (ans == "n"):
+        repeating = False
+        return True
+    else:
+        return False
+
 if __name__ == "__main__":
+    if (isRepeating() == False):
+        print("INVALID -- QUITTING")
+        exit(0)
     getStateMachine()
     if (not stateMachineToInstructions()):
         print("INVALID STATE MACHINE")
