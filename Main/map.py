@@ -40,5 +40,56 @@ thirty = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,5,0,0]
 thirtyone = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0]
 
 map = [zero,one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour,twentyfive,twentysix,twentyseven,twentyeight,twentynine,thirty,thirtyone]
+stateMachine = []
+sequence = []
+states = 0
 
-print(len(map))
+def printInstructions():
+    global sequence
+    for i in sequence:
+        if (i == 0):
+            print("no connection - FAILURE")
+            return False
+        elif (i == 1):
+            print("go straight")
+        elif (i == 2):
+            print("follow road, right turn")
+        elif (i == 3):
+            print("follow road, left turn")
+        elif (i == 4):
+            print("intersection, go straight")
+        elif (i == 5):
+            print("intersection, turn right")
+        else:
+            print("intersection, turtn left")
+    print("end of instructions")
+
+
+def getStateMachine():
+    global stateMachine,states
+    print("Enter state machine:")
+    data = 0
+    while (data != -1):
+        data = input()
+        stateMachine.append(data)
+        states = states+1
+    stateMachine = stateMachine[:-1]
+    states = states - 1
+
+def stateMachineToInstructions():
+    global map, stateMachine
+    for i in range(states-1):
+        s = map[stateMachine[i]][stateMachine[i+1]]
+        if (s == 0):
+            return False
+        else:
+            sequence.append(s)
+    return True
+
+if __name__ == "__main__":
+    getStateMachine()
+    if (not stateMachineToInstructions()):
+        print("INVALID STATE MACHINE")
+    else:
+        printInstructions()
+
