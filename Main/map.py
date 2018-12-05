@@ -62,14 +62,14 @@ def printInstructions():
         elif (i == 5):
             print("intersection, turn right")
         else:
-            print("intersection, turn left")
+            print("intersection, turtn left")
     if (repeating):
         print("repeat")
     else:
         print("end of instructions")
 
 
-def getStateMachine():
+def getStateMachine(given = None):
     global stateMachine,states
     print("Enter state machine:")
     data = 0
@@ -103,13 +103,38 @@ def isRepeating():
     else:
         return False
 
+def find_shortest_path(start, end, path=[]):
+    global map,stateMachine
+    path = path + [start]
+    if start == end:
+        stateMachine = path
+        return path
+    shortest = None
+    neighbors = [x for x in range(len(map[start])) if map[start][x] != 0]
+    for node in neighbors:
+        if node not in path:
+            newpath = find_shortest_path(node, end, path)
+            if newpath:
+                if not shortest or len(newpath) < len(shortest):
+                    shortest = newpath
+    stateMachine = shortest
+    return shortest
+# if __name__ == "__main__":
+#     if (isRepeating() == False):
+#         print("INVALID -- QUITTING")
+#         exit(0)
+#     getStateMachine()
+#     if (not stateMachineToInstructions()):
+#         print("INVALID STATE MACHINE")
+#     else:
+#         printInstructions()
+
 if __name__ == "__main__":
-    if (isRepeating() == False):
-        print("INVALID -- QUITTING")
-        exit(0)
-    getStateMachine()
+    a = input("Start Node: ")
+    b = input("End Node: ")
+    print(find_shortest_path(a,b))
+    states = len(stateMachine)
     if (not stateMachineToInstructions()):
         print("INVALID STATE MACHINE")
     else:
         printInstructions()
-
