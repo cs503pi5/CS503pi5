@@ -72,9 +72,9 @@ def get_wheel_turns():
     r_w_count = 0
     while(ser.in_waiting > 0):
         line = ser.readline()
-        print('read in',line)
+        # print('read in',line)
         if line!=None and (len(line) > 5):
-            spoke_count = interpret_odom(line)
+            spoke_count = interpret_odom(line)v
             l_w_count = spoke_count[0]
             r_w_count = spoke_count[1]
 
@@ -139,7 +139,7 @@ def run_straight_x(goal, ref):
     r_pwm = get_r_pwm(r_velocity)
 
     s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
-    print(s)
+#     print(s)
     ser.write(s)
 
     # while we havent reached out goal
