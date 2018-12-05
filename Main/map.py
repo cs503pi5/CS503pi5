@@ -62,7 +62,7 @@ def printInstructions():
         elif (i == 5):
             print("intersection, turn right")
         else:
-            print("intersection, turtn left")
+            print("intersection, turn left")
     if (repeating):
         print("repeat")
     else:
