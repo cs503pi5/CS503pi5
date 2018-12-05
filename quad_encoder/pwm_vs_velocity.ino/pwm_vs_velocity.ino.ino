@@ -115,18 +115,18 @@ void loop() {
 
     // String cord_vals = String(x_cord) + "," + String(y_cord) + "," + String(theta);
  //   Serial.println(String(left_enc_count) + ","+String(right_enc_count));
-  for (int i = 100; i<300; i++){
-    set_lwheel(i);
+  for (int i = 140; i<300; i++){
+    set_rwheel(i);
     long start = millis();
     // wait 5 seconds
-    while(left_enc_count < 20 && (millis() - start) < 5000 ){
+    right_enc_count = 0;
+    while(right_enc_count < 30){
       continue;
     }
     // speed = distance / time
-    double distance = (double) left_enc_count * (22.32914/20.0);
+    double distance = (double) right_enc_count * (22.32914/20.0);
     double duration_time = ((double)millis() - (double)start)/1000;
     double speed = distance / duration_time;
     Serial.println(String(i) + "," + speed);
-    left_enc_count = 0;
   }
 }

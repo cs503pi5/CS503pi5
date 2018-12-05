@@ -7,8 +7,8 @@ import sys
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 
-port = '/dev/ttyACM0'
-ser = serial.Serial(port, 115200)
+# port = '/dev/ttyACM0'
+# ser = serial.Serial(port, 115200)
 
 camera = PiCamera()
 rawCapture = PiRGBArray(camera)
@@ -17,6 +17,7 @@ camera_midpoint = 310
 white_offset = 100
 tolerance = 40
 width = 400 #will change
+prev_error = 0
 
 def isYellow(array):
     if (array[0] < 200 and array[1] > 200 and array[2] > 200):
@@ -26,19 +27,29 @@ def isWhite(array):
     if (array[0] > 200 and array[1] > 200 and array[2] > 200):
         return True
 
+def isRed(array):
+    if (array[0] < 150 and array[1] < 150 and array[2] > 200):
+        return True
+
+def PD_error_camera(camera_error, camera_ref, K = 1, B = 0.01):
+    global prev_error
+    cam_ddot = -K*(camera_error - camera_ref) - B*(camera_error-prev_error)
+    prev_error = camera_error
+    return cam_ddot  
 
 def get_error():
     global width
+    red_seen = False
     camera.capture(rawCapture, format="bgr")
     image = rawCapture.array
-#    cv2.imwrite('orig.jpg',image)
     crop = image[275:345,0:640]
-#    cv2.imwrite('crop.jpg',crop)
 
     yellow = [-1,-1]
     white = [-1,-1]
     for y in range(69,0,-1):
         for x in range(320,0,-1):
+            if (isRed(crop[y,x])):
+                red_seen = True
             if (isYellow(crop[y,x])):
                 yellow = [y,x]
                 break
@@ -47,8 +58,7 @@ def get_error():
         if (isWhite(crop[line,x])):
             white = [line,x]
             break
-    
-    
+      
     midpoint = (white[1] + yellow[1])/2
 
 
@@ -57,30 +67,11 @@ def get_error():
 
     error = camera_midpoint - midpoint
 
-    width = white[1] - yellow[1])
+    if (yellow[0] != -1):
+        width = white[1] - yellow[1]
 
     print(error)
-    
-    if (error < tolerance and error > (-1*tolerance)):
-        print("go straight")
-        s = (str(148)+','+str(128)+'\n').encode()
-        print(s)
-        #ser.write(s)
-    elif (error >= tolerance) and (error < 100):
-        print("turn right")
-        s = (str(148)+','+str(128)+'\n').encode()
-        print(s)
-        #ser.write(s)
-    elif (error <= -tolerance) and (error > -100):
-        print("turn left")
-        s = (str(148)+','+str(128)+'\n').encode()
-        print(s)
-        #ser.write(s)
-    else: 
-        print("stop")
-        s = (str(0)+','+str(0)+'\n').encode()
-        print(s)
-        #ser.write(s)
+
     rawCapture.truncate(0)
 
     return error
