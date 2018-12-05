@@ -121,7 +121,8 @@ def PD_error(theta_act, theta_ref, K = 1, B = 0.01):
     global theta_prev
     theta_ddot = -K*(theta_act - theta_ref) - B*(theta_act-theta_prev)
     theta_prev = theta_act
-    return theta_ddot   
+    # add 0 to rectify negative zeros
+    return theta_ddot + 0 
 
 # return velocity_left_wheel,velocity_right_wheel to achieve v_ref with that ratio
 def desired_velocity(c_ratio, v_ref):
