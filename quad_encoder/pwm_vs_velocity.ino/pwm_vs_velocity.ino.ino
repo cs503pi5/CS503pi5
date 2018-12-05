@@ -22,6 +22,66 @@ volatile long left_enc_count = 0;
 String inData = "";
 
 
+// 2 and 6
+void left_encoder_isr() {
+    static int8_t left_lookup_table[] = {0,0,0,-1,0,0,1,0,0,1,0,0,-1,0,0,0};
+    static uint8_t left_enc_val = 0;
+    //int countL = 0;
+    //countL++;
+    left_enc_val = left_enc_val << 2;
+    //PIND reads all pin inputs from pins 0 to 7, our pins of interest are pins 3 and 4 for the left wheel
+    uint8_t temp = 0;
+    temp = (PIND >> 2) & 0b1;
+    temp = temp | (PIND >> 5 & 0b10);
+    left_enc_val = left_enc_val | temp;
+    left_enc_count = left_enc_count + left_lookup_table[left_enc_val & 0b1111];
+    //if(countL % 3 == 0){
+    //Serial.println(String(left_enc_count) + ","+String(right_enc_count));
+    //}
+}
+
+// 3 and 5
+void right_encoder_isr() {
+    static int8_t lookup_table[] = {0,0,0,-1,0,0,1,0,0,1,0,0,-1,0,0,0};
+    static uint8_t right_enc_val = 0;
+    //int countR = 0;
+    //countR++;
+    right_enc_val = right_enc_val << 2;
+    //PIND reads all pin inputs from pins 0 to 7, our pins of interest are pins 3 and 4 for the right wheel
+    uint8_t temp = 0;
+    temp = (PIND >> 3) & 0b1;
+    temp = temp | (PIND >> 4 & 0b10);
+    right_enc_val = right_enc_val | temp;
+    right_enc_count = right_enc_count + lookup_table[right_enc_val & 0b1111];
+    // Serial.println("Right Counter: " + String(right_enc_count));
+    //if(countR % 3 == 0){
+     // Serial.println(String(left_enc_count) + ","+String(right_enc_count));
+   // }
+    //Serial.println(String(left_enc_count) + ","+String(right_enc_count));
+}
+
+// motors
+void stopIfFault(){
+  if (md.getFault())
+  {
+    while(1){
+        Serial.println("fault");
+    }
+  }
+}
+void set_lwheel(int speed){
+  md.setM2Speed(speed);
+  stopIfFault();
+}
+
+// rwheel m1
+void set_rwheel(int speed){
+  md.setM1Speed(speed);
+  stopIfFault();
+
+}
+
+
 void setup() {
   //pin 2 is interrupt int 0
   //pin 3 is interrupt int 1
@@ -59,72 +119,14 @@ void loop() {
     set_lwheel(i);
     long start = millis();
     // wait 5 seconds
-    long curr_millis = 0;
-    while(curr_millis - start <5000){
-      curr_millis = millis();
+    while(left_enc_count < 20 && (millis() - start) < 5000 ){
+      continue;
     }
     // speed = distance / time
     double distance = (double) left_enc_count * (22.32914/20.0);
-    double duration_time = double(millis());
+    double duration_time = ((double)millis() - (double)start)/1000;
     double speed = distance / duration_time;
     Serial.println(String(i) + "," + speed);
+    left_enc_count = 0;
   }
-//}
-// motors
-void stopIfFault(){
-  if (md.getFault())
-  {
-    while(1){
-        Serial.println("fault");
-    }
-  }
-}
-void set_lwheel(int speed){
-  md.setM2Speed(speed);
-  stopIfFault();
-}
-
-// rwheel m1
-void set_rwheel(int speed){
-  md.setM1Speed(speed);
-  stopIfFault();
-
-}
-
-// 2 and 6
-void left_encoder_isr() {
-    static int8_t left_lookup_table[] = {0,0,0,-1,0,0,1,0,0,1,0,0,-1,0,0,0};
-    static uint8_t left_enc_val = 0;
-    //int countL = 0;
-    //countL++;
-    left_enc_val = left_enc_val << 2;
-    //PIND reads all pin inputs from pins 0 to 7, our pins of interest are pins 3 and 4 for the left wheel
-    uint8_t temp = 0;
-    temp = (PIND >> 2) & 0b1;
-    temp = temp | (PIND >> 5 & 0b10);
-    left_enc_val = left_enc_val | temp;
-    left_enc_count = left_enc_count + left_lookup_table[left_enc_val & 0b1111];
-    //if(countL % 3 == 0){
-      Serial.println(String(left_enc_count) + ","+String(right_enc_count));
-    //}
-}
-
-// 3 and 5
-void right_encoder_isr() {
-    static int8_t lookup_table[] = {0,0,0,-1,0,0,1,0,0,1,0,0,-1,0,0,0};
-    static uint8_t right_enc_val = 0;
-    //int countR = 0;
-    //countR++;
-    right_enc_val = right_enc_val << 2;
-    //PIND reads all pin inputs from pins 0 to 7, our pins of interest are pins 3 and 4 for the right wheel
-    uint8_t temp = 0;
-    temp = (PIND >> 3) & 0b1;
-    temp = temp | (PIND >> 4 & 0b10);
-    right_enc_val = right_enc_val | temp;
-    right_enc_count = right_enc_count + lookup_table[right_enc_val & 0b1111];
-    // Serial.println("Right Counter: " + String(right_enc_count));
-    //if(countR % 3 == 0){
-     // Serial.println(String(left_enc_count) + ","+String(right_enc_count));
-   // }
-    Serial.println(String(left_enc_count) + ","+String(right_enc_count));
 }
