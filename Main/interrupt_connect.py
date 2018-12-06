@@ -452,7 +452,7 @@ def run_straight_x_visual(goal, ref):
         ser.write(s)
 
 if __name__ == "__main__":
-    time.sleep(3)
+    time.sleep(4)
     ser.flushInput()
     run_straight_x(30,0)
 #     turn_left(np.pi/2)
