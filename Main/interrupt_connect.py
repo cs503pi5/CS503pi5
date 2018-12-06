@@ -195,15 +195,6 @@ def run_straight_x(goal, ref):
         approx_velocity = PD_error(curr_theta, ref, K=.5, B=0.1)
         # print('error:', approx_velocity)
 
-        # # change velocity according to pd error
-        # if (r_velocity + approx_velocity) > get_r_cps(160) or (r_velocity + approx_velocity) < get_r_cps(120):
-        #     pass
-        # else:
-        #     r_velocity = r_velocity + approx_velocity
-        # if (l_velocity - approx_velocity) > get_l_cps(160) or (l_velocity + approx_velocity) < get_r_cps(120):
-        #     pass
-        # else:
-        #     l_velocity = l_velocity - approx_velocity
         r_velocity = r_velocity + approx_velocity
         l_velocity = l_velocity - approx_velocity
 
@@ -216,7 +207,6 @@ def run_straight_x(goal, ref):
         ser.write(s)
 
 def run_straight_y(goal, ref):
-
     # send inital velocities to arduino of wait to set the wheel pwms
     C = 1
     velocity_ref = 5
@@ -241,7 +231,7 @@ def run_straight_y(goal, ref):
 
     
 
-    while (curr_odom[0] < goal):
+    while (curr_odom[1] < goal):
         # wait 
         poll_time = 0.05 #in seconds
         time_wait(poll_time)
@@ -249,6 +239,8 @@ def run_straight_y(goal, ref):
         # update change left and right wheel
         l_w_turns,r_w_turns = get_wheel_turns()
         print(curr_odom)
+        print('left wheels turned', l_w_turns)
+        print('right wheel turned', r_w_turns)
 
 
         l_distance = get_distance(l_w_turns)
@@ -261,21 +253,14 @@ def run_straight_y(goal, ref):
         delta_right = r_distance
 
         # update odometer x,y,theta
+        
         update_cord(delta_left, delta_right)
 
         # get pd error from updated thetas
         curr_theta = curr_odom[2]
-        approx_velocity = PD_error(curr_theta, ref, K=.1, B=0.1)
+        approx_velocity = PD_error(curr_theta, ref, K=.5, B=0.1)
+        # print('error:', approx_velocity)
 
-        # # change velocity according to pd error
-        # if (r_velocity + approx_velocity) > get_r_cps(160) or (r_velocity + approx_velocity) < get_r_cps(120):
-        #     pass
-        # else:
-        #     r_velocity = r_velocity + approx_velocity
-        # if (l_velocity - approx_velocity) > get_l_cps(160) or (l_velocity + approx_velocity) < get_r_cps(120):
-        #     pass
-        # else:
-        #     l_velocity = l_velocity - approx_velocity
         r_velocity = r_velocity + approx_velocity
         l_velocity = l_velocity - approx_velocity
 
@@ -284,9 +269,8 @@ def run_straight_y(goal, ref):
         r_pwm = get_r_pwm(r_velocity)
 
         s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
+        # print(s)
         ser.write(s)
-
-
 
 def turn_left(goal):
     # send inital velocities to arduino of wait to set the wheel pwms
@@ -332,6 +316,55 @@ def turn_left(goal):
 
         # update odometer x,y,theta
         update_cord(delta_left, delta_right)
+
+        print(curr_odom)
+
+def turn_right(goal):
+    # send inital velocities to arduino of wait to set the wheel pwms
+    C = 1/2
+    velocity_ref = 5
+    l_ref_velocity, r_ref_velocity = desired_velocity(C, velocity_ref)
+    l_velocity = l_ref_velocity
+    r_velocity = r_ref_velocity
+    l_pwm = get_l_pwm(l_velocity)
+    r_pwm = get_r_pwm(r_velocity)
+
+    s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
+    # print(s)
+    ser.write(s)
+
+    # while we havent reached out goal
+    # every 100 milliseconds, poll the arduino for latest wheel turn counts
+    # get how much the wheels actually turned
+    # get distances for each wheel traversed
+    # update our odometer readings
+    # get a pd error from new thetas
+    # update new velocities
+    # send new pwms to achieve those velocities to arduino
+    global curr_odom
+    while (curr_odom[2] < goal):
+        # wait 
+        poll_time = 0.05 #in seconds
+        time_wait(poll_time)
+
+        # update change left and right wheel
+        l_w_turns,r_w_turns = get_wheel_turns()
+        print(curr_odom)
+
+
+        l_distance = get_distance(l_w_turns)
+        # l_wheel_cps = ldistance / poll_time
+
+        r_distance = get_distance(r_w_turns)
+        # l_wheel_cps = r_distance / poll_time
+
+        delta_left = l_distance
+        delta_right = r_distance
+
+        # update odometer x,y,theta
+        update_cord(delta_left, delta_right)
+
+        print(curr_odom)
 
 
 def stop():
@@ -431,10 +464,11 @@ def run_straight_x_visual(goal, ref):
 
 if __name__ == "__main__":
     time.sleep(4)
+
     ser.flushInput()
-    run_straight_x(110,0)
-    turn_left(np.pi/2)
-#     run_straight_y(2800,0)
+    run_straight_x(50,0)
+    turn_left(-np.pi/2)
+    run_straight_y(119,0)
 #     run_straight_x_visual(50,0)
     print(curr_odom)
     stop()
