@@ -75,7 +75,7 @@ def get_wheel_turns():
         # print('read in',line)
         if line!=None and (len(line) > 5):
             spoke_count = interpret_odom(line)
-            print(spoke_count)
+        #     print(spoke_count)
             l_w_count = spoke_count[0]
             r_w_count = spoke_count[1]
 
@@ -91,7 +91,7 @@ def get_wheel_turns():
     l_w_count_prev = l_w_count
     r_w_count_prev = r_w_count 
 
-    print (l_spoke_turned,r_spoke_turned)
+    print ('left spoke and right spoke',l_spoke_turned,r_spoke_turned)
     return l_spoke_turned,r_spoke_turned
 
 # return a distance for a given number of wheel turns     
