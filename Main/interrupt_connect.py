@@ -68,9 +68,11 @@ def time_wait(seconds):
 # returns (left wheel turns, right wheel turns)
 def get_wheel_turns():
 
+    # counter to record the lastest wheel counts from the buffer
+	# l_w_count can't be zero so wait or stall
     l_w_count = 0
     r_w_count = 0
-    while(ser.in_waiting > 0):
+    while(ser.in_waiting > 0 or (l_w_count == 0) or (r_w_count ==0)):
         line = ser.readline()
         # print('read in',line)
         if line!=None and (len(line) > 5):
@@ -79,13 +81,13 @@ def get_wheel_turns():
             l_w_count = spoke_count[0]
             r_w_count = spoke_count[1]
 
-    # get the amount of spokes turned
+    # counter for the last wheel count
     global l_w_count_prev
     global r_w_count_prev
 
-    # get rid of negative zeros
-    l_spoke_turned = l_w_count - l_w_count_prev + 0
-    r_spoke_turned = r_w_count - r_w_count_prev + 0
+    # spoke turns equal the current count minus the last number of times
+    l_spoke_turned = l_w_count - l_w_count_prev
+    r_spoke_turned = r_w_count - r_w_count_prev
     
     # set prev for future use
     l_w_count_prev = l_w_count
