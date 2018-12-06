@@ -81,9 +81,9 @@ def get_wheel_turns():
             r_w_count = spoke_count[1]
 
 	# if nothing was in waiting then the count is zero
-	if (l_w_count==0 and r_w_count ==0):
-		return 0,0
-	else:
+    if (l_w_count==0 and r_w_count ==0):
+        return l_w_count,r_w_count
+    else:
 		# counter for the last wheel count
 		global l_w_count_prev
 		global r_w_count_prev
