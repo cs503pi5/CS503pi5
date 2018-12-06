@@ -454,7 +454,7 @@ def run_straight_x_visual(goal, ref):
 if __name__ == "__main__":
     time.sleep(4)
     ser.flushInput()
-    run_straight_x(30,0)
+    run_straight_x(90,0)
 #     turn_left(np.pi/2)
 #     curr_odom = [0,0,0]
 #     run_straight_y(2800,0)
