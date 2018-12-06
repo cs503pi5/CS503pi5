@@ -11,7 +11,7 @@ from camera import get_error
 
 port = '/dev/ttyACM0'
 ser = serial.Serial(port, 115200)
-time.sleep(3) # arduino needs time to set up serial
+ # arduino needs time to set up serial
 
 # x,y,theta readings of the car
 curr_odom = [0,0,0]
@@ -91,6 +91,7 @@ def get_wheel_turns():
     l_w_count_prev = l_w_count
     r_w_count_prev = r_w_count 
 
+    print (l_spoke_turned,r_spoke_turned)
     return l_spoke_turned,r_spoke_turned
 
 # return a distance for a given number of wheel turns     
@@ -103,18 +104,18 @@ def get_distance(w_turns):
 def update_cord(delta_left, delta_right):
     s_left = delta_left
     s_right = delta_right
-    print('delta_left: ', s_left, ' delta_right: ', s_right)
+#     print('delta_left: ', s_left, ' delta_right: ', s_right)
     w_base = 19 # distance from end to end of the board
     d_x = (s_left+s_right)/2
-    print('d_x', d_x)
+#     print('d_x', d_x)
     d_theta = np.arctan2((s_right-s_left)/2, w_base/2) # is radians
-    print('change in theta', d_theta)
+#     print('change in theta', d_theta)
     global curr_odom
     x_cord,y_cord,theta = curr_odom
     theta = theta + d_theta  
     x_cord = x_cord + d_x*np.cos(theta)
     y_cord = y_cord + d_x*np.sin(theta)
-    print('npsin theta', np.sin(theta))
+#     print('npsin theta', np.sin(theta))
 
     curr_odom = [x_cord, y_cord, theta]
 
@@ -187,7 +188,7 @@ def run_straight_x(goal, ref):
         # get pd error from updated thetas
         curr_theta = curr_odom[2]
         approx_velocity = PD_error(curr_theta, ref, K=.5, B=0.1)
-        print('error:', approx_velocity)
+        # print('error:', approx_velocity)
 
         # # change velocity according to pd error
         # if (r_velocity + approx_velocity) > get_r_cps(160) or (r_velocity + approx_velocity) < get_r_cps(120):
@@ -206,7 +207,7 @@ def run_straight_x(goal, ref):
         r_pwm = get_r_pwm(r_velocity)
 
         s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
-        print(s)
+        # print(s)
         ser.write(s)
 
 def run_straight_y(goal, ref):
@@ -446,6 +447,7 @@ def run_straight_x_visual(goal, ref):
         ser.write(s)
 
 if __name__ == "__main__":
+    time.sleep(3)
     ser.flushInput()
     run_straight_x(30,0)
 #     turn_left(np.pi/2)
