@@ -467,8 +467,8 @@ if __name__ == "__main__":
 
     ser.flushInput()
     run_straight_x(50,0)
-    turn_left(-np.pi/2)
-    run_straight_y(119,0)
+    # turn_left(-np.pi/2)
+    # run_straight_y(119,0)
 #     run_straight_x_visual(50,0)
     print(curr_odom)
     stop()
