@@ -69,32 +69,35 @@ def time_wait(seconds):
 def get_wheel_turns():
 
     # counter to record the lastest wheel counts from the buffer
-	# l_w_count can't be zero so wait or stall
     l_w_count = 0
     r_w_count = 0
-    while(ser.in_waiting > 0 or (l_w_count == 0) or (r_w_count ==0)):
+    while(ser.in_waiting > 0):
         line = ser.readline()
         # print('read in',line)
         if line!=None and (len(line) > 5):
             spoke_count = interpret_odom(line)
-        #     print(spoke_count)
+        #   print(spoke_count)
             l_w_count = spoke_count[0]
             r_w_count = spoke_count[1]
 
-    # counter for the last wheel count
-    global l_w_count_prev
-    global r_w_count_prev
+	# if nothing was in waiting then the count is zero
+	if (l_w_count==0 and r_w_count ==0):
+		return 0,0
+	else:
+		# counter for the last wheel count
+		global l_w_count_prev
+		global r_w_count_prev
 
-    # spoke turns equal the current count minus the last number of times
-    l_spoke_turned = l_w_count - l_w_count_prev
-    r_spoke_turned = r_w_count - r_w_count_prev
-    
-    # set prev for future use
-    l_w_count_prev = l_w_count
-    r_w_count_prev = r_w_count 
+		# spoke turns equal the current count minus the last number of times
+		l_spoke_turned = l_w_count - l_w_count_prev
+		r_spoke_turned = r_w_count - r_w_count_prev
+		
+		# set prev for future use
+		l_w_count_prev = l_w_count
+		r_w_count_prev = r_w_count 
 
-    print ('left spoke and right spoke',l_spoke_turned,r_spoke_turned)
-    return l_spoke_turned,r_spoke_turned
+		print ('left spoke and right spoke',l_spoke_turned,r_spoke_turned)
+		return l_spoke_turned,r_spoke_turned
 
 # return a distance for a given number of wheel turns     
 def get_distance(w_turns):
