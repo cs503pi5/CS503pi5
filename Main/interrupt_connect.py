@@ -109,18 +109,18 @@ def get_distance(w_turns):
 def update_cord(delta_left, delta_right):
     s_left = delta_left
     s_right = delta_right
-#     print('delta_left: ', s_left, ' delta_right: ', s_right)
+    #   print('delta_left: ', s_left, ' delta_right: ', s_right)
     w_base = 19 # distance from end to end of the board
     d_x = (s_left+s_right)/2
-#     print('d_x', d_x)
+    #     print('d_x', d_x)
     d_theta = np.arctan2((s_right-s_left)/2, w_base/2) # is radians
-#     print('change in theta', d_theta)
+    #     print('change in theta', d_theta)
     global curr_odom
     x_cord,y_cord,theta = curr_odom
     theta = theta + d_theta  
     x_cord = x_cord + d_x*np.cos(theta)
     y_cord = y_cord + d_x*np.sin(theta)
-#     print('npsin theta', np.sin(theta))
+    #     print('npsin theta', np.sin(theta))
 
     curr_odom = [x_cord, y_cord, theta]
 
@@ -151,7 +151,7 @@ def run_straight_x(goal, ref):
     r_pwm = get_r_pwm(r_velocity)
 
     s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
-#     print(s)
+    print(s)
     ser.write(s)
 
     # while we havent reached out goal
@@ -289,9 +289,8 @@ def run_straight_y(goal, ref):
 
 
 def turn_left(goal):
-
     # send inital velocities to arduino of wait to set the wheel pwms
-    C = 14
+    C = 2/1
     velocity_ref = 5
     l_ref_velocity, r_ref_velocity = desired_velocity(C, velocity_ref)
     l_velocity = l_ref_velocity
@@ -300,7 +299,7 @@ def turn_left(goal):
     r_pwm = get_r_pwm(r_velocity)
 
     s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
-    print(s)
+    # print(s)
     ser.write(s)
 
     # while we havent reached out goal
@@ -311,6 +310,7 @@ def turn_left(goal):
     # get a pd error from new thetas
     # update new velocities
     # send new pwms to achieve those velocities to arduino
+    global curr_odom
     while (curr_odom[2] < goal):
         # wait 
         poll_time = 0.05 #in seconds
@@ -333,28 +333,6 @@ def turn_left(goal):
         # update odometer x,y,theta
         update_cord(delta_left, delta_right)
 
-        # get pd error from updated thetas
-        curr_theta = curr_odom[2]
-        #approx_velocity = PD_error(curr_theta, 0, K=.5, B=0.1)
-
-        # # change velocity according to pd error
-        # if (r_velocity + approx_velocity) > get_r_cps(160) or (r_velocity + approx_velocity) < get_r_cps(120):
-        #     pass
-        # else:
-        #     r_velocity = r_velocity + approx_velocity
-        # if (l_velocity - approx_velocity) > get_l_cps(160) or (l_velocity + approx_velocity) < get_r_cps(120):
-        #     pass
-        # else:
-        #     l_velocity = l_velocity - approx_velocity
-        #r_velocity = r_velocity + approx_velocity
-        #l_velocity = l_velocity - approx_velocity
-
-        # send the new pwms
-        l_pwm = get_l_pwm(l_velocity)
-        r_pwm = get_r_pwm(r_velocity)
-
-        s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
-        ser.write(s)
 
 def stop():
     i = 0
@@ -454,9 +432,8 @@ def run_straight_x_visual(goal, ref):
 if __name__ == "__main__":
     time.sleep(4)
     ser.flushInput()
-    run_straight_x(90,0)
-#     turn_left(np.pi/2)
-#     curr_odom = [0,0,0]
+    run_straight_x(110,0)
+    turn_left(np.pi/2)
 #     run_straight_y(2800,0)
 #     run_straight_x_visual(50,0)
     print(curr_odom)
