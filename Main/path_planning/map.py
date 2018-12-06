@@ -1,3 +1,4 @@
+from dijkstra import dijkstra, shortest_path
 # 0 - no connection
 # 1 - straight connection
 # 2 - curved connection right
@@ -40,10 +41,65 @@ thirty = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,5,0,0]
 thirtyone = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0]
 
 map = [zero,one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour,twentyfive,twentysix,twentyseven,twentyeight,twentynine,thirty,thirtyone]
+weighted_map = []
+weightless_map = []
+wm = {}
 stateMachine = []
 sequence = []
 states = 0
 repeating = False
+
+def weight_map():
+    global weightless_map, weighted_map, map
+    for x in range(32):
+        l = []
+        for y in range(32):
+            if (map[x][y] == 0):
+                l.append(0)
+            elif (map[x][y] == 1):
+                l.append(1)
+            elif (map[x][y] == 2):
+                l.append(1)
+            elif (map[x][y] == 3):
+                l.append(10000)
+            elif (map[x][y] == 4):
+                l.append(1)
+            elif (map[x][y] == 5):
+                l.append(1)
+            else:
+                l.append(10000)
+        weighted_map.append(l)
+    x = 0
+    y = 0
+    l = []
+    for x in range(32):
+        l = []
+        for y in range(32):
+            if (map[x][y] == 0):
+                l.append(0)
+            elif (map[x][y] == 1):
+                l.append(1)
+            elif (map[x][y] == 2):
+                l.append(1)
+            elif (map[x][y] == 3):
+                l.append(1)
+            elif (map[x][y] == 4):
+                l.append(1)
+            elif (map[x][y] == 5):
+                l.append(1)
+            else:
+                l.append(1)
+        weightless_map.append(l)
+
+def weightedToDict():
+    global weight_map, wm
+    for x in range(32):
+        row = {}
+        for y in range(32):
+            if (map[x][y] != 0):
+                row[y] = weighted_map[x][y]
+        wm[x] = row           
+
 
 def printInstructions():
     global sequence, repeating
@@ -62,7 +118,7 @@ def printInstructions():
         elif (i == 5):
             print("intersection, turn right")
         else:
-            print("intersection, turtn left")
+            print("intersection, turn left")
     if (repeating):
         print("repeat")
     else:
@@ -119,22 +175,40 @@ def find_shortest_path(start, end, path=[]):
                     shortest = newpath
     stateMachine = shortest
     return shortest
-# if __name__ == "__main__":
-#     if (isRepeating() == False):
-#         print("INVALID -- QUITTING")
-#         exit(0)
-#     getStateMachine()
-#     if (not stateMachineToInstructions()):
-#         print("INVALID STATE MACHINE")
-#     else:
-#         printInstructions()
 
 if __name__ == "__main__":
-    a = input("Start Node: ")
-    b = input("End Node: ")
-    print(find_shortest_path(a,b))
-    states = len(stateMachine)
-    if (not stateMachineToInstructions()):
-        print("INVALID STATE MACHINE")
+    print("Modes: a - given state machine, b - shortest path distance, c - shortest path weighted")
+    ans = raw_input("Select mode: ")
+    if (ans == "a"):
+        if (isRepeating() == False):
+            print("INVALID -- QUITTING")
+            exit(0)
+        getStateMachine()
+        if (not stateMachineToInstructions()):
+            print("INVALID STATE MACHINE")
+        else:
+            printInstructions()
+    elif (ans == "b"):
+        a = input("Start Node: ")
+        b = input("End Node: ")
+        print(find_shortest_path(a,b))
+        states = len(stateMachine)
+        if (not stateMachineToInstructions()):
+            print("INVALID STATE MACHINE")
+        else:
+            printInstructions()
+    elif (ans == "c"):
+        weight_map()
+        weightedToDict()
+        a = input("Start Node: ")
+        b = input("End Node: ")
+        print(shortest_path(wm, a, b))
+        stateMachine = shortest_path(wm,a,b)
+        states = len(stateMachine)
+        if (not stateMachineToInstructions()):
+            print("INVALID STATE MACHINE")
+        else:
+            printInstructions()
     else:
-        printInstructions()
+        print("incorrect input - failure")
+        exit(0)
