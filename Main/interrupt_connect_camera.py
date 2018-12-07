@@ -300,7 +300,7 @@ def run_straight_x_visual(goal, ref):
 
         visual_error = get_visual_error()
 
-        approx_velocity = PD_error_camera(visual_error, ref=0, K=.5, B=0.1)
+        approx_velocity = PD_error_camera(visual_error, camera_ref=0, K=.5, B=0.1)
 
         r_velocity = r_velocity + approx_velocity
         l_velocity = l_velocity - approx_velocity
