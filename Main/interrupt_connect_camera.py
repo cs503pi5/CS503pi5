@@ -11,6 +11,8 @@ from picamera import PiCamera
 import sys
 sys.path.append('/home/gandalf_student/CS503pi5/Main/camera')
 from camera import get_visual_error
+# all camera does is return an error, py tracks everything else
+
 
 port = '/dev/ttyACM0'
 ser = serial.Serial(port, 115200)
@@ -304,8 +306,8 @@ def run_straight_x_visual(goal, ref):
 
         approx_velocity = PD_error_camera(visual_error, camera_ref=0, K=.5, B=0.1)
 
-        r_velocity = r_velocity + approx_velocity
-        l_velocity = l_velocity - approx_velocity
+        r_velocity = r_velocity - approx_velocity
+        l_velocity = l_velocity + approx_velocity
 
         # send the new pwms
         l_pwm = get_l_pwm(l_velocity)

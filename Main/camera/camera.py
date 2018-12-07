@@ -19,7 +19,7 @@ camera_midpoint = 320
 white_offset = 100
 tolerance = 40
 width = 400 #will change
-
+prev_error = 0.0 
 def isYellow(array):
     if (array[0] < 200 and array[1] > 200 and array[2] > 200):
         return True
