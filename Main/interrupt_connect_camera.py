@@ -17,7 +17,7 @@ from camera import get_visual_error
 port = '/dev/ttyACM0'
 ser = serial.Serial(port, 115200)
 # arduino needs time to set up serial
-time.sleep(4)
+# time.sleep(4)
 # x,y,theta readings of the car
 curr_odom = [0,0,0]
 
@@ -322,5 +322,5 @@ if __name__ == "__main__":
     ser.flushInput()
     # run_straight_x_visual(50,0)
     print(get_visual_error())
-    print(curr_odom)
-    stop()
+    # print(curr_odom)
+    # stop()
