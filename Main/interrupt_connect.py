@@ -11,7 +11,7 @@ from camera import get_error
 
 port = '/dev/ttyACM0'
 ser = serial.Serial(port, 115200)
- # arduino needs time to set up serial
+# arduino needs time to set up serial
 
 # x,y,theta readings of the car
 curr_odom = [0,0,0]
