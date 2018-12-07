@@ -54,8 +54,8 @@ def get_visual_error():
     white = [-1,-1]
 
     # find the yellow pixel 
-    for y in range(69,0,-1): #for every row
-        for x in range(320,0,-1): # for every column
+    for y in range(69,0,-10): #for every row
+        for x in range(320,0,-10): # for every column
             if (isRed(crop[y,x])):
                 red_seen = True
             if (isYellow(crop[y,x])):
