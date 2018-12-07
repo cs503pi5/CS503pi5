@@ -9,8 +9,8 @@ from picamera.array import PiRGBArray
 from picamera import PiCamera
 
 import sys
-sys.path.insert(0, '/home/gandalf_student/CS503pi5/camera')
-from camera import get_error
+sys.path.append('/home/gandalf_student/CS503pi5/Main/camera')
+from camera import get_visual_error
 
 port = '/dev/ttyACM0'
 ser = serial.Serial(port, 115200)
@@ -298,7 +298,7 @@ def run_straight_x_visual(goal, ref):
 
         update_curr_odom()
 
-        visual_error = get_error()
+        visual_error = get_visual_error()
 
         approx_velocity = PD_error_camera(visual_error, ref=0, K=.5, B=0.1)
 

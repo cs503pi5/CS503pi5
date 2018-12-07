@@ -91,5 +91,5 @@ def get_visual_error():
 
 if __name__ == "__main__":
     while(1):
-        get_error()
+        get_visual_error()
 
