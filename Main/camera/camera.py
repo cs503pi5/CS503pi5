@@ -41,7 +41,10 @@ def PD_error_camera(camera_error, camera_ref, K = 1, B = 0.01):
 def get_visual_error():
     global width
     red_seen = False
+    print(time.time())
     camera.capture(rawCapture, format="bgr")
+    print('capture image,',time.time())
+
     image = rawCapture.array
     # 345-275 = 70
     crop = image[275:345,0:640]
@@ -49,7 +52,7 @@ def get_visual_error():
     # init the yellow and white cord to -1,-1 
     yellow = [-1,-1]
     white = [-1,-1]
-    
+
     # find the yellow pixel 
     for y in range(69,0,-1): #for every row
         for x in range(320,0,-1): # for every column
@@ -58,14 +61,14 @@ def get_visual_error():
             if (isYellow(crop[y,x])):
                 yellow = [y,x]
                 break
-
+    print('after finding yellow', time.time())
     # search for th white pixel in same row of yellow. theoretical should always find one
     line = yellow[0]
     for x in range(320,640):
         if (isWhite(crop[line,x])):
             white = [line,x]
             break
-
+    print('after find white', time.time())
     midpoint = (white[1] + yellow[1])/2
 
     # if no yellow, pad white by width/2 to be the midponit 
@@ -86,6 +89,7 @@ def get_visual_error():
         print(error)
 
     rawCapture.truncate(0)
+    print('right after truncate', time.time())
     return error
 
 if __name__ == "__main__":
