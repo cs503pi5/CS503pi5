@@ -14,8 +14,8 @@ from camera import get_visual_error
 # all camera does is return an error, py tracks everything else
 
 
-port = '/dev/ttyACM0'
-ser = serial.Serial(port, 115200)
+# port = '/dev/ttyACM0'
+# ser = serial.Serial(port, 115200)
 # arduino needs time to set up serial
 # time.sleep(4)
 # x,y,theta readings of the car
