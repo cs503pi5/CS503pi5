@@ -7,6 +7,9 @@ import time
 import sys
 from picamera.array import PiRGBArray
 from picamera import PiCamera
+
+import sys
+sys.path.insert(0, '/home/gandalf_student/CS503pi5/camera')
 from camera import get_error
 
 port = '/dev/ttyACM0'
