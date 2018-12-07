@@ -321,8 +321,9 @@ def run_straight_x_visual(goal, ref):
 if __name__ == "__main__":
     ser.flushInput()
     # run_straight_x_visual(50,0)
-    print(time.localtime())
-    print(get_visual_error())
-    print(time.localtime())
+    for x in range(0,9):
+        a = time.time()
+        print(get_visual_error())
+        print(time.time() -a)
     # print(curr_odom)
     # stop()
