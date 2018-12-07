@@ -90,7 +90,6 @@ def get_visual_error():
 
     rawCapture.truncate(0)
     print('right after truncate', time.time()-a)
-    cv2.imwrite('view_im.jpg',image)
     return error
 
 if __name__ == "__main__":
