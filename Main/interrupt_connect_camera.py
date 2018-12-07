@@ -1,4 +1,4 @@
-bimport serial
+import serial
 import time
 import numpy as np
 import cv2
@@ -7,7 +7,7 @@ import time
 import sys
 from picamera.array import PiRGBArray
 from picamera import PiCamera
-from camera import get_error
+#from camera import get_error
 
 port = '/dev/ttyACM0'
 ser = serial.Serial(port, 115200)
@@ -44,6 +44,7 @@ def PD_error_camera(camera_error, camera_ref, K, B):
     global prev_error
     cam_ddot = -K*(camera_error - camera_ref) - B*(camera_error-prev_error)
     prev_error = camera_error
+    print(camera_error)
     return cam_ddot
 
 # return velocity_left_wheel,velocity_right_wheel to achieve v_ref with that ratio
@@ -122,8 +123,8 @@ def run_straight_x_visual(ref):
 
         # get pd error from updated thetas
         # curr_theta = curr_odom[2]
-        curr_visual_error = get_error()
-        approx_velocity = PD_error(curr_visual_error, ref, K=.5, B=0.1)
+    curr_visual_error = get_error()
+    approx_velocity = PD_error_camera(curr_visual_error, ref, K=10, B=0.01)
 
         # # change velocity according to pd error
         # if (r_velocity + approx_velocity) > get_r_cps(160) or (r_velocity + approx_velocity) < get_r_cps(120):
@@ -135,15 +136,14 @@ def run_straight_x_visual(ref):
         #     pass
         # else:
         #     l_velocity = l_velocity - approx_velocity
-        r_velocity = r_velocity - approx_velocity
-        l_velocity = l_velocity + approx_velocity
-
+    r_velocity = r_velocity - approx_velocity
+    l_velocity = l_velocity + approx_velocity
         # send the new pwms
-        l_pwm = get_l_pwm(l_velocity)
-        r_pwm = get_r_pwm(r_velocity)
+    l_pwm = get_l_pwm(l_velocity)
+    r_pwm = get_r_pwm(r_velocity)
 
-        s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
-        ser.write(s)
+    s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
+    ser.write(s)
 
 ## CAMERA STUFF
 camera = PiCamera()
@@ -214,11 +214,13 @@ def get_error():
 		
 		
 if __name__ == "__main__":
-    ser.flushInput()
+    while 1:
+        ser.flushInput()
 #     run_straight_x(50,0)
 #     turn_left(np.pi/2)
 #     curr_odom = [0,0,0]
 #     run_straight_y(2800,0)
-    run_straight_x_visual(50,0)
-    print(curr_odom)
-    stop()
+        run_straight_x_visual(0)
+#    print(curr_odom)
+#    stop()
+

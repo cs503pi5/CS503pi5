@@ -35,7 +35,7 @@ def PD_error_camera(camera_error, camera_ref, K = 1, B = 0.01):
     global prev_error
     cam_ddot = -K*(camera_error - camera_ref) - B*(camera_error-prev_error)
     prev_error = camera_error
-    return cam_ddot  
+    return cam_ddot
 
 def get_error():
     global width
@@ -58,7 +58,7 @@ def get_error():
         if (isWhite(crop[line,x])):
             white = [line,x]
             break
-      
+
     midpoint = (white[1] + yellow[1])/2
 
 
@@ -71,14 +71,14 @@ def get_error():
         width = white[1] - yellow[1]
 
     if (abs(error) > 100):
-        print("IGNORE")
+        print("IGNORE "+ str(error))
     else:
         print(error)
 
     rawCapture.truncate(0)
-
     return error
 
 if __name__ == "__main__":
     while(1):
         get_error()
+
