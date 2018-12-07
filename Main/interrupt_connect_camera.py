@@ -25,6 +25,8 @@ r_w_count_prev = 0
 
 # keep track of previous theta for pd error and 
 theta_prev = 0.0
+prev_error = 0.0
+
 
 def get_l_pwm(v_cps):
 	return int( (v_cps + 12)/0.148)
