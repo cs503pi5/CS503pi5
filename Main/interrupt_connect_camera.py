@@ -271,7 +271,7 @@ def run_straight_x_visual(goal, ref):
 
    # send inital velocities to arduino of wait to set the wheel pwms
     C = 1
-    velocity_ref = 5
+    velocity_ref = 10
     l_ref_velocity, r_ref_velocity = desired_velocity(C, velocity_ref)
     l_velocity = l_ref_velocity
     r_velocity = r_ref_velocity
