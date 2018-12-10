@@ -327,3 +327,5 @@ if __name__ == "__main__":
         # print(time.time() -a)
     # print(curr_odom)
     stop()
+
+# vref =10, k=0.03, b=0.01
