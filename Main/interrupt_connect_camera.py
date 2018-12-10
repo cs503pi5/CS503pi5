@@ -304,7 +304,7 @@ def run_straight_x_visual(goal, ref):
 
         visual_error = get_visual_error()
         print('pixels off',visual_error)
-        approx_velocity = PD_error_camera(visual_error, camera_ref=0, K=.01, B=0.001)
+        approx_velocity = PD_error_camera(visual_error, camera_ref=0, K=.01, B=0.01)
         print('the velocity change', approx_velocity)
         r_velocity = r_velocity - approx_velocity
         l_velocity = l_velocity + approx_velocity
@@ -320,7 +320,7 @@ def run_straight_x_visual(goal, ref):
 		
 if __name__ == "__main__":
     ser.flushInput()
-    # run_straight_x_visual(100,0)
+    run_straight_x_visual(100,0)
     # for x in range(0,9):
         # a = time.time()
     print(get_visual_error())
