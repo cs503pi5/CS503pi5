@@ -320,7 +320,7 @@ def run_straight_x_visual(goal, ref):
 		
 if __name__ == "__main__":
     ser.flushInput()
-    run_straight_x_visual(100,0)
+    # run_straight_x_visual(100,0)
     # for x in range(0,9):
         # a = time.time()
     print(get_visual_error())
