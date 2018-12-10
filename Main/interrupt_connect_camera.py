@@ -86,7 +86,7 @@ def get_wheel_turns():
 		l_w_count_prev = l_w_count
 		r_w_count_prev = r_w_count 
 
-		print ('left spoke and right spoke',l_spoke_turned,r_spoke_turned)
+		# print ('left spoke and right spoke',l_spoke_turned,r_spoke_turned)
 		return l_spoke_turned,r_spoke_turned
 
 # return a distance for a given number of wheel turns     
@@ -305,7 +305,7 @@ def run_straight_x_visual(goal, ref):
         visual_error = get_visual_error()
         print('pixels off',visual_error)
         approx_velocity = PD_error_camera(visual_error, camera_ref=0, K=.01, B=0.01)
-        print('the velocity change', approx_velocity)
+        # print('the velocity change', approx_velocity)
         r_velocity = r_velocity - approx_velocity
         l_velocity = l_velocity + approx_velocity
 

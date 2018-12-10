@@ -92,13 +92,15 @@ def get_visual_error():
     if (yellow[0] == -1 and yellow[1] == -1):
         midpoint = white[1] - (width/2)
 
-
     error = camera_midpoint - midpoint
 
     if (white[0] == -1 and white[1]== -1):
         midpoint = yellow[1] - (width/2)
     
     error = camera_midpoint - midpoint
+
+    print('yellow: ', yellow, ", white: ", white, ', midpoint: ', midpoint, ', error: ', error)
+
 
     # if (yellow[0] != -1):
     #     width = white[1] - yellow[1]
