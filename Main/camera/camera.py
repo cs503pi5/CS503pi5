@@ -62,6 +62,10 @@ def get_visual_error():
     crop = image[40:125,0:640]
     cv2.imwrite('crop' + str(img_count) + '.jpg', crop)
 
+   # cv2.imwrite('orig.jpg', image)
+   # crop = image[40:125,0:640]
+   # cv2.imwrite('crop.jpg', crop)
+
     # init the yellow and white cord to -1,-1 
     yellow = [-1,-1]
     white = [-1,-1]
@@ -115,13 +119,13 @@ if __name__ == "__main__":
     i = 0
     while(1):
         error = get_visual_error()
-        cam_ddot = PD_error_camera(error, 0, 0.05, 0.4)
+        cam_ddot = PD_error_camera(error, 0, 0.05, 0.3)
         print("Visuals" ,str(error)+ ' , ' +str(cam_ddot))
         pwm_error = PD_to_PWM(cam_ddot)
         i = i+1
         if i > 5:
-            if (abs(pwm_error) < 40):
-                run_straight_x_visual(pwm_error)
-            else:
-                run_straight()
+#            if (abs(pwm_error) < 40):
+            run_straight_x_visual(pwm_error)
+#            else:
+#                run_straight()
 
