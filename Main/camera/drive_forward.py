@@ -17,7 +17,7 @@ def get_l_pwm(v_cps):
 	return int( (v_cps + 12)/0.148)
 
 def get_r_pwm(v_cps):
-	return int( (v_cps + 15.2)/0.155)  # 15.2, 0.169
+	return int( (v_cps + 15.2)/0.169)  # 15.2, 0.169
 
 def desired_velocity(c_ratio, v_ref):
 	v_right = (2*c_ratio*v_ref)/(c_ratio + 1)
