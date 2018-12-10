@@ -306,12 +306,12 @@ def run_straight_x_visual(goal, ref):
         print('pixels off',visual_error)
         approx_velocity = PD_error_camera(visual_error, camera_ref=0, K=.01, B=0.01)
         # print('the velocity change', approx_velocity)
-        r_velocity = r_velocity - approx_velocity
-        l_velocity = l_velocity + approx_velocity
+        # r_velocity = r_velocity - approx_velocity
+        # l_velocity = l_velocity + approx_velocity
 
         # send the new pwms
-        l_pwm = get_l_pwm(l_velocity)
-        r_pwm = get_r_pwm(r_velocity)
+        l_pwm = get_l_pwm(l_velocity + approx_velocity)
+        r_pwm = get_r_pwm(r_velocity - approx_velocity)
 
         s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
         # print(s)

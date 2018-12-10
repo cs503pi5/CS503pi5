@@ -99,7 +99,7 @@ def get_visual_error():
     
     error = camera_midpoint - midpoint
 
-    print('yellow: ', yellow, ", white: ", white, ', midpoint: ', midpoint, ', error: ', error)
+    print('yellow: ' + str(yellow) + ", white: " + str(white) +  ', midpoint: '+ str(midpoint) + ', error: ' + str(error))
 
 
     # if (yellow[0] != -1):
