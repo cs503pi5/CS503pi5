@@ -129,9 +129,9 @@ void turn(int radius, int lpwm ,int rpwm) //输入转动的角度
 {
   double delta_left_t = delta_left; //initialize the distance of left wheel
   double delta_right_t = delta_right; //initialize the distance of right wheel
-  double turning_radius = 10; //set the radius of turning
-  double left_wheel_r = 0; //set radius of left is 0 cm.
-  double right_wheel_r = 10; //set radius of right is 10 cm.
+  double wheeldistance = 19.05; //set the radius of turning
+  double left_wheel_r = 9.14; //set radius of left is 0 cm.
+  double right_wheel_r = 28.19; //set radius of right is 10 cm.
   double turn_left_c = 2*3.14159*left_wheel_r*(radius/360);//the length of walking on the left wheel when turning
   double turn_right_c = 2*3.14159*right_wheel_r*(radius/360);//the length of walking on the right wheel when turning
   double lenght_l;
@@ -139,7 +139,8 @@ void turn(int radius, int lpwm ,int rpwm) //输入转动的角度
   double expect_left_v = curr_left_wheel_cps; //set basic speed is the curr-left speed
   double expect_right_v;
   
-  while(1)
+
+while(1)
   {
     
     update_wheels(); //update the distance and parameters
@@ -149,6 +150,7 @@ void turn(int radius, int lpwm ,int rpwm) //输入转动的角度
     if (expect_right_v-curr_right_wheel_cps < -1.0)//if expected speed is smaller than current speed, slow down the speed
     {
       if(expect_right_v-curr_right_wheel_cps < -3.0)//if too small then decrease rpwm more
+      {
         rpwm -= 6;
         }
        else
@@ -167,13 +169,14 @@ void turn(int radius, int lpwm ,int rpwm) //输入转动的角度
           rpwm += 3;
           }
       }
-    if(lenght_l <= 2.0 &&lenght_r<=2.0)//if accuracy of turning satisfy, then break 
+    if(lenght_l <= 2.0 &&lenght_r<=2.0)//if accuracy of turning satisfy, then break
     {
       break;
       }
       set_lwheel(lpwm);
       set_rwheel(rpwm);
     }
+  
   }
  
 void setup(){
