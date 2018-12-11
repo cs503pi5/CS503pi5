@@ -58,9 +58,9 @@ def get_visual_error():
     # 345-275 = 70
     img_count += 1
 
-    cv2.imwrite('orig' + str(img_count) + '.jpg', image)
+    cv2.imwrite('imgs/orig' + str(img_count) + '.jpg', image)
     crop = image[40:125,0:640]
-    cv2.imwrite('crop' + str(img_count) + '.jpg', crop)
+    cv2.imwrite('imgs/crop' + str(img_count) + '.jpg', crop)
 
    # cv2.imwrite('orig.jpg', image)
    # crop = image[40:125,0:640]
