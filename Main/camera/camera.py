@@ -114,6 +114,10 @@ def get_visual_error():
 
     rawCapture.truncate(0)
 #    print('right after truncate', time.time()-a)
+
+    camera.capture(rawCapture, format="bgr")
+    image = rawCapture.array
+    cv2.imwrite('VINCENT_NEITHER_PIC.jpg',image)
     return error
 
 
