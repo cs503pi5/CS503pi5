@@ -48,6 +48,7 @@ def get_visual_error():
     global img_count
     red_seen = False
     a = (time.time())
+
     camera.capture(rawCapture, format="bgr")
 
 #    print('capture image,',time.time()-a)
@@ -58,9 +59,9 @@ def get_visual_error():
     # 345-275 = 70
     img_count += 1
 
-    cv2.imwrite('imgs/orig' + str(img_count) + '.jpg', image)
+    # cv2.imwrite('imgs/orig' + str(img_count) + '.jpg', image)
     crop = image[40:125,0:640]
-    cv2.imwrite('imgs/crop' + str(img_count) + '.jpg', crop)
+    # cv2.imwrite('imgs/crop' + str(img_count) + '.jpg', crop)
 
    # cv2.imwrite('orig.jpg', image)
    # crop = image[40:125,0:640]
