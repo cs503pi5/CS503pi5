@@ -49,6 +49,8 @@ def get_visual_error():
     red_seen = False
     a = (time.time())
 
+    rawCapture.truncate(0)
+
     camera.capture(rawCapture, format="bgr")
 
 #    print('capture image,',time.time()-a)
