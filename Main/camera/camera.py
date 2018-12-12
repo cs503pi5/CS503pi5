@@ -61,9 +61,9 @@ def get_visual_error():
     # 345-275 = 70
     img_count += 1
 
-    # cv2.imwrite('imgs/orig' + str(img_count) + '.jpg', image)
+    cv2.imwrite('imgs/orig' + str(img_count) + '.jpg', image)
     crop = image[40:125,0:640]
-    # cv2.imwrite('imgs/crop' + str(img_count) + '.jpg', crop)
+    cv2.imwrite('imgs/crop' + str(img_count) + '.jpg', crop)
 
    # cv2.imwrite('orig.jpg', image)
    # crop = image[40:125,0:640]
@@ -88,6 +88,7 @@ def get_visual_error():
         if (isWhite(crop[line,x])):
             white = [line,x]
             break
+
 #    print('after find white', time.time()-a)
     midpoint = (white[1] + yellow[1])/2
 
