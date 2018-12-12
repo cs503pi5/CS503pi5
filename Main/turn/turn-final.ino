@@ -125,15 +125,15 @@ void update_wheels()
   }
 }
 
-void turn(int radius, int lpwm ,int rpwm) //输入转动的角度
+void turn(int degree, int lpwm ,int rpwm) //input degree
 {
   double delta_left_t = delta_left; //initialize the distance of left wheel
   double delta_right_t = delta_right; //initialize the distance of right wheel
   double wheeldistance = 19.05; //set the radius of turning
   double left_wheel_r = 9.14; //set radius of left is 0 cm.
   double right_wheel_r = 28.19; //set radius of right is 10 cm.
-  double turn_left_c = 2*3.14159*left_wheel_r*(radius/360);//the length of walking on the left wheel when turning
-  double turn_right_c = 2*3.14159*right_wheel_r*(radius/360);//the length of walking on the right wheel when turning
+  double turn_left_c = 2*3.14159*left_wheel_r*(degree/360);//the length of walking on the left wheel when turning
+  double turn_right_c = 2*3.14159*right_wheel_r*(degree/360);//the length of walking on the right wheel when turning
   double lenght_l;
   double lenght_r;
   double expect_left_v = curr_left_wheel_cps; //set basic speed is the curr-left speed
@@ -215,9 +215,11 @@ void loop() {
   }
   update_wheels();
   update_cord();
-  set_lwheel(120);//first, go straight
-  set_rwheel(120);
-  turn(90, 120 ,120); //turning
+  turn(90, 130 ,140); //turning
+  
+  set_lwheel(0);//first, go straight
+  set_rwheel(0);
+  delay(5000);
   String cord_vals = String(x_cord) + "," + String(y_cord) + "," + String(theta);
 
 }
