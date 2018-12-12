@@ -20,9 +20,8 @@ rawCapture = PiRGBArray(camera)
 rawCapture.truncate(0)
 #640 width 480 height
 camera_midpoint = 320
-white_offset = 100
 tolerance = 40
-width = 350 #will change
+width = 350 # width of road; roughly 350-400 will change
 prev_error = 0.0 
 
 def isYellow(array):
@@ -43,6 +42,15 @@ def isRed(array):
 #     prev_error = camera_error
 #     return cam_ddot
 
+
+# take picture
+# crop image
+# find yellow pixel; search left and the search right half
+# if yellow is found, search for white on same line
+#   if white is found good
+#   else pad the yellow
+# else that we dont see yellow, ensure we find white and padd from on that
+
 def get_visual_error():
     global width
     global img_count
@@ -57,13 +65,14 @@ def get_visual_error():
 
     image = rawCapture.array
 
-
     # 345-275 = 70
     img_count += 1
-
-    cv2.imwrite('imgs/orig' + str(img_count) + '.jpg', image)
-    crop = image[40:125,0:640]
-    cv2.imwrite('imgs/crop' + str(img_count) + '.jpg', crop)
+    crop_start = 40
+    crop_end = 125
+    size_of_crop = crop_end-crop_end
+    # cv2.imwrite('imgs/orig' + str(img_count) + '.jpg', image)
+    crop = image[crop_start:crop_end,0:640]
+    # cv2.imwrite('imgs/crop' + str(img_count) + '.jpg', crop)
 
    # cv2.imwrite('orig.jpg', image)
    # crop = image[40:125,0:640]
@@ -72,59 +81,64 @@ def get_visual_error():
     # init the yellow and white cord to -1,-1 
     yellow = [-1,-1]
     white = [-1,-1]
-
+    midpoint = NULL
     # find the yellow pixel 
-    for y in range(69,0,-10): #for every row
-        for x in range(320,0,-10): # for every column
-            if (isRed(crop[y,x])):
-                red_seen = True
-            if (isYellow(crop[y,x])):
-                yellow = [y,x]
-                break
-#    print('after finding yellow', time.time()-a)
+    def find_yellow():
+        for y in range(size_of_crop-1,0,-2): #for every row
+            for x in range(320,0,-10): # for every column
+                if (isRed(crop[y,x])):
+                    red_seen = True
+                if (isYellow(crop[y,x])):
+                    yellow = [y,x]
+                    return yellow
+        if yellow == [-1,-1]:
+            for y in range(size_of_crop-1,0,-2): #for every row
+                for x in range(320,640,10): # for every column
+                    if (isRed(crop[y,x])):
+                    red_seen = True
+                 if (isYellow(crop[y,x])):
+                    yellow = [y,x]
+                    return yellow
+        else:
+            return [-1,-1]
+    yellow = find_yellow    
+    # print('after finding yellow', time.time()-a)
     # search for th white pixel in same row of yellow. theoretical should always find one
-    line = yellow[0]
-    for x in range(320,640):
-        if (isWhite(crop[line,x])):
-            white = [line,x]
-            break
 
+    # if yellow is found, find the white line in the right half
+    if yellow != [-1,-1]:
+        line = yellow[0]
+        for x in range(320,640):
+            if (isWhite(crop[line,x])):
+                white = [line,x]
+                break
+        # if white is found we gucci
+        if white != [-1,-1]:
+            midpoint = (white[1] + yellow[1])/2
+            error = camera_midpoint - midpoint
+            return error
+        # white not found, pad yellow
+        else:
+            midpoint = yellow[1] + (width/2)
+            error = camera_midpoint - midpoint
+            return error
 #    print('after find white', time.time()-a)
-    midpoint = (white[1] + yellow[1])/2
-
-    # if no yellow, pad white by width/2 to be the midponit 
-    if (yellow[0] == -1 and yellow[1] == -1):
-        midpoint = white[1] - (width/2)
-
-    error = camera_midpoint - midpoint
-
-    if (white[0] == -1 and white[1]== -1):
-        midpoint = yellow[1] - (width/2)
+    # no yellow found, find white from the top of the crop on the right side. should only ever be on the right side
+    else:
+        for y in range(size_of_crop-1,0,-2): #for every row
+            for x in range(320,640,10): # for every column
+                if (isWhite(crop[y,x])):
+                    white = [y,x]
+                    midpoint = white[1] - (width/2)
+                    error = camera_midpoint - midpoint
+                    return error
     
-    error = camera_midpoint - midpoint
-
     print('yellow: ' + str(yellow) + ", white: " + str(white) +  ', midpoint: '+ str(midpoint) + ', error: ' + str(error))
 
 
-    # if (yellow[0] != -1):
-    #     width = white[1] - yellow[1]
-
-	# PD_error_camera(error, camera_ref = 0, K = 1, B = 0.1)
-		
-#    if (abs(error) > 100):
-#        print("IGNORE, meaning camera found white in the left half  ")
-#    else:
-#        print(error)
-
     rawCapture.truncate(0)
-#    print('right after truncate', time.time()-a)
 
-    camera.capture(rawCapture, format="bgr")
-    image = rawCapture.array
-    cv2.imwrite('VINCENT_NEITHER_PIC.jpg',image)
-    return error
-
-
+    
 if __name__ == "__main__":
     i = 0
     while(1):
