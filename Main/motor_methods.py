@@ -95,9 +95,10 @@ def hard_right():
         time_wait(.1)
     stop()
 
+# follow the lane
 def lane_follow():
     C = 1
-    velocity_ref = 5
+    velocity_ref = 10 # default speed is 10
     l_ref_velocity, r_ref_velocity = desired_velocity(C, velocity_ref)
     l_velocity = l_ref_velocity
     r_velocity = r_ref_velocity
@@ -107,9 +108,17 @@ def lane_follow():
     s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
     print(s)
     ser.write(s)
+    # while not at a stop sign
+    # wait every 100ms, take a picture, crop it, and find the visual error
+    # pass it through the pd controller and add it each side correspondingly
 
     is_at_stop_sign = False
     while (not is_at_stop_sign):
+
+        time_start = time.time()
+        while( (time.time() - time_start) < 0.1):
+            pass
+        
         image = take_picture()
         crop_red = crop_image_for_stop(image)
         is_at_stop_sign = at_stop_sign(crop_red)

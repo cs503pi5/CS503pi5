@@ -12,6 +12,7 @@
 # 11 - intersection curved connection right
 # 12 - intersection curved connection left
 
+# contains the neighbors each state can go to. The index of value in the list == the actual state number 
 one = [0,0,0,6,0,0,0,0,0,0,0,4]
 two = [0,0,0,0,5,0,0,0,4,0,0,0]   
 three = [0,0,0,0,0,0,0,0,5,0,0,6]
@@ -33,22 +34,24 @@ stateMachine = []
 #sequence = []
 #states = 0
 
+# returns shortest list of states/numberss to get from state to end state
 def find_shortest_path(start, end, path=[]):
-    global map,stateMachine
-    path = path + [start]
-    if start == end:
+    global map,stateMachine # map is a list of state's neighbors list, 
+    path = path + [start] # add start state's number to the path
+    if start == end: # return if start == end
         stateMachine = path
         return path
     shortest = None
-    neighbors = [x for x in range(len(map[start])) if map[start][x] != 0]
+    neighbors = [x for x in range(len(map[start])) if map[start][x] != 0] # for each element in the start states neighbor list, add its index if != 0
     for node in neighbors:
         if node not in path:
-            newpath = find_shortest_path(node, end, path)
+            newpath = find_shortest_path(node, end, path) # recurse down on each neighbor
             if newpath:
                 if not shortest or len(newpath) < len(shortest):
                     shortest = newpath
-    stateMachine = shortest
+    stateMachine = shortest # statemachine == shortest at the end of it
     return shortest
+
 
 def statesToInstructions(path):
     global map
