@@ -1,5 +1,10 @@
 from path_planner import *
 from motor_methods import *
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+
+
+
 
 def sequenceInterpreter(s):
     if (s == 1):
@@ -75,7 +80,7 @@ def sequenceInterpreter(s):
 
 
 if __name__ == "__main__":
-    # lane_follow()
+    lane_follow()
     # path = getPath()
     # for s in path:
     #     sequenceInterpreter(s)

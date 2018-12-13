@@ -31,9 +31,9 @@ def isBlack(array):
         return True
 
 
-def take_picture(rawCapture):
-    # global camera
-    # global rawCapture
+def take_picture():
+    global camera
+    global rawCapture
     rawCapture.truncate(0)
     camera.capture(rawCapture, format="bgr")
     image = rawCapture.array
