@@ -14,6 +14,8 @@ tolerance = 40
 fixed_width = 200
 prev_error = 0.0 
 
+
+
 def isYellow(array):
     if (array[0] < 200 and array[1] > 200 and array[2] > 200):
         return True
@@ -37,6 +39,7 @@ def take_picture():
     rawCapture.truncate(0)
     camera.capture(rawCapture, format="bgr")
     image = rawCapture.array
+    #cv2.imwrite('full.jpg',image)
     return(image)
 
 def crop_image_full_road(image):
@@ -47,8 +50,8 @@ def crop_image_full_road(image):
     return crop
 
 def crop_image_for_stop(image):
-    crop_start = 400
-    crop_end = 480
+    crop_start = 40
+    crop_end = 120
     size_of_crop = crop_end-crop_start
     crop = image[crop_start:crop_end,200:400]
     return crop
@@ -77,14 +80,14 @@ def find_yellow(crop):
         for x in range(320,0,-10): # for every column
             if (isYellow(crop[y,x])):
                 yellow = [y,x]
-                print(yellow)
+                print("yellow",yellow)
                 return yellow
     if yellow == [-1,-1]:
         for y in range(len(crop)-1,0,-2): #for every row
             for x in range(320,640,10): # for every column
                 if (isYellow(crop[y,x])):
                     yellow = [y,x]
-                    print(yellow)
+                    print("yellow",yellow)
                     return yellow
     return [-1,-1]
 
@@ -94,6 +97,7 @@ def find_white_from_yellow(crop, yellow):
     for x in range(320,640):
         if (isWhite(crop[line,x])):
             white = [line,x]
+            print("white", white)
             return white
     return white
 
@@ -103,40 +107,55 @@ def find_white(crop):
     for y in range(len(crop)-1,0,-2): #for every row
         for x in range(320,0,-10): # for every column
             if (isWhite(crop[y,x])):
+                print("white",white)
                 white = [y,x]
                 return white
     if white == [-1,-1]:
         for y in range(len(crop)-1,0,-2): #for every row
             for x in range(320,640,10): # for every column
                 if (isWhite(crop[y,x])):
+                    print("white",white)
                     white = [y,x]
                     return white
     return [-1,-1]
 
 def find_midpoint(crop):
-    cv2.imwrite('crop.jpg',crop)
-    fixed_width = 70
+    fixed_width_white = 150
+    fixed_width_yellow = 90
     yellow = find_yellow(crop)
 
     if (yellow[0] != -1):
         white = find_white_from_yellow(crop,yellow)
         if (white[0] != -1):
-            print("case 1")
-            midpoint = (white[1] + yellow[1])/2
-            print(midpoint)
-            return midpoint
+            if (yellow[1]<white[1]):
+                print("case 1")
+                midpoint = (white[1] + yellow[1])/2
+                print(midpoint)
+                return midpoint
+            else:
+                white = find_white(crop)
+                print("case 3")
+                midpoint = (white[1] - fixed_width_white)
+                print(midpoint)
+                return midpoint
         else:
             print("case 2")
-            midpoint = (yellow[1] + fixed_width)
+            midpoint = (yellow[1] + fixed_width_yellow)
             print(midpoint)
             return midpoint
 
     else:
         white = find_white(crop)
-        print("case 3")
-        midpoint = (white[1] - fixed_width)
-        print(midpoint)
-        return midpoint
+        if (white[0] != -1):
+            print("case 3")
+            midpoint = (white[1] - fixed_width_white)
+            print(midpoint)
+            return midpoint
+        else:
+            midpoint = 320
+            print("case 4")
+            print(midpoint)
+            return midpoint
 
 
 def calculate_error(midpoint):
@@ -151,21 +170,22 @@ def PD_error_camera(camera_error, camera_ref, K, B):
 
 
 if __name__ == "__main__":
-    #Yellow = []
-    image = take_picture()
-    crop = crop_image_for_stop(image)
-    flag = at_stop_sign(crop)
-    if (not flag): #green light
-        #continue
-        cropFull = crop_image_full_road(image)
-	mid = find_midpoint(cropFull)
-	err = calculate_error(mid)
-	PD_error_camera(err, camera_ref = 0, K = 0.015, B = 0.01)
-	#Yellow = find_yellow(cropFull)
-	#if (Yellow[0]!=-1):
-	#    find_white_from_yellow(cropFull, isYellow)
-	#else:
-	#    find_white(cropFull)
-    else: #red light
-        pass
-	#stop the car
+    # #Yellow = []
+    # image = take_picture()
+    # crop = crop_image_for_stop(image)
+    # flag = at_stop_sign(crop)
+    # if (not flag): #green light
+    #     #continue
+    #     cropFull = crop_image_full_road(image)
+	# mid = find_midpoint(cropFull)
+	# err = calculate_error(mid)
+	# PD_error_camera(err, camera_ref = 0, K = 0.015, B = 0.01)
+	# #Yellow = find_yellow(cropFull)
+	# #if (Yellow[0]!=-1):
+	# #    find_white_from_yellow(cropFull, isYellow)
+	# #else:
+	# #    find_white(cropFull)
+    # else: #red light
+    #     pass
+	# #stop the car
+    take_picture()

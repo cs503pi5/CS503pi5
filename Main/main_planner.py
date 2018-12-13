@@ -2,17 +2,17 @@ from path_planner import *
 from motor_methods import *
 from picamera.array import PiRGBArray
 from picamera import PiCamera
-from detectGreen import *
+#from detectGreen import isStop
 
 
 
 def sequenceInterpreter(s):
     if (s == 1):
         pass # 1 - straight connection (Actually never occurs)
-    elif (s == 2):
-        pass # 2 - straight curved connection right
+    elif (s == 2): # 2 - straight curved connection right
         hard_straight() # hard code go straight
         lane_follow() # lane follow
+        pass
         # right turn
         # lane follow
     elif (s == 3):
@@ -23,14 +23,30 @@ def sequenceInterpreter(s):
         # lane follow
     elif (s == 4):
         pass # 4 - intersection straight
+        stopFlag = isStop()
+        while(not stopFlag):
+	    stopFlag = isStop()
+	    #check for stopFlag again
+	if(stopFlag):
+	    pass 
         hard_straight() # hard code go straight
         lane_follow() # lane follow
     elif (s == 5):
         pass # 5 - intersection right
+	stopFlag = isStop()
+	while(not stopFlag):
+	    stopFlag = isStop()
+	if(stopFlag):
+	    pass
         hard_right() # hard code right turn
         lane_follow() # lane follow
     elif (s == 6):
         pass # 6 - intersection left
+	stopFlag = isStop()
+	while(not stopFlag):
+	    stopFlag = isStop()
+	if(stopFlag):
+	    pass
         hard_left() # hard code left turn
         lane_follow() # lane follow
     elif (s == 7):

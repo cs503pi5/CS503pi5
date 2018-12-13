@@ -24,19 +24,27 @@ def isGreen(array):
     if(array[0] > 200 and array[1] > 200 and array[2] > 200):
         return True
 
-for y in range(height):
-    for x in range(width):
-        if(isRed(image[y,x])):
-	    red_seen = True
-	if(isGreen(image[y,x])):
-	    green_seen = True
 
-if(red_seen and green_seen):
-    print("Both red and green seen")
-    #continue with path planner model
-if((red_seen) and (not green_seen)):
-    print("Red was seen but no green")
-    #stop 
-if((not red_seen) and (not green_seen)):
-    print("Red and green not seen")
-    #continue lane following
+def isStop():
+    for y in range(height):
+        for x in range(width):
+            if(isRed(image[y,x])):
+	        red_seen = True
+	    if(isGreen(image[y,x])):
+	        green_seen = True
+
+    if(red_seen and green_seen):
+        print("Both red and green seen")
+	return True
+        #continue with path planner model
+    if((red_seen) and (not green_seen)):
+        print("Red was seen but no green")
+	return False
+        #stop 
+    if((not red_seen) and (not green_seen)):
+        print("Red and green not seen")
+	pass
+        #continue lane following
+
+if __name__ == "__main__":
+    pass

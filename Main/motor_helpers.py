@@ -5,7 +5,7 @@ def get_l_pwm(v_cps):
 
 # get pwm for velocity
 def get_r_pwm(v_cps):
-	return int( (v_cps + 15.2)/0.150)
+	return int( (v_cps + 15.2)/0.160)
 
 def get_l_cps(pwm):
     return int( 0.184*pwm - 18.7)
