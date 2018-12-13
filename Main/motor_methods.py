@@ -9,7 +9,7 @@ import serial
 import time
 from motor_helpers import *
 from camera_functions import*
-from stop import *
+#from stop import *
 
 port = '/dev/ttyACM0'
 ser = serial.Serial(port, 115200)
@@ -28,11 +28,11 @@ def hard_straight():
         s = (str(130)+','+str(150)+'\n').encode()
         print(s)
         ser.write(s)
-        time_wait(.05)
+        time_wait(.1)
     stop()
 
 def hard_left():
-    C = .2
+    C = 1
     velocity_ref = 5
     l_ref_velocity, r_ref_velocity = desired_velocity(C, velocity_ref)
     l_velocity = l_ref_velocity
@@ -41,15 +41,45 @@ def hard_left():
     r_pwm = get_r_pwm(r_velocity)
 
     time_start = time.time()
-    while(time.time() < time_start + 6):
+    while(time.time() < time_start + 2):
+        s = (str(130)+','+str(150)+'\n').encode()
+        print(s)
+        ser.write(s)
+        time_wait(.1)
+
+    C = 2
+    velocity_ref = 8
+    l_ref_velocity, r_ref_velocity = desired_velocity(C, velocity_ref)
+    l_velocity = l_ref_velocity
+    r_velocity = r_ref_velocity
+    l_pwm = get_l_pwm(l_velocity)
+    r_pwm = get_r_pwm(r_velocity)
+
+    time_start = time.time()
+    while(time.time() < time_start + 6.6):
         s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
         print(s)
         ser.write(s)
-        time_wait(.05)
+        time_wait(.1)
     stop()
 
 def hard_right():
-    C = 10
+    C = 1
+    velocity_ref = 5
+    l_ref_velocity, r_ref_velocity = desired_velocity(C, velocity_ref)
+    l_velocity = l_ref_velocity
+    r_velocity = r_ref_velocity
+    l_pwm = get_l_pwm(l_velocity)
+    r_pwm = get_r_pwm(r_velocity)
+
+    time_start = time.time()
+    while(time.time() < time_start + 2):
+        s = (str(130)+','+str(150)+'\n').encode()
+        print(s)
+        ser.write(s)
+        time_wait(.1)
+
+    C = .05
     velocity_ref = 5
     l_ref_velocity, r_ref_velocity = desired_velocity(C, velocity_ref)
     l_velocity = l_ref_velocity
@@ -62,19 +92,53 @@ def hard_right():
         s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
         print(s)
         ser.write(s)
-        time_wait(.05)
+        time_wait(.1)
     stop()
 
 def lane_follow():
-    image = take_picture()
-    crop_red = crop_image_for_stop(image)
-    print(at_stop_sign(crop_red))
+    C = 1
+    velocity_ref = 5
+    l_ref_velocity, r_ref_velocity = desired_velocity(C, velocity_ref)
+    l_velocity = l_ref_velocity
+    r_velocity = r_ref_velocity
+    l_pwm = get_l_pwm(l_velocity)
+    r_pwm = get_r_pwm(r_velocity)
 
-    # if at_stop_sign:
-        # stop()
-    # else:
-        # crop = crop_image_full_road(image)
-        
+    s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
+    print(s)
+    ser.write(s)
+
+    is_at_stop_sign = False
+    while (not is_at_stop_sign):
+        image = take_picture()
+        crop_red = crop_image_for_stop(image)
+        is_at_stop_sign = at_stop_sign(crop_red)
+
+        crop = crop_image_full_road(image)
+        midpoint = find_midpoint(crop)
+        visual_error = calculate_error(midpoint)
+        approx_velocity = PD_error_camera(visual_error, camera_ref=0, K=.015, B=0.01)
+        l_pwm = get_l_pwm(l_velocity + approx_velocity)
+        r_pwm = get_r_pwm(r_velocity - approx_velocity)
+        s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
+        ser.write(s)
+
 
 def high_speed():
     pass
+
+
+def stop():
+    i = 0
+    while (i < 10):
+        C = 1
+        velocity_ref = 0
+        desired_l, desired_r = desired_velocity(C, velocity_ref)
+        l_pwm = get_l_pwm(desired_l)
+        r_pwm = get_r_pwm(desired_r)
+
+        s = str(0)+','+str(0)+'\n'.encode()
+        print(s)
+        ser.write(s)
+        i = i + 1
+        time_wait(.05)

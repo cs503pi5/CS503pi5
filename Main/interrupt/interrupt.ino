@@ -71,15 +71,16 @@ long microsecondsToCentimeters(long microseconds) {
 }
 
 void loop() {
-  delay(60);
-  long distance = get_distance();
+  delay(100);
+//  long distance = get_distance();
 
-  if (distance < 15) {
-    md.setM2Speed(0);
-    stopIfFault();
-    md.setM1Speed(0);
-    stopIfFault();
-  } else {
+//  if (distance < 15) {
+//    md.setM2Speed(0);
+//    stopIfFault();
+//    md.setM1Speed(0);
+//    stopIfFault();
+//  } 
+//  else {
     while (Serial.available() > 0){
       char rec = Serial.read();
       inData += rec; 
@@ -107,7 +108,7 @@ void loop() {
           //break incase new stuff comes and we're just stuck here
           break;
       }  
-    }
+  //  }
   }
 
 
