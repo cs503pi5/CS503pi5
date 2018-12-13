@@ -77,15 +77,16 @@ def find_yellow(crop):
         for x in range(320,0,-10): # for every column
             if (isYellow(crop[y,x])):
                 yellow = [y,x]
+                print(yellow)
                 return yellow
     if yellow == [-1,-1]:
         for y in range(len(crop)-1,0,-2): #for every row
             for x in range(320,640,10): # for every column
                 if (isYellow(crop[y,x])):
                     yellow = [y,x]
+                    print(yellow)
                     return yellow
-    else:
-        return [-1,-1]
+    return [-1,-1]
 
 def find_white_from_yellow(crop, yellow):
     white = [-1,-1]
@@ -110,25 +111,33 @@ def find_white(crop):
                 if (isWhite(crop[y,x])):
                     white = [y,x]
                     return white
-    else:
-        return [-1,-1]
+    return [-1,-1]
 
 def find_midpoint(crop):
-    fixed_width = 60
+    cv2.imwrite('crop.jpg',crop)
+    fixed_width = 70
     yellow = find_yellow(crop)
-    white = find_white(crop)
-    if (yellow[0] != -1 and white[0] != -1):
+
+    if (yellow[0] != -1):
         white = find_white_from_yellow(crop,yellow)
-        print(yellow, white)
-        midpoint = (yellow[1] + white[1])/2
-    elif(yellow[0] == -1):
-        midpoint = white[1] - fixed_width
-    elif(white[0] == -1):
-        midpoint = yellow[1] + fixed_width
+        if (white[0] != -1):
+            print("case 1")
+            midpoint = (white[1] + yellow[1])/2
+            print(midpoint)
+            return midpoint
+        else:
+            print("case 2")
+            midpoint = (yellow[1] + fixed_width)
+            print(midpoint)
+            return midpoint
+
     else:
-        midpoint = 320
-    print(midpoint)
-    return midpoint
+        white = find_white(crop)
+        print("case 3")
+        midpoint = (white[1] - fixed_width)
+        print(midpoint)
+        return midpoint
+
 
 def calculate_error(midpoint):
     return (camera_midpoint - midpoint)

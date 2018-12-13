@@ -6,7 +6,7 @@ volatile long right_enc_count = 0;
 
 volatile long left_enc_count = 0;
 
-const int pingPin = 7;
+const int pingPin = 11;
 
 // goes digital pins go 0 1 2 3 4 5 6 7
 // 2 and 3 are interrupt pins
@@ -27,7 +27,7 @@ String inData = "";
 void setup() {
   //pin 2 is interrupt int 0
   //pin 3 is interrupt int 1
-  
+
   //md init overwrite pin 4, have to set it first
   md.init();
 
@@ -46,7 +46,7 @@ void setup() {
   //Serial.println("0,0");
   //md.setSpeeds(200,200);
    //md.setM2Speed(200);
-  //stopIfFault();    
+  //stopIfFault();
 }
 
 long get_distance(){
@@ -72,20 +72,20 @@ long microsecondsToCentimeters(long microseconds) {
 
 void loop() {
   delay(100);
-//  long distance = get_distance();
+  long distance = get_distance();
 
-//  if (distance < 15) {
-//    md.setM2Speed(0);
-//    stopIfFault();
-//    md.setM1Speed(0);
-//    stopIfFault();
-//  } 
-//  else {
+  if (distance < 15) {
+    md.setM2Speed(0);
+    stopIfFault();
+    md.setM1Speed(0);
+    stopIfFault();
+     }
+ else {
     while (Serial.available() > 0){
       char rec = Serial.read();
-      inData += rec; 
+      inData += rec;
       // Process message when new line character is recieved
-      if (rec == '\n') {     
+      if (rec == '\n') {
           //Serial.print(inData);
           // extract lpwm and rpwm from the string
           //Serial.println("goes in if loop");
@@ -101,19 +101,19 @@ void loop() {
           md.setM1Speed(rpwm);
           stopIfFault();
 
-          
-          
+
+
           inData = ""; // Clear recieved buffer
 
           //break incase new stuff comes and we're just stuck here
           break;
-      }  
-  //  }
+      }
+    }
   }
 
 
     // get data from serial in
-  
+
 }
 
 // motors
