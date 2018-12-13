@@ -102,7 +102,7 @@ def find_white(crop):
     for y in range(len(crop)-1,0,-2): #for every row
         for x in range(320,0,-10): # for every column
             if (isWhite(crop[y,x])):
-                yellow = [y,x]
+                white = [y,x]
                 return white
     if white == [-1,-1]:
         for y in range(len(crop)-1,0,-2): #for every row
@@ -114,11 +114,10 @@ def find_white(crop):
         return [-1,-1]
 
 def find_midpoint(crop):
-    midpoint = 320
     fixed_width = 200
     yellow = find_yellow(crop)
     white = find_white(crop)
-
+    print(yellow, white)
     if (yellow[0] != -1 and white[0] != -1):
         white = find_white_from_yellow(crop,yellow)
         midpoint = (yellow[1] + white[1])/2
@@ -138,3 +137,25 @@ def PD_error_camera(camera_error, camera_ref, K, B):
     cam_ddot = -K*(camera_error - camera_ref) - B*(camera_error-prev_error)
     prev_error = camera_error
     return cam_ddot
+
+
+
+if __name__ == "__main__":
+    #Yellow = []
+    image = take_picture()
+    crop = crop_image_for_stop(image)
+    flag = at_stop_sign(crop)
+    if (not flag): #green light
+        #continue
+        cropFull = crop_image_full_road(image)
+	mid = find_midpoint(cropFull)
+	err = calculate_error(mid)
+	PD_error_camera(err, camera_ref = 0, K = 0.015, B = 0.01)
+	#Yellow = find_yellow(cropFull)
+	#if (Yellow[0]!=-1):
+	#    find_white_from_yellow(cropFull, isYellow)
+	#else:
+	#    find_white(cropFull)
+    else: #red light
+        pass
+	#stop the car

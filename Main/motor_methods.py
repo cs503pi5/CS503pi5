@@ -126,7 +126,7 @@ def lane_follow():
         crop = crop_image_full_road(image)
         midpoint = find_midpoint(crop)
         visual_error = calculate_error(midpoint)
-        approx_velocity = PD_error_camera(visual_error, camera_ref=0, K=.015, B=0.01)
+        approx_velocity = PD_error_camera(visual_error, camera_ref=0, K=.03, B=0.03)
         l_pwm = get_l_pwm(l_velocity + approx_velocity)
         r_pwm = get_r_pwm(r_velocity - approx_velocity)
         s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
