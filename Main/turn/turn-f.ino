@@ -73,7 +73,7 @@ void set_rwheel(int speed){
 
 void update_wheels()
 {
-  long start_millis = millis();
+  long start_millis = micros();
   int left_spoke_counter = 0;
   int right_spoke_counter = 0;
   for (int ir_counter = 0; ir_counter< 1000; ir_counter++)
@@ -86,22 +86,22 @@ void update_wheels()
     // If the outputB state is different to the outputA state, that means the encoder is rotating clockwise
       if (digitalRead(LeftoutputB) != leftCurrentState) 
       {
-        left_spoke_counter ++;
+        left_spoke_counter --;
       } 
       else 
       {
-        left_spoke_counter --;
+        left_spoke_counter ++;
       }
     }
     if (rightCurrentState != rightLastState)
     {
       if (digitalRead(RightoutputB) != rightCurrentState) 
       {
-        right_spoke_counter ++;
+        right_spoke_counter --;
       } 
       else 
       {
-        right_spoke_counter --;
+        right_spoke_counter ++;
       }
     }
 // if no spokes move add on to this pad. In case wheels are too slow for sampling rate
@@ -110,12 +110,12 @@ void update_wheels()
 // }
 // else{
 // }
-  long end_millis = millis();
+  long end_millis = micros();
   // double duration = (double)(end_millis - start_millis + duration_pad)/1000;
-  double duration = (double)(end_millis - start_millis)/1000;
+  double duration = (double)(end_millis - start_millis);//单位为微秒
   // duration_pad = 0.0;
-  double circumference = 22.32914; //cm
-  double spoke_length = circumference / 20.0;
+  double circumference = 223291.4; //cm
+  double spoke_length = circumference / 16.0;
   curr_right_wheel_cps = (spoke_length * right_spoke_counter) / duration;
   curr_left_wheel_cps = (spoke_length * left_spoke_counter) / duration;
   delta_right = spoke_length * right_spoke_counter;
@@ -125,30 +125,31 @@ void update_wheels()
   }
 }
 
-void turn(int radius, int lpwm ,int rpwm) //import the degree of turning
+void turn(int degree, int lpwm ,int rpwm) //input degree
 {
   double delta_left_t = delta_left; //initialize the distance of left wheel
   double delta_right_t = delta_right; //initialize the distance of right wheel
-  double turning_radius = 10; //set the radius of turning
-  double left_wheel_r = 0; //set radius of left is 0 cm.
-  double right_wheel_r = 10; //set radius of right is 10 cm.
-  double turn_left_c = 2*3.14159*left_wheel_r*(radius/360);//the length of walking on the left wheel when turning
-  double turn_right_c = 2*3.14159*right_wheel_r*(radius/360);//the length of walking on the right wheel when turning
+  double wheeldistance = 190500; //set the radius of turning
+  double left_wheel_r = 91400; //set radius of left is 0 cm.
+  double right_wheel_r = 281900; //set radius of right is 10 cm.
+  double turn_left_c = 2*3.14159*left_wheel_r*(degree/360);//the length of walking on the left wheel when turning
+  double turn_right_c = 2*3.14159*right_wheel_r*(degree/360);//the length of walking on the right wheel when turning
   double lenght_l;
   double lenght_r;
   double expect_left_v = curr_left_wheel_cps; //set basic speed is the curr-left speed
   double expect_right_v;
   
-  while(1)
+
+while(1)
   {
     
     update_wheels(); //update the distance and parameters
     lenght_l = abs(delta_left-delta_left_t);
     lenght_r = abs(delta_right-delta_right_t);
     expect_right_v = expect_left_v * turn_right_c/turn_left_c;//expected speed on right wheel
-    if (expect_right_v-curr_right_wheel_cps < -1.0)//if expected speed is smaller than current speed, slow down the speed 
+    if (expect_right_v-curr_right_wheel_cps < -500.0)//if expected speed is smaller than current speed, slow down the speed
     {
-      if(expect_right_v-curr_right_wheel_cps < -3.0)//if too small then decrease rpwm more
+      if(expect_right_v-curr_right_wheel_cps < -1500.0)//if too small then decrease rpwm more
       {
         rpwm -= 6;
         }
@@ -157,9 +158,9 @@ void turn(int radius, int lpwm ,int rpwm) //import the degree of turning
           rpwm -= 3;
           }
       }
-      else if (expect_right_v-curr_right_wheel_cps > 1.0)//if expected speed is greater than current speed, speed up the speed 
+      else if (expect_right_v-curr_right_wheel_cps > 500.0)//if expected speed is greater than current speed, speed up the speed
     {
-      if(expect_right_v-curr_right_wheel_cps > 3.0)//if too large then increase rpwm more
+      if(expect_right_v-curr_right_wheel_cps > 1500.0)//if too large then increase rpwm more
       {
         rpwm += 6;
         }
@@ -168,28 +169,44 @@ void turn(int radius, int lpwm ,int rpwm) //import the degree of turning
           rpwm += 3;
           }
       }
-    if(lenght_l <= 2.0 &&lenght_r<=2.0)//if accuracy of turning satisfy, then break 
+      Serial.println(abs(lenght_l-turn_left_c));
+      
+      Serial.println(abs(lenght_r - turn_right_c));
+    if(abs(lenght_l-turn_left_c)  <= 1000.0 || abs(lenght_r - turn_right_c)<=1000.0)//if accuracy of turning satisfy, then break
     {
       break;
       }
       set_lwheel(lpwm);
       set_rwheel(rpwm);
-      Serial.println(lpwm);
-      Serial.println(rpwm);
+      Serial.println("turn");
+      
     }
+  
   }
  
 void setup(){
   Serial.begin(115200);
   while(!Serial);
   md.init();
-  set_lwheel(120);//first, go straight
-  set_rwheel(120);
-  turn(90, 120 ,120); //turning
-  String cord_vals = String(x_cord) + "," + String(y_cord) + "," + String(theta);
-
+  pinMode (LeftoutputA,INPUT);
+  pinMode (LeftoutputB,INPUT);
+  pinMode (RightoutputA, INPUT);
+  pinMode (RightoutputB, INPUT);
+  leftLastState = digitalRead(LeftoutputA);
+  rightLastState = digitalRead(RightoutputA);
 }
+//updates current velocities of each wheel and updates distance of each wheel
+String inData;
 void loop() {
-  // put your main code here, to run repeatedly:
+  
+  update_wheels();
+  update_cord();
+  turn(90, 120 ,130); //turning
+  
+  set_lwheel(0);//first, go straight
+  set_rwheel(0);
+  delay(5000);
+  Serial.println("stop");
+  String cord_vals = String(x_cord) + "," + String(y_cord) + "," + String(theta);
 
 }
