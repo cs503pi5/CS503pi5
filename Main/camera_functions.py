@@ -32,13 +32,16 @@ def isBlack(array):
     if (array[0] < 50 and array[1] < 50 and array[2] < 50):      
 	    return True
 
-
+i = 0
 def take_picture():
     global camera
     global rawCapture
+    global i
+    i = i+1
     rawCapture.truncate(0)
-    camera.capture(rawCapture, format="bgr")
+    camera.capture(rawCapture, format="bgr",use_video_port=True)
     image = rawCapture.array
+    print(i)
     #cv2.imwrite('full.jpg',image)
     return(image)
 
@@ -50,10 +53,11 @@ def crop_image_full_road(image):
     return crop
 
 def crop_image_for_stop(image):
-    crop_start = 40
-    crop_end = 120
+    #240:320,150:400
+    crop_start = 240
+    crop_end = 320
     size_of_crop = crop_end-crop_start
-    crop = image[crop_start:crop_end,200:400]
+    crop = image[crop_start:crop_end,150:400]
     return crop
 
 ## Return True if need to stop (red)
@@ -121,7 +125,7 @@ def find_white(crop):
 
 def find_midpoint(crop):
     fixed_width_white = 150
-    fixed_width_yellow = 90
+    fixed_width_yellow = 130
     yellow = find_yellow(crop)
 
     if (yellow[0] != -1):

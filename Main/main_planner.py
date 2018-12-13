@@ -22,9 +22,12 @@ def sequenceInterpreter(s):
         # left turn
         # lane follow
     elif (s == 4):
+	print("at intersection straight")
         pass # 4 - intersection straight
         stopFlag = isStop()
         while(not stopFlag):
+	    print("Red")
+	    stop()
 	    stopFlag = isStop()
 	    #check for stopFlag again
 	if(stopFlag):
@@ -35,6 +38,7 @@ def sequenceInterpreter(s):
         pass # 5 - intersection right
 	stopFlag = isStop()
 	while(not stopFlag):
+	    stop()
 	    stopFlag = isStop()
 	if(stopFlag):
 	    pass
@@ -44,6 +48,7 @@ def sequenceInterpreter(s):
         pass # 6 - intersection left
 	stopFlag = isStop()
 	while(not stopFlag):
+	    stop()
 	    stopFlag = isStop()
 	if(stopFlag):
 	    pass

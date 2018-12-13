@@ -1,15 +1,15 @@
 import cv2
-#from picamera.array import PiRGBArray
-#from picamera import PiCamera
-#camera = PiCamera()
-#rawCapture = PiRGBArray(camera)
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+camera = PiCamera()
+rawCapture = PiRGBArray(camera)
 #image = rawCapture.array
-
+camera.capture('/home/gandalf_student/CS503pi5/Main/pic.jpg')
 red_seen = False
 green_seen = False
-image = cv2.imread("imgs/orig1.jpg")
+image = cv2.imread("pic.jpg")
 #image = cv2.imread("orig1.jpg")
-image = image[50:110,120:400]
+image = image[240:320,150:400]
 cv2.imwrite("new.jpg",image)
 #img = cv2.imread("new.jpg",0)
 #width,height = cv2.GetSize(image)

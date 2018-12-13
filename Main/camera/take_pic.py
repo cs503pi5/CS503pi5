@@ -1,3 +1,3 @@
 from camera import *
-
-get_visual_error()
+while(1):
+	get_visual_error()
