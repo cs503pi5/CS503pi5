@@ -54,6 +54,7 @@ def isRed(array):
 def get_visual_error():
     global width
     global img_count
+    global yellow
     red_seen = False
     a = (time.time())
 
@@ -81,7 +82,7 @@ def get_visual_error():
     # init the yellow and white cord to -1,-1 
     yellow = [-1,-1]
     white = [-1,-1]
-    midpoint = NULL
+    midpoint = None
     # find the yellow pixel 
     def find_yellow():
         for y in range(size_of_crop-1,0,-2): #for every row
@@ -95,13 +96,13 @@ def get_visual_error():
             for y in range(size_of_crop-1,0,-2): #for every row
                 for x in range(320,640,10): # for every column
                     if (isRed(crop[y,x])):
-                    red_seen = True
-                 if (isYellow(crop[y,x])):
-                    yellow = [y,x]
-                    return yellow
+                        red_seen = True
+                    if (isYellow(crop[y,x])):
+                        yellow = [y,x]
+                        return yellow
         else:
             return [-1,-1]
-    yellow = find_yellow    
+    yellow = find_yellow() 
     # print('after finding yellow', time.time()-a)
     # search for th white pixel in same row of yellow. theoretical should always find one
 

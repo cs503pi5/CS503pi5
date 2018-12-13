@@ -9,6 +9,7 @@ import serial
 import time
 from motor_helpers import *
 from stop import*
+from camera_functions import*
 
 port = '/dev/ttyACM0'
 ser = serial.Serial(port, 115200)
@@ -66,7 +67,9 @@ def hard_right():
     stop()
 
 def lane_follow():
-    pass
+    image = take_picture()
+    # crop_red = crop_image_for_stop(image)
+    # print(at_stop_sign(crop_red))
 
 def high_speed():
     pass

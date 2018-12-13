@@ -6,6 +6,8 @@ volatile long right_enc_count = 0;
 
 volatile long left_enc_count = 0;
 
+const int pingPin = 7;
+
 // goes digital pins go 0 1 2 3 4 5 6 7
 // 2 and 3 are interrupt pins
 // left wheel takes 1 for leftOutputB and 2 for leftOutputA
@@ -47,45 +49,72 @@ void setup() {
   //stopIfFault();    
 }
 
+long get_distance(){
+  long duration, inches, cm;
+
+  pinMode(pingPin, OUTPUT);
+  digitalWrite(pingPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(pingPin, HIGH);
+  delayMicroseconds(5);
+  digitalWrite(pingPin, LOW);
+
+  pinMode(pingPin, INPUT);
+  duration = pulseIn(pingPin, HIGH);
+  cm = microsecondsToCentimeters(duration);
+
+  return cm;
+}
+
+long microsecondsToCentimeters(long microseconds) {
+  return microseconds / 29 / 2;
+}
+
 void loop() {
+  delay(60);
+  long distance = get_distance();
+
+  if (distance < 15) {
+    md.setM2Speed(0);
+    stopIfFault();
+    md.setM1Speed(0);
+    stopIfFault();
+  } else {
+    while (Serial.available() > 0){
+      char rec = Serial.read();
+      inData += rec; 
+      // Process message when new line character is recieved
+      if (rec == '\n') {     
+          //Serial.print(inData);
+          // extract lpwm and rpwm from the string
+          //Serial.println("goes in if loop");
+          int lpwm = inData.substring(0,inData.indexOf(',')).toInt();
+          int start = inData.indexOf(',');
+          int end_pt = inData.indexOf('\n');
+          int rpwm = inData.substring(start+1, end_pt).toInt();
+
+          //Serial.println("setting wheels to" + String(lpwm));
+          //Serial.println("setting wheels to" + String(rpwm));
+          md.setM2Speed(lpwm);
+          stopIfFault();
+          md.setM1Speed(rpwm);
+          stopIfFault();
+
+          
+          
+          inData = ""; // Clear recieved buffer
+
+          //break incase new stuff comes and we're just stuck here
+          break;
+      }  
+    }
+  }
+
+
     // get data from serial in
-  while (Serial.available() > 0){
-        char rec = Serial.read();
-        inData += rec; 
-        // Process message when new line character is recieved
-        if (rec == '\n')
-        {     
-            //Serial.print(inData);
-            // extract lpwm and rpwm from the string
-            //Serial.println("goes in if loop");
-            int lpwm = inData.substring(0,inData.indexOf(',')).toInt();
-            int start = inData.indexOf(',');
-            int end_pt = inData.indexOf('\n');
-            int rpwm = inData.substring(start+1, end_pt).toInt();
+  
+}
 
-            //Serial.println("setting wheels to" + String(lpwm));
-            //Serial.println("setting wheels to" + String(rpwm));
-            md.setM2Speed(lpwm);
-            stopIfFault();
-            md.setM1Speed(rpwm);
-            stopIfFault();
-
-            
-            
-            inData = ""; // Clear recieved buffer
-
-            //break incase new stuff comes and we're just stuck here
-            break;
-        }
-      
-    }
-    // update_wheels();
-    // update_cord();
-
-    // String cord_vals = String(x_cord) + "," + String(y_cord) + "," + String(theta);
- //   Serial.println(String(left_enc_count) + ","+String(right_enc_count));
-    }
-//}
 // motors
 void stopIfFault(){
   if (md.getFault())
