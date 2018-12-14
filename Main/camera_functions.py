@@ -82,7 +82,7 @@ def at_stop_sign(crop):
         for x in range(0, len(crop[0]), col_skip): # skip every 5 columns
             if (isRed(crop[y,x])):
                 red_counter = red_counter + 1
-            break
+                break
     if green_counter > 60: # guess and check
         seen_green = True
     if red_counter > int(height/row_skip *0.6): # see red if greater than 60% of picture
