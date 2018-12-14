@@ -116,7 +116,10 @@ def lane_follow():
     is_at_stop_sign = False
     while (not is_at_stop_sign):
 
-        print(counter, count_time)
+        new_time = time.time()
+        print(counter, new_time - count_time)
+        count_time = new_time
+        counter = counter + 1 
         time_start = time.time()
         while( (time.time() - time_start) < 0.1):
             pass
