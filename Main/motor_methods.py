@@ -113,8 +113,8 @@ def lane_follow():
     # wait every 100ms, take a picture, crop it, and find the visual error
     # pass it through the pd controller and add it each side correspondingly
     counter = 0
-    is_at_stop_sign = False
-    while (not is_at_stop_sign):
+    car_sees_red = False
+    while (not car_sees_red):
         time_wait(0.1)
         print("here")
         image = take_picture()
@@ -133,7 +133,7 @@ def lane_follow():
         print('after write')
         crop_red = crop_image_for_stop(image)
         cv2.imwrite('crop_red.jpg',image)
-        is_at_stop_sign = at_stop_sign(crop_red)
+        car_sees_red = sees_red(crop_red)
         print("is at stop sign ",is_at_stop_sign)
     stop()
     print("stop!")
