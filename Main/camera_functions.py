@@ -168,6 +168,8 @@ def find_midpoint(crop):
         if (white[0] != -1):
             if (yellow[1]<white[1]):
                 print("case 1")
+                if (abs(yellow[1]-white[1]) < 40):
+                    return 320
                 midpoint = (white[1] + yellow[1])/2
                 print(midpoint)
                 return midpoint
