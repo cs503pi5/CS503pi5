@@ -118,11 +118,7 @@ def lane_follow():
         time_start = time.time()
         while( (time.time() - time_start) < 0.1):
             pass
-        
         image = take_picture()
-        crop_red = crop_image_for_stop(image)
-        is_at_stop_sign = at_stop_sign(crop_red)
-
         crop = crop_image_full_road(image)
         midpoint = find_midpoint(crop)
         visual_error = calculate_error(midpoint)
@@ -133,6 +129,14 @@ def lane_follow():
         print(s)
         ser.write(s)
 
+
+
+        crop_red = crop_image_for_stop(image)
+        cv2.imwrite('crop_red.jpg',crop_red)
+        is_at_stop_sign = at_stop_sign(crop_red)
+        print("is at stop sign ",is_at_stop_sign)
+    stop()
+    print("stop!")
 
 def high_speed():
     pass

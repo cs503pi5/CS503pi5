@@ -18,9 +18,9 @@ def take_picture():
     camera.capture(rawCapture, format="bgr",use_video_port=True)
     image = rawCapture.array
     print(i)
-    #cv2.imwrite('full.jpg',image)
+    cv2.imwrite('full.jpg',image)
     return(image)
 
 if __name__ == "__main__":
-	while(1):
-		take_picture()
+
+	take_picture()

@@ -22,7 +22,6 @@ def sequenceInterpreter(s):
         # left turn
         # lane follow
     elif (s == 4):
-	print("at intersection straight")
         pass # 4 - intersection straight
         stopFlag = isStop()
         while(not stopFlag):
