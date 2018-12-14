@@ -26,7 +26,7 @@ def hard_straight():
 
     time_start = time.time()
     while(time.time() < time_start + 6):
-        s = (str(130)+','+str(140)+'\n').encode()
+        s = (str(130)+','+str(145)+'\n').encode()
         print(s)
         ser.write(s)
         time_wait(.1)
@@ -134,7 +134,7 @@ def lane_follow():
         crop_red = crop_image_for_stop(image)
         cv2.imwrite('crop_red.jpg',image)
         car_sees_red = sees_red(crop_red)
-        print("is at stop sign ",is_at_stop_sign)
+        print("is at stop sign ",car_sees_red)
     stop()
     print("stop!")
 
