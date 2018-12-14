@@ -111,10 +111,12 @@ def lane_follow():
     # while not at a stop sign
     # wait every 100ms, take a picture, crop it, and find the visual error
     # pass it through the pd controller and add it each side correspondingly
-
+    count_time = time.time()
+    counter = 0
     is_at_stop_sign = False
     while (not is_at_stop_sign):
 
+        print(counter, count_time)
         time_start = time.time()
         while( (time.time() - time_start) < 0.1):
             pass
