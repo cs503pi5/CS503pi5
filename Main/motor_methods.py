@@ -127,7 +127,8 @@ def lane_follow():
         s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
         print(s)
 
-        serial.flushInput()
+        ser.reset_input_buffer()
+
         ser.write(s)
         print('after write')
         crop_red = crop_image_for_stop(image)
