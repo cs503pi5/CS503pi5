@@ -54,8 +54,8 @@ def crop_image_full_road(image):
 
 def crop_image_for_stop(image):
     #240:320,150:400
-    crop_start = 50
-    crop_end = 130
+    crop_start = 0
+    crop_end = 80
     size_of_crop = crop_end-crop_start
     crop = image[crop_start:crop_end,150:400]
     return crop
