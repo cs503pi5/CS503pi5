@@ -17,7 +17,7 @@ prev_error = 0.0
 
 
 def isYellow(array):
-    if (array[0] < 200 and array[1] > 200 and array[2] > 200):
+    if (array[0] < 150 and array[1] > 200 and array[2] > 200):
         return True
 
 def isWhite(array):
