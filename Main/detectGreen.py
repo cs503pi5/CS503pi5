@@ -26,13 +26,15 @@ def isGreen(array):
 
 
 def isStop():
+    print("start")
+    red_seen = False
+    green_seen = False
     for y in range(height):
         for x in range(width):
             if(isRed(image[y,x])):
 	        red_seen = True
 	    if(isGreen(image[y,x])):
 	        green_seen = True
-
     if(red_seen and green_seen):
         print("Both red and green seen")
 	return True
@@ -43,7 +45,7 @@ def isStop():
         #stop 
     if((not red_seen) and (not green_seen)):
         print("Red and green not seen")
-	pass
+	#pass
         #continue lane following
 
 isStop()
