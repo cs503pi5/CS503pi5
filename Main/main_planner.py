@@ -32,7 +32,7 @@ def sequenceInterpreter(s):
         # left turn
         # lane follow
     elif (s == 4):
-        wait_while_not_green()
+        # wait_while_not_green()
         hard_straight() # hard code go straight
         lane_follow() # lane follow
         # 4 - intersection straight
