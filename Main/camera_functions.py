@@ -75,7 +75,7 @@ def at_stop_sign(crop):
     green_counter = 0
     red_counter = 0
     for y in range(0,len(crop), row_skip): # skip every 5 rows
-        for x in range(0, len(crop[0], col_skip)): # skip every 5 columns
+        for x in range(0, len(crop[0]), col_skip): # skip every 5 columns
             if (isWhite(crop[y,x])):
                 green_counter = green_counter + 1
     for y in range(0,len(crop), row_skip): # skip every 5 rows
