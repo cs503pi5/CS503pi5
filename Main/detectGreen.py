@@ -46,5 +46,4 @@ def isStop():
 	pass
         #continue lane following
 
-if __name__ == "__main__":
-    pass
+isStop()
