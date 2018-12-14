@@ -1,0 +1,8 @@
+-lane following 
+    - start state 1 and end start 12
+    - start at state 1, if can_go (see red and see green), go do code
+        - when see red/at_stop_sign(see red), go on to the next state
+    - start at state 12, if can_go, go 
+        - when see red, go on to next state
+    - no more states
+- then code path logic

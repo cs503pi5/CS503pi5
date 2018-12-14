@@ -60,19 +60,32 @@ def crop_image_for_stop(image):
     crop = image[crop_start:crop_end,150:400]
     return crop
 
-## Return True if need to stop (red)
-## Return False if green or black
+## Return False if doesn't see red or doesn't see green (not at stop sign)
+## Return True if sees red and doesn't see green (at stop sign)
+## Return False if sees see red and see greens (can go at stop sign)
+## Return False if doesn't see red and sees green (faulty so ignore, not at stop stign)
 def at_stop_sign(crop):
+    # crop for red is about 80x250
+    height = len(crop)
+    width = len(crop[0])
+    row_skip = 5
+    col_skip = 5
     seen_green = False
     seen_red = False
-    for y in range(len(crop)):
-        for x in range(len(crop[0])):
+    green_counter = 0
+    red_counter = 0
+    for y in range(0,len(crop), row_skip): # skip every 5 rows
+        for x in range(0, len(crop[0], col_skip)): # skip every 5 columns
             if (isWhite(crop[y,x])):
-                seen_green = True
-    for y in range(len(crop)):
-        for x in range(len(crop[0])):
+                green_counter = green_counter + 1
+    for y in range(0,len(crop), row_skip): # skip every 5 rows
+        for x in range(0, len(crop[0], col_skip)): # skip every 5 columns
             if (isRed(crop[y,x])):
-                seen_red = True 
+                red_counter = red_counter + 1
+    if green_counter > 60: # guess and check
+        seen_green = True
+    if red_counter > int(height/row_skip *0.6): # see red if greater than 60% of picture
+        seen_red = True
     if (seen_green):
         return False
     else:
