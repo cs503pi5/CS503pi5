@@ -132,7 +132,7 @@ def lane_follow():
         ser.write(s)
         print('after write')
         crop_red = crop_image_for_stop(image)
-        cv2.imwrite('crop_red.jpg',crop_red)
+        cv2.imwrite('crop_red.jpg',image)
         is_at_stop_sign = at_stop_sign(crop_red)
         print("is at stop sign ",is_at_stop_sign)
     stop()
