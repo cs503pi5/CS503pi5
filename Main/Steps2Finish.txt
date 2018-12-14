@@ -6,3 +6,4 @@
         - when see red, go on to next state
     - no more states
 - then code path logic
+- it keeps seeing yellow on turns

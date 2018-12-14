@@ -2,9 +2,18 @@ from path_planner import *
 from motor_methods import *
 from picamera.array import PiRGBArray
 from picamera import PiCamera
+from camera_functions import*
+
 #from detectGreen import isStop
 
-
+def wait_while_not_green():
+    is_at_stop_sign = False
+    while(not is_at_stop_sign): # while not not at a stop sign
+        time_wait(0.1)
+        image = take_picture()
+        crop_red = crop_image_for_stop(image)
+        is_at_stop_sign = at_stop_sign(crop_red)
+ 
 
 def sequenceInterpreter(s):
     if (s == 1):
@@ -16,15 +25,17 @@ def sequenceInterpreter(s):
         # right turn
         # lane follow
     elif (s == 3):
-        pass # 3 - straight curved connection left
+        # pass # 3 - straight curved connection left
+        wait_while_not_green()
         hard_straight()# hard code go straight
         # lane follow
         # left turn
         # lane follow
     elif (s == 4):
+        wait_while_not_green()
         hard_straight() # hard code go straight
         lane_follow() # lane follow
-        pass # 4 - intersection straight
+        # 4 - intersection straight
         # stopFlag = isStop()
         # while(not stopFlag):
 	    # print("Red")
@@ -102,11 +113,11 @@ def sequenceInterpreter(s):
 
 
 if __name__ == "__main__":
-    lane_follow()
-    # path = getPath()
-    # for s in path:
-    #     sequenceInterpreter(s)
-    # pass
+    # lane_follow()
+    path = getPath()
+    for s in path:
+        sequenceInterpreter(s)
+    pass
     
 
 ## PATH CONNECTIONS
