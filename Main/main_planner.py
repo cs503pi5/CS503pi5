@@ -102,11 +102,11 @@ def sequenceInterpreter(s):
 
 
 if __name__ == "__main__":
-    #lane_follow()
-    path = getPath()
-    for s in path:
-        sequenceInterpreter(s)
-    pass
+    lane_follow()
+    # path = getPath()
+    # for s in path:
+    #     sequenceInterpreter(s)
+    # pass
     
 
 ## PATH CONNECTIONS
