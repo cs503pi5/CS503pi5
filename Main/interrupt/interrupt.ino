@@ -71,7 +71,7 @@ long microsecondsToCentimeters(long microseconds) {
 }
 
 void loop() {
-  delay(100);
+  delay(5);
   long distance = get_distance();
 
   if (distance < 15) {

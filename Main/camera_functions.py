@@ -72,7 +72,7 @@ def at_stop_sign(crop):
     for y in range(len(crop)):
         for x in range(len(crop[0])):
             if (isRed(crop[y,x])):
-                seen_red = True
+                seen_red = True 
     if (seen_green):
         return False
     else:

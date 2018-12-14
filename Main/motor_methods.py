@@ -13,6 +13,7 @@ from camera_functions import*
 
 port = '/dev/ttyACM0'
 ser = serial.Serial(port, 115200)
+time.sleep(4)
 
 def hard_straight():
     C = 1
@@ -111,18 +112,11 @@ def lane_follow():
     # while not at a stop sign
     # wait every 100ms, take a picture, crop it, and find the visual error
     # pass it through the pd controller and add it each side correspondingly
-    count_time = time.time()
     counter = 0
     is_at_stop_sign = False
     while (not is_at_stop_sign):
-
-        new_time = time.time()
-        print(counter, new_time - count_time)
-        count_time = new_time
-        counter = counter + 1 
-        time_start = time.time()
-        while( (time.time() - time_start) < 0.1):
-            pass
+        time_wait(0.1)
+        print("here")
         image = take_picture()
         crop = crop_image_full_road(image)
         midpoint = find_midpoint(crop)
@@ -133,11 +127,9 @@ def lane_follow():
         s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
         print(s)
         ser.write(s)
-
-
-
+        print('after write')
         crop_red = crop_image_for_stop(image)
-        cv2.imwrite('crop_red.jpg',crop_red)
+#        cv2.imwrite('crop_red.jpg',crop_red)
         is_at_stop_sign = at_stop_sign(crop_red)
         print("is at stop sign ",is_at_stop_sign)
     stop()

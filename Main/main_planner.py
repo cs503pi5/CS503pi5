@@ -22,12 +22,14 @@ def sequenceInterpreter(s):
         # left turn
         # lane follow
     elif (s == 4):
+        hard_straight() # hard code go straight
+        lane_follow() # lane follow
         pass # 4 - intersection straight
-        stopFlag = isStop()
-        while(not stopFlag):
-	    print("Red")
-	    stop()
-	    stopFlag = isStop()
+        # stopFlag = isStop()
+        # while(not stopFlag):
+	    # print("Red")
+	    # stop()
+	    # stopFlag = isStop()
 	    #check for stopFlag again
 	if(stopFlag):
 	    pass 
@@ -100,10 +102,10 @@ def sequenceInterpreter(s):
 
 
 if __name__ == "__main__":
-    lane_follow()
-    # path = getPath()
-    # for s in path:
-    #     sequenceInterpreter(s)
+    #lane_follow()
+    path = getPath()
+    for s in path:
+        sequenceInterpreter(s)
     pass
     
 
