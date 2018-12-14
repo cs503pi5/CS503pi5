@@ -26,7 +26,7 @@ def hard_straight():
 
     time_start = time.time()
     while(time.time() < time_start + 6):
-        s = (str(130)+','+str(150)+'\n').encode()
+        s = (str(130)+','+str(140)+'\n').encode()
         print(s)
         ser.write(s)
         time_wait(.1)

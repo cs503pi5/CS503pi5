@@ -25,7 +25,7 @@ def isWhite(array):
 	    return True
 
 def isRed(array):
-    if (array[0] < 130 and array[1] < 130 and array[2] > 190):
+    if (array[0] < 151 and array[1] < 158 and array[2] > 213):
 	    return True
 
 def isBlack(array):
