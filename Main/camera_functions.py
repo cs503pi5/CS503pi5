@@ -13,7 +13,7 @@ camera_midpoint = 320
 tolerance = 40
 fixed_width = 200
 prev_error = 0.0 
-
+prev_midpoint = 320
 
 
 def isYellow(array):
@@ -159,6 +159,7 @@ def find_white(crop):
     return [-1,-1]
 
 def find_midpoint(crop):
+    global prev_midpoint
     fixed_width_white = 150
     fixed_width_yellow = 130
     yellow = find_yellow(crop)
@@ -172,17 +173,20 @@ def find_midpoint(crop):
                     return 320
                 midpoint = (white[1] + yellow[1])/2
                 print(midpoint)
+                prev_midpoint = midpoint
                 return midpoint
             else:
                 white = find_white(crop)
                 print("case 3")
                 midpoint = (yellow[1] + fixed_width_white)
                 print(midpoint)
-                return midpoint
+                # prev_midpoint = midpoint
+                return prev_midpoint
         else:
             print("case 2")
             midpoint = (yellow[1] + fixed_width_yellow)
             print(midpoint)
+            prev_midpoint = midpoint
             return midpoint
 
     else:
@@ -191,11 +195,13 @@ def find_midpoint(crop):
             print("case 3")
             midpoint = (white[1] - fixed_width_white)
             print(midpoint)
+            prev_midpoint = midpoint
             return midpoint
         else:
             midpoint = 320
             print("case 4")
             print(midpoint)
+            prev_midpoint = midpoint
             return midpoint
 
 
