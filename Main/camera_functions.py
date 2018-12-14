@@ -86,6 +86,9 @@ def at_stop_sign(crop):
         seen_green = True
     if red_counter > int(height/row_skip *0.6): # see red if greater than 60% of picture
         seen_red = True
+
+    print('green counter' ,green_counter)
+    print('red_counter', red_counter)
     if (seen_green):
         return False
     else:
