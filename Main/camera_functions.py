@@ -176,7 +176,7 @@ def find_midpoint(crop):
             else:
                 white = find_white(crop)
                 print("case 3")
-                midpoint = (white[1] - fixed_width_white)
+                midpoint = (yellow[1] + fixed_width_white)
                 print(midpoint)
                 return midpoint
         else:
