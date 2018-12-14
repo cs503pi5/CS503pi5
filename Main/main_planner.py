@@ -19,9 +19,9 @@ def sequenceInterpreter(s):
     if (s == 1):
         pass # 1 - straight connection (Actually never occurs)
     elif (s == 2): # 2 - straight curved connection right
+        wait_while_not_green()
         hard_straight() # hard code go straight
         lane_follow() # lane follow
-        pass
         # right turn
         # lane follow
     elif (s == 3):
@@ -32,7 +32,7 @@ def sequenceInterpreter(s):
         # left turn
         # lane follow
     elif (s == 4):
-        # wait_while_not_green()
+        wait_while_not_green()
         hard_straight() # hard code go straight
         lane_follow() # lane follow
         # 4 - intersection straight
@@ -42,32 +42,17 @@ def sequenceInterpreter(s):
 	    # stop()
 	    # stopFlag = isStop()
 	    #check for stopFlag again
-	if(stopFlag):
-	    pass 
-        hard_straight() # hard code go straight
-        lane_follow() # lane follow
     elif (s == 5):
-        pass # 5 - intersection right
-	stopFlag = isStop()
-	while(not stopFlag):
-	    stop()
-	    stopFlag = isStop()
-	if(stopFlag):
-	    pass
+        wait_while_not_green()
         hard_right() # hard code right turn
         lane_follow() # lane follow
     elif (s == 6):
-        pass # 6 - intersection left
-	stopFlag = isStop()
-	while(not stopFlag):
-	    stop()
-	    stopFlag = isStop()
-	if(stopFlag):
-	    pass
+        wait_while_not_green()
         hard_left() # hard code left turn
         lane_follow() # lane follow
     elif (s == 7):
-        pass # 7 - straight speed track inside
+        wait_while_not_green()
+        # pass # 7 - straight speed track inside
         hard_straight() # hard code go straight
         lane_follow() # lane follow
         # right turn
@@ -75,7 +60,8 @@ def sequenceInterpreter(s):
         # right turn
         # lane follow
     elif (s == 8):
-        pass # 8 - straight speed track outside
+        # pass # 8 - straight speed track outside
+        wait_while_not_green()
         hard_straight() # hard code go straight
         lane_follow() # lane follow
         # left turn
@@ -83,7 +69,8 @@ def sequenceInterpreter(s):
         # left turn
         # lane follow
     elif (s == 9):
-        pass # 9 - intersection speed track inside
+        # pass # 9 - intersection speed track inside
+        wait_while_not_green()
         hard_right() # hard code right turn
         lane_follow() # lane follow
         # right turn
@@ -91,7 +78,8 @@ def sequenceInterpreter(s):
         # right turn
         # lane follow
     elif (s == 10):
-        pass # 10 - intersection speed track outside
+        # pass # 10 - intersection speed track outside
+        wait_while_not_green()
         hard_left() # hard code left turn
         lane_follow() # lane follow
         # left turn
@@ -99,13 +87,15 @@ def sequenceInterpreter(s):
         # left turn
         # lane follow
     elif (s == 11):
-        pass # 11 - intersection curved connection right
+        # pass # 11 - intersection curved connection right
+        wait_while_not_green()
         hard_right() # hard code right turn
         lane_follow() # lane follow
         # right turn
         # lane follow
     else:
-        pass # 12 - intersection curved connection left
+        # pass # 12 - intersection curved connection left
+        wait_while_not_green()
         hard_left() # hard code left turn
         lane_follow() # lane follow
         # left turn
