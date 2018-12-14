@@ -126,8 +126,8 @@ def lane_follow():
         r_pwm = get_r_pwm(r_velocity - approx_velocity)
         s = (str(l_pwm)+','+str(r_pwm)+'\n').encode()
         print(s)
-        print("bytes in output buffer",ser.out_waiting) # how many bytes in the output buffer
-        print("bytes in input buffer", ser.in_waiting)
+
+        serial.reset_input_buffer()
         ser.write(s)
         print('after write')
         crop_red = crop_image_for_stop(image)
