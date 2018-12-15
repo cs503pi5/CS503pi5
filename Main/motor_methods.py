@@ -51,7 +51,21 @@ def hard_left():
     stop()
 
 def hard_right():
-    
+    C = 1
+    velocity_ref = 5
+    l_ref_velocity, r_ref_velocity = desired_velocity(C, velocity_ref)
+    l_velocity = l_ref_velocity
+    r_velocity = r_ref_velocity
+    l_pwm = get_l_pwm(l_velocity)
+    r_pwm = get_r_pwm(r_velocity)
+
+    time_start = time.time()
+    while(time.time() < time_start + 2):
+        s = (str(137)+','+str(145)+'\n').encode()
+        print(s)
+        ser.write(s)
+        time_wait(.1)
+
     C = .05
     velocity_ref = 5
     l_ref_velocity, r_ref_velocity = desired_velocity(C, velocity_ref)
