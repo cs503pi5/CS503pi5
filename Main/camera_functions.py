@@ -202,7 +202,7 @@ def find_midpoint(crop):
             print("case 4")
             print(midpoint)
             prev_midpoint = midpoint
-            return midpoint
+            return midpgit oint
 
 
 def calculate_error(midpoint):
